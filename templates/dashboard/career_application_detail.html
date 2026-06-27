@@ -1,0 +1,263 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ application.full_name }} | Career Application</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="admin-layout career-admin-shell">
+  <aside class="sidebar">
+    {% include "includes/site_logo.html" %}
+    <nav class="side-nav">
+      <a href="{% url 'dashboard_home' %}">{% trans "Dashboard" %}</a>
+      <a class="active" href="{% url 'career_applications_dashboard' %}">Career Applications</a>
+      <a href="/admin/careers/jobopening/">Job Openings</a>
+      <a href="/admin/careers/careerpagesettings/">Career CMS</a>
+      <a href="{% url 'translation_dashboard' %}">{% trans "Translation Center" %}</a>
+      <a href="/admin/">Django {% trans "Admin" %}</a>
+    </nav>
+  </aside>
+
+  <main class="admin-main career-admin-main">
+    <div class="admin-top career-admin-topbar">
+      <div>
+        <a class="career-back-link" href="{% url 'career_applications_dashboard' %}">← Back to applications</a>
+        <h2>{{ application.full_name }}</h2>
+        <p class="text-muted">{{ application.application_reference }} · Applied for {{ application.job.title }}</p>
+      </div>
+      <div class="career-admin-actions">
+        <a class="btn btn-outline" href="/admin/careers/jobapplication/{{ application.pk }}/change/">Open in Django Admin</a>
+        <a class="btn btn-outline" href="mailto:{{ application.email }}">Email Applicant</a>
+        <a class="btn btn-primary" href="#interview-invite">Prepare Invite</a>
+        <form method="post" class="career-inline-action">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="quick_send_interview">
+          <button class="btn btn-primary" type="submit" {% if not application.has_invitation_details %}disabled title="Add interview date and location/link first"{% endif %}>Send Invite Now</button>
+        </form>
+      </div>
+    </div>
+
+    {% if messages %}
+      <div class="career-admin-messages">
+        {% for message in messages %}<div class="message {{ message.tags }}">{{ message }}</div>{% endfor %}
+      </div>
+    {% endif %}
+
+    <section class="career-review-layout">
+      <div class="career-review-main">
+        <article class="career-review-hero-card">
+          <div>
+            <span class="career-status career-status-{{ application.status }}">{{ application.get_status_display }}</span>
+            <h3>{{ application.job.title }}</h3>
+            <p class="text-muted">{{ application.job.job_code|default:"No job code" }} · {{ application.job.location }}{% if application.job.department %} · {{ application.job.department.name }}{% endif %}</p>
+          </div>
+          <div class="career-review-meta-grid">
+            <span><b>Applied</b>{{ application.created_at|date:"M d, Y H:i" }}</span>
+            <span><b>Documents</b>{{ application.document_count }}</span>
+            <span><b>Email</b>{% if application.email_verified %}Verified{% else %}Not verified{% endif %}</span>
+            <span><b>Experience</b>{{ application.years_experience|default:"Not specified" }}</span>
+            <span><b>Source</b>{{ application.get_source_display }}</span>
+          </div>
+        </article>
+
+        <article class="career-admin-panel">
+          <h3>Applicant Profile</h3>
+          <div class="career-info-grid">
+            <div><span>Full name</span><strong>{{ application.full_name }}</strong></div>
+            <div><span>Email</span><strong><a href="mailto:{{ application.email }}">{{ application.email }}</a></strong></div>
+            <div><span>Email verification</span><strong>{% if application.email_verified %}Verified{% if application.email_verified_at %} · {{ application.email_verified_at|date:"M d, Y H:i" }}{% endif %}{% else %}Not verified{% endif %}</strong></div>
+            <div><span>Phone</span><strong>{{ application.phone }}</strong></div>
+            <div><span>Current location</span><strong>{{ application.current_location|default:"—" }}</strong></div>
+            <div><span>Nationality</span><strong>{{ application.nationality|default:"—" }}</strong></div>
+            <div><span>Work authorization</span><strong>{{ application.get_work_authorization_display }}</strong></div>
+            <div><span>Expected salary</span><strong>{{ application.expected_salary|default:"—" }}</strong></div>
+            <div><span>Available from</span><strong>{{ application.available_from|default:"—" }}</strong></div>
+            <div><span>Preferred interview</span><strong>{{ application.preferred_interview_time|default:"—" }}</strong></div>
+          </div>
+          {% if application.linkedin_url or application.portfolio_url %}
+            <div class="career-profile-links">
+              {% if application.linkedin_url %}<a class="btn btn-outline" href="{{ application.linkedin_url }}" target="_blank" rel="noopener">LinkedIn</a>{% endif %}
+              {% if application.portfolio_url %}<a class="btn btn-outline" href="{{ application.portfolio_url }}" target="_blank" rel="noopener">Portfolio</a>{% endif %}
+            </div>
+          {% endif %}
+        </article>
+
+        <article class="career-admin-panel">
+          <h3>Applicant Message</h3>
+          {% if application.cover_letter %}
+            <p>{{ application.cover_letter|linebreaksbr }}</p>
+          {% else %}
+            <p class="text-muted">No cover letter/message provided.</p>
+          {% endif %}
+        </article>
+
+        <article class="career-admin-panel">
+          <h3>Documents</h3>
+          <div class="career-document-review-grid">
+            {% for document in documents %}
+              <a href="{{ document.url }}" target="_blank" rel="noopener" class="career-document-review-card">
+                <span>{{ document.label }}</span>
+                <strong>{{ document.title }}</strong>
+                <small>{{ document.source }}{% if document.notes %} · {{ document.notes }}{% endif %}</small>
+              </a>
+            {% empty %}
+              <p class="text-muted">No documents uploaded.</p>
+            {% endfor %}
+          </div>
+        </article>
+
+        <article class="career-admin-panel" id="email-history">
+          <div class="career-panel-headline">
+            <div>
+              <h3>Email History</h3>
+              <p class="text-muted">Every invitation or rejection email attempt is saved here for HR tracking.</p>
+            </div>
+            <span class="badge">{{ email_logs|length }} shown</span>
+          </div>
+          <div class="career-email-log-list">
+            {% for log in email_logs %}
+              <div class="career-email-log-card {% if not log.success %}career-email-failed{% endif %}">
+                <div>
+                  <strong>{{ log.get_email_type_display }}</strong>
+                  <span>{{ log.created_at|date:"M d, Y H:i" }} · {{ log.recipient }}</span>
+                </div>
+                <p>{{ log.subject }}</p>
+                {% if log.interview_date %}<small>Interview: {{ log.interview_date|date:"M d, Y H:i" }} · {{ log.interview_location }}</small>{% endif %}
+                {% if log.error_message %}<small class="career-error-text">{{ log.error_message }}</small>{% endif %}
+              </div>
+            {% empty %}
+              <p class="text-muted">No career emails have been sent to this applicant yet.</p>
+            {% endfor %}
+          </div>
+        </article>
+      </div>
+
+      <aside class="career-review-sidebar">
+        <form method="post" class="career-admin-panel career-review-form">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="save_review">
+          <h3>Review & Status</h3>
+          <div class="career-admin-field">
+            <label for="{{ review_form.status.id_for_label }}">Status</label>
+            {{ review_form.status }}
+          </div>
+          <div class="career-admin-field">
+            <label for="{{ review_form.internal_notes.id_for_label }}">Internal notes</label>
+            {{ review_form.internal_notes }}
+          </div>
+          <h4>Interview Preparation</h4>
+          <div class="career-admin-field">
+            <label for="{{ review_form.interview_date.id_for_label }}">Interview date/time</label>
+            {{ review_form.interview_date }}
+          </div>
+          <div class="career-admin-field">
+            <label for="{{ review_form.interview_mode.id_for_label }}">Mode</label>
+            {{ review_form.interview_mode }}
+          </div>
+          <div class="career-admin-field">
+            <label for="{{ review_form.interview_location.id_for_label }}">Location / Link</label>
+            {{ review_form.interview_location }}
+          </div>
+          <div class="career-admin-field">
+            <label for="{{ review_form.interview_notes.id_for_label }}">Interview notes</label>
+            {{ review_form.interview_notes }}
+          </div>
+          {% if review_form.errors %}<div class="career-form-errors">{{ review_form.errors }}</div>{% endif %}
+          <button class="btn btn-outline" type="submit">Save Review Only</button>
+        </form>
+
+        <form method="post" class="career-admin-panel career-review-form career-one-click-panel">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="quick_send_interview">
+          <h3>One-click Interview Invite</h3>
+          <p class="text-muted">Uses the saved interview date, mode, location/link and the default CMS email template.</p>
+          {% if application.has_invitation_details %}
+            <button class="btn btn-primary" type="submit">Send Invite Now</button>
+          {% else %}
+            <button class="btn btn-primary" type="submit" disabled>Add interview details first</button>
+            <p class="career-review-hint">Save interview date/time and location/link before using one-click invite.</p>
+          {% endif %}
+        </form>
+
+        <form method="post" id="interview-invite" class="career-admin-panel career-review-form career-invite-panel">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="send_interview">
+          <h3>Send Interview Invitation</h3>
+          <p class="text-muted">This updates interview details, sends the email, stores history and moves the applicant to Interview Invited.</p>
+          <div class="career-admin-field">
+            <label for="{{ invitation_form.interview_date.id_for_label }}">Interview date/time</label>
+            {{ invitation_form.interview_date }}
+          </div>
+          <div class="career-admin-field">
+            <label for="{{ invitation_form.interview_mode.id_for_label }}">Mode</label>
+            {{ invitation_form.interview_mode }}
+          </div>
+          <div class="career-admin-field">
+            <label for="{{ invitation_form.interview_location.id_for_label }}">Location / Link</label>
+            {{ invitation_form.interview_location }}
+          </div>
+          <div class="career-admin-field">
+            <label for="{{ invitation_form.interview_notes.id_for_label }}">Interview notes</label>
+            {{ invitation_form.interview_notes }}
+          </div>
+          <div class="career-admin-field">
+            <label for="{{ invitation_form.email_subject.id_for_label }}">Email subject</label>
+            {{ invitation_form.email_subject }}
+          </div>
+          <div class="career-admin-field">
+            <label for="{{ invitation_form.email_body.id_for_label }}">Email body</label>
+            {{ invitation_form.email_body }}
+            <small class="text-muted">{{ invitation_form.email_body.help_text }}</small>
+          </div>
+          {% if invitation_form.errors %}<div class="career-form-errors">{{ invitation_form.errors }}</div>{% endif %}
+          <button class="btn btn-primary" type="submit">Send Invitation Email</button>
+          {% if application.invitation_sent_at %}<p class="career-review-hint">Last invitation sent: {{ application.invitation_sent_at|date:"M d, Y H:i" }}</p>{% endif %}
+        </form>
+
+        <details class="career-admin-panel career-review-form career-danger-panel">
+          <summary>Send Rejection Email</summary>
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="send_rejection">
+            <p class="text-muted">This sends the rejection email, stores history and marks the applicant as Rejected.</p>
+            <div class="career-admin-field">
+              <label for="{{ rejection_form.email_subject.id_for_label }}">Email subject</label>
+              {{ rejection_form.email_subject }}
+            </div>
+            <div class="career-admin-field">
+              <label for="{{ rejection_form.email_body.id_for_label }}">Email body</label>
+              {{ rejection_form.email_body }}
+              <small class="text-muted">{{ rejection_form.email_body.help_text }}</small>
+            </div>
+            <div class="career-admin-field">
+              <label for="{{ rejection_form.rejection_reason.id_for_label }}">Optional note</label>
+              {{ rejection_form.rejection_reason }}
+            </div>
+            {% if rejection_form.errors %}<div class="career-form-errors">{{ rejection_form.errors }}</div>{% endif %}
+            <button class="btn btn-outline" type="submit">Send Rejection Email</button>
+            {% if application.rejection_sent_at %}<p class="career-review-hint">Last rejection email sent: {{ application.rejection_sent_at|date:"M d, Y H:i" }}</p>{% endif %}
+          </form>
+        </details>
+
+        <div class="career-admin-panel career-timeline-card">
+          <h3>Review Timeline</h3>
+          <ul>
+            <li><b>Submitted</b><span>{{ application.created_at|date:"M d, Y H:i" }}</span></li>
+            {% if application.reviewed_at %}<li><b>Reviewed</b><span>{{ application.reviewed_at|date:"M d, Y H:i" }}</span></li>{% endif %}
+            {% if application.shortlisted_at %}<li><b>Shortlisted</b><span>{{ application.shortlisted_at|date:"M d, Y H:i" }}</span></li>{% endif %}
+            {% if application.invitation_sent_at %}<li><b>Invitation sent</b><span>{{ application.invitation_sent_at|date:"M d, Y H:i" }}</span></li>{% endif %}
+            {% if application.rejection_sent_at %}<li><b>Rejection email sent</b><span>{{ application.rejection_sent_at|date:"M d, Y H:i" }}</span></li>{% endif %}
+            {% if application.rejected_at %}<li><b>Rejected</b><span>{{ application.rejected_at|date:"M d, Y H:i" }}</span></li>{% endif %}
+            {% if application.hired_at %}<li><b>Hired</b><span>{{ application.hired_at|date:"M d, Y H:i" }}</span></li>{% endif %}
+          </ul>
+        </div>
+      </aside>
+    </section>
+  </main>
+</div>
+</body>
+</html>

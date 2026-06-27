@@ -1,0 +1,32 @@
+{% load static %}
+{% load i18n %}
+{% load localization %}
+<header class="site-header">
+  <div class="container navbar">
+    {% include "includes/site_logo.html" %}
+    <nav class="nav-links" id="primary-navigation" data-mobile-nav aria-label="{% static_text 'Primary navigation' %}">
+      {% if nav_items %}
+        {% for item in nav_items %}
+          <a href="{% localized_url item.url %}" {% if item.open_in_new_tab %}target="_blank" rel="noopener"{% endif %}>{% localized_plain item 'title' %}</a>
+        {% endfor %}
+      {% else %}
+        <a href="{% localized_url '/' %}">{% static_text "Home" %}</a>
+        <a href="{% url 'about' %}">{% static_text "About Us" %}</a>
+        <a href="{% url 'service_list' %}">{% static_text "Services" %}</a>
+        <a href="{% url 'project_list' %}">{% static_text "Projects" %}</a>
+        <a href="{% url 'clients_certifications' %}">{% static_text "Certificates" %}</a>
+        <a href="{% url 'career_list' %}">{% static_text "Careers" %}</a>
+        <a href="{% url 'contact' %}">{% static_text "Contact" %}</a>
+      {% endif %}
+      <div class="mobile-nav-extras">
+        {% include "includes/language_switcher.html" %}
+        <a class="btn btn-primary" href="{% localized_url cta_settings.header_cta_url %}">{% localized_plain cta_settings 'header_cta_text' %} <span class="arrow">→</span></a>
+      </div>
+    </nav>
+    {% include "includes/language_switcher.html" %}
+    <a class="btn btn-primary" href="{% localized_url cta_settings.header_cta_url %}">{% localized_plain cta_settings 'header_cta_text' %} <span class="arrow">→</span></a>
+    <button class="mobile-toggle" data-mobile-toggle aria-label="{% static_text 'Open menu' %}" aria-controls="primary-navigation" aria-expanded="false">
+      <span class="mobile-toggle-icon" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>

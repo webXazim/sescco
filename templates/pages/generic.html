@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load localization %}
+{% load page_sections %}
+{% block title %}{% localized_meta page 'seo_title' page.title %}{% endblock %}
+{% block meta_description %}{% localized_meta page 'seo_description' site_settings.default_seo_description %}{% endblock %}
+{% block content %}
+<main class="cms-section-sort cms-page-generic">
+  <section class="hero dark page-photo-hero" {% section_attrs "generic" "hero" 10 %} {% if page.hero_image %}style="--page-hero-bg:url('{{ page.hero_image.url }}')"{% endif %}>
+    <div class="container hero-content">
+      <span class="eyebrow">{% localized_plain page 'title' %}</span>
+      <h1>{% if page.hero_title %}{% localized_plain page 'hero_title' %}{% else %}{% localized_plain page 'title' %}{% endif %}</h1>
+      <p>{{ page.hero_subtitle }}</p>
+    </div>
+  </section>
+
+  <section class="section" {% section_attrs "generic" "body" 20 %}>
+    <div class="container page-width-{{ generic_settings.content_width|default:'standard' }}">
+      {% if generic_settings.sidebar_enabled %}
+      <div class="grid grid-2">
+        <article class="card">{% localized page 'body' %}</article>
+        <aside class="card">
+          <h3>{{ generic_settings.sidebar_title }}</h3>
+          {{ generic_settings.sidebar_content|safe }}
+        </aside>
+      </div>
+      {% else %}
+        <article class="card">{% localized page 'body' %}</article>
+      {% endif %}
+    </div>
+  </section>
+
+  {% include "includes/dynamic_page_sections.html" with section_page="generic" section_key="custom_sections" section_default_order=30 %}
+  {% include "includes/page_faqs.html" with section_page="generic" section_key="faqs" section_default_order=40 %}
+</main>
+{% endblock %}

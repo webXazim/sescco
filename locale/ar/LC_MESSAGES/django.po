@@ -1,0 +1,114 @@
+# Arabic translations
+msgid ""
+msgstr ""
+"Project-Id-Version: standard-company-profile\n"
+"Language: ar\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Home"
+msgstr "الرئيسية"
+
+msgid "About Us"
+msgstr "من نحن"
+
+msgid "Services"
+msgstr "الخدمات"
+
+msgid "Projects"
+msgstr "المشاريع"
+
+msgid "Clients"
+msgstr "العملاء"
+
+msgid "Downloads"
+msgstr "التحميلات"
+
+msgid "Contact"
+msgstr "اتصل بنا"
+
+msgid "Contact Us"
+msgstr "اتصل بنا"
+
+msgid "View Website"
+msgstr "عرض الموقع"
+
+msgid "Dashboard"
+msgstr "لوحة التحكم"
+
+msgid "Translations"
+msgstr "الترجمات"
+
+msgid "Translation Center"
+msgstr "مركز الترجمة"
+
+msgid "Add Translation"
+msgstr "إضافة ترجمة"
+
+msgid "Open"
+msgstr "فتح"
+
+msgid "Download"
+msgstr "تحميل"
+
+msgid "Preview"
+msgstr "معاينة"
+
+msgid "Request"
+msgstr "طلب"
+
+msgid "Submit Request"
+msgstr "إرسال الطلب"
+
+msgid "Send Inquiry"
+msgstr "إرسال الاستفسار"
+
+msgid "Frequently Asked Questions"
+msgstr "الأسئلة الشائعة"
+
+msgid "Related Projects"
+msgstr "مشاريع ذات صلة"
+
+msgid "Business Hours"
+msgstr "ساعات العمل"
+
+msgid "Our Office"
+msgstr "مكتبنا"
+
+msgid "Get Directions"
+msgstr "احصل على الاتجاهات"
+
+msgid "No services found."
+msgstr "لم يتم العثور على خدمات."
+
+msgid "No projects found."
+msgstr "لم يتم العثور على مشاريع."
+
+msgid "No documents found."
+msgstr "لم يتم العثور على مستندات."
+
+msgid "All Services"
+msgstr "كل الخدمات"
+
+msgid "All Projects"
+msgstr "كل المشاريع"
+
+msgid "All Documents"
+msgstr "كل المستندات"
+
+msgid "Filter"
+msgstr "تصفية"
+
+msgid "Newest"
+msgstr "الأحدث"
+
+msgid "Name"
+msgstr "الاسم"
+
+msgid "Most Downloaded"
+msgstr "الأكثر تحميلاً"
+
+msgid "Page Not Found"
+msgstr "الصفحة غير موجودة"
+
+msgid "Back to Home"
+msgstr "العودة إلى الرئيسية"

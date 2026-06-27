@@ -1,0 +1,32 @@
+{% load localization %}
+{% load page_sections %}
+{% if home_settings.show_why_choose %}
+{% if why_choose_items or request.user.is_staff %}
+<section class="section-sm why-choose-section" {% section_attrs "home" "why_choose" 90 %}>
+  <div class="container">
+    <div class="why-choose-head">
+      <span class="eyebrow">{% localized_plain home_settings 'why_choose_eyebrow' %}</span>
+      <h2>{% localized_plain home_settings 'why_choose_title' %}</h2>
+    </div>
+
+    <div class="why-choose-grid" aria-label="Why choose SESCCO">
+      {% for item in why_choose_items %}
+        <article class="why-choose-card">
+          <div class="why-choose-icon" aria-hidden="true">
+            {% if item.icon_image %}
+              <img src="{{ item.icon_image.url }}" alt="" loading="lazy">
+            {% else %}
+              <span>{{ item.icon_text|default:"✓" }}</span>
+            {% endif %}
+          </div>
+          <h3>{% localized_plain item 'title' %}</h3>
+          <p>{% localized item 'description' %}</p>
+        </article>
+      {% empty %}
+        {% include "includes/admin_empty_section.html" with section_title="Why choose cards" section_hint="Add Why choose items in admin and enable Show on home, or disable this section in Home section order." %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endif %}

@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load localization %}
+{% load page_sections %}
+{% block title %}{% localized_meta page 'seo_title' company.short_name %}{% endblock %}
+{% block meta_description %}{% localized_meta page 'seo_description' company.tagline %}{% endblock %}
+{% block content %}
+<main class="cms-section-sort cms-page-home">
+  {% include "includes/home_hero.html" %}
+  {% include "includes/trust_strip.html" with section_page="home" section_key="trust_strip" section_default_order=20 %}
+  {% include "includes/home_highlights.html" %}
+  {% include "includes/home_leadership_message.html" with current_leadership_message=home_leadership_message section_page="home" section_key="leadership" section_default_order=40 %}
+  {% include "includes/home_about.html" %}
+
+  {% if home_settings.show_services %}
+  <section class="section-sm home-featured-section home-featured-services" {% section_attrs "home" "services" 60 %}>
+    <div class="container">
+      <div class="home-section-heading home-section-heading-services">
+        <div>
+          <span class="eyebrow">{% localized_plain home_settings 'services_eyebrow' %}</span>
+          <h2>{% localized_plain home_settings 'services_title' %}</h2>
+          <p>{% static_text "Practical engineering, construction and technical services delivered with safety, quality and reliable execution." %}</p>
+        </div>
+      </div>
+      <div class="grid grid-3">
+        {% for service in featured_services %}
+          {% include "includes/service_card.html" %}
+        {% empty %}
+          <p>{% static_text "No featured services added yet." %}</p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if home_settings.show_projects %}
+  <section class="section home-featured-section home-featured-projects" {% section_attrs "home" "projects" 70 %}>
+    <div class="container">
+      <div class="home-section-heading home-section-heading-projects">
+        <div>
+          <span class="eyebrow">{% localized_plain home_settings 'projects_eyebrow' %}</span>
+          <h2>{% localized_plain home_settings 'projects_title' %}</h2>
+          <p>{% static_text "A selected view of completed and ongoing works across industrial, commercial and infrastructure environments." %}</p>
+        </div>
+      </div>
+      <div class="grid grid-4">
+        {% for project in featured_projects %}
+          {% include "includes/project_card.html" %}
+        {% empty %}
+          <p>{% static_text "No featured projects added yet." %}</p>
+        {% endfor %}
+      </div>
+      <div class="home-projects-bottom-action">
+        <a class="home-section-heading-link" href="{% localized_url '/projects/' %}">{% trans "View projects" %} <span>→</span></a>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if home_settings.show_clients or home_settings.show_certificates %}
+  <section class="section-sm home-proof-section home-proof-redesign-section" {% section_attrs "home" "proof" 80 %}>
+    <div class="container">
+      {% if home_settings.show_clients %}
+      <article class="home-proof-simple-block home-proof-simple-clients" id="home-clients-preview">
+        <div class="home-proof-simple-intro home-proof-simple-intro-centered">
+          <span class="eyebrow">{% localized_plain home_settings 'clients_eyebrow' %}</span>
+          <h3>{% static_text "Trusted by respected organizations." %}</h3>
+          <p>{% static_text "We build long-term partnerships with organizations that value quality, safety, and engineering excellence." %}</p>
+        </div>
+        {% if featured_clients %}
+        <div class="home-proof-simple-logo-slider" aria-label="{% static_text 'Trusted client logos slideshow' %}">
+          <div class="home-proof-simple-logo-track">
+            <div class="home-proof-simple-logo-track-group">
+              {% for client in featured_clients %}
+                {% proper_name client 'name' as client_name %}
+                <a class="home-proof-simple-logo-card" href="{% url 'clients_certifications' %}#clients" aria-label="{% static_text 'View client' %}: {{ client_name }}">
+                  <span class="home-proof-simple-logo-media">
+                    {% if client.logo %}
+                      <img src="{{ client.logo.url }}" alt="{{ client_name }}" loading="lazy">
+                    {% else %}
+                      <span class="home-proof-simple-logo-fallback">{{ client.name|slice:":2" }}</span>
+                    {% endif %}
+                  </span>
+                  <strong>{{ client_name }}</strong>
+                </a>
+              {% endfor %}
+            </div>
+            <div class="home-proof-simple-logo-track-group" aria-hidden="true">
+              {% for client in featured_clients %}
+                {% proper_name client 'name' as client_name %}
+                <a class="home-proof-simple-logo-card" href="{% url 'clients_certifications' %}#clients" tabindex="-1">
+                  <span class="home-proof-simple-logo-media">
+                    {% if client.logo %}
+                      <img src="{{ client.logo.url }}" alt="" loading="lazy">
+                    {% else %}
+                      <span class="home-proof-simple-logo-fallback">{{ client.name|slice:":2" }}</span>
+                    {% endif %}
+                  </span>
+                  <strong>{{ client_name }}</strong>
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% else %}
+          <p class="home-proof-empty">{% static_text "No clients added yet." %}</p>
+        {% endif %}
+      </article>
+      {% endif %}
+
+      {% if home_settings.show_certificates %}
+      <article class="home-proof-simple-block home-proof-simple-certificates" id="home-certificates-preview">
+        <div class="home-proof-simple-intro">
+          <span class="eyebrow">{% localized_plain home_settings 'certificates_eyebrow' %}</span>
+          <h3>{% static_text "Selected certificates." %}</h3>
+          <p>{% static_text "A clean preview of key compliance documents that support SESCCO’s commitment to quality, safety, and dependable delivery." %}</p>
+        </div>
+        <div class="home-proof-simple-certificate-grid" aria-label="{% static_text 'Certificate image gallery preview' %}">
+          {% for cert in featured_certificates %}
+            {% localized_plain cert 'title' as cert_title %}
+            {% localized_plain cert 'description' as cert_description %}
+            {% localized_plain cert 'certificate_type' as cert_type %}
+            {% localized_plain cert 'issuer' as cert_issuer %}
+            <button
+              type="button"
+              class="home-proof-simple-certificate-card"
+              data-certificate-open
+              data-image="{% if cert.image %}{{ cert.image.url }}{% endif %}"
+              data-title="{{ cert_title|escape }}"
+              data-description="{{ cert_description|default:cert_type|escape }}"
+              data-type="{{ cert_type|escape }}"
+              data-issuer="{{ cert_issuer|escape }}"
+              data-meta="{% if cert_type %}{{ cert_type|escape }}{% endif %}{% if cert_type and cert_issuer %} · {% endif %}{% if cert_issuer %}{{ cert_issuer|escape }}{% endif %}"
+              data-download="{% if cert.file %}{{ cert.file.url }}{% endif %}"
+              aria-label="{% static_text 'View certificate' %}: {{ cert_title }}"
+            >
+              <span class="home-proof-simple-certificate-media"{% if cert.image %} style="--certificate-preview-image: url('{{ cert.image.url }}');"{% endif %}>
+                {% if cert.image %}
+                  <img src="{{ cert.image.url }}" alt="{{ cert_title }}" loading="lazy">
+                {% else %}
+                  <span class="home-proof-simple-certificate-placeholder">{{ cert_title }}</span>
+                {% endif %}
+              </span>
+              <span class="home-proof-simple-certificate-copy">
+                <strong>{{ cert_title }}</strong>
+                {% if cert_type %}<small>{{ cert_type }}</small>{% elif cert_issuer %}<small>{{ cert_issuer }}</small>{% elif cert_description %}<small>{{ cert_description|truncatechars:70 }}</small>{% endif %}
+              </span>
+            </button>
+          {% empty %}
+            <p class="home-proof-empty">{% static_text "No certificates added yet." %}</p>
+          {% endfor %}
+        </div>
+        {% if home_certificates_has_more %}
+          <div class="home-proof-simple-more">
+            <a class="home-proof-simple-more-link" href="{% url 'clients_certifications' %}#certificates">
+              {% static_text "View more certificates" %} <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        {% endif %}
+      </article>
+
+      <div class="certificate-modal" data-certificate-modal aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="home-certificate-modal-title">
+        <button type="button" class="certificate-modal-backdrop" data-certificate-close aria-label="{% static_text 'Close certificate preview' %}"></button>
+        <div class="certificate-modal-panel" role="document">
+          <button type="button" class="certificate-modal-close" data-certificate-close aria-label="{% static_text 'Close certificate preview' %}">&times;</button>
+          <div class="certificate-modal-image-wrap">
+            <img src="" alt="" class="certificate-modal-image" data-certificate-modal-image>
+          </div>
+          <aside class="certificate-modal-info">
+            <span class="eyebrow">{% static_text "Certificate Details" %}</span>
+            <h3 id="home-certificate-modal-title" data-certificate-modal-title></h3>
+            <dl class="certificate-modal-facts" data-certificate-modal-facts>
+              <div data-certificate-modal-type-row>
+                <dt>{% static_text "Certificate type" %}</dt>
+                <dd data-certificate-modal-type></dd>
+              </div>
+              <div data-certificate-modal-issuer-row>
+                <dt>{% static_text "Issued by" %}</dt>
+                <dd data-certificate-modal-issuer></dd>
+              </div>
+            </dl>
+            <p class="certificate-modal-meta" data-certificate-modal-meta></p>
+            <div class="certificate-modal-description-block" data-certificate-modal-description-block>
+              <span>{% static_text "Description" %}</span>
+              <p data-certificate-modal-description></p>
+            </div>
+            <a href="#" class="btn btn-light certificate-modal-download" data-certificate-modal-download>{% static_text "Download file" %}</a>
+          </aside>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% include "includes/why_choose_grid.html" %}
+  {% if home_settings.show_custom_sections %}
+    {% include "includes/dynamic_page_sections.html" with section_page="home" section_key="custom_sections" section_default_order=100 %}
+  {% endif %}
+</main>
+{% endblock %}

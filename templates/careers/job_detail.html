@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load localization %}
+{% load static %}
+{% block title %}{% localized_meta job 'seo_title' job.title %}{% endblock %}
+{% block meta_description %}{% localized_meta job 'seo_description' job.summary %}{% endblock %}
+{% block content %}
+<main class="career-page job-detail-page">
+  <section class="hero dark career-detail-hero">
+    <div class="container career-detail-hero-grid">
+      <div class="hero-content career-detail-copy">
+        <span class="breadcrumb"><a href="{% url 'career_list' %}">{% static_text "Careers" %}</a> / {% localized_plain job 'title' %}</span>
+        <span class="eyebrow career-hero-eyebrow">{% if job.department %}{% localized_plain job.department 'name' %}{% else %}{% static_text "Job Opening" %}{% endif %}</span>
+        <h1>{% localized_plain job 'title' %}</h1>
+        <p>{% localized job 'summary' %}</p>
+        <div class="career-detail-tags">
+          {% if job.job_code %}<span>{% static_text "Job Code" %}: {{ job.job_code }}</span>{% endif %}
+          <span>{% static_text job.get_job_level_display %}</span>
+          <span>{% static_text job.get_employment_type_display %}</span>
+          <span>{% static_text job.get_work_mode_display %}</span>
+        </div>
+        <div class="hero-actions" data-job-apply-area data-job-slug="{{ job.slug }}">
+          {% if already_applied %}
+            <span class="btn btn-applied" data-job-applied-message>{% static_text "Already Applied" %}</span>
+          {% elif job.external_application_url %}
+            <a class="btn btn-primary" data-job-apply-link href="{{ job.external_application_url }}" target="_blank" rel="noopener">{% localized_plain job 'apply_button_text' %} <span class="arrow">→</span></a>
+          {% else %}
+            <a class="btn btn-primary" data-job-apply-link href="{% url 'job_apply' job.slug %}">{% localized_plain job 'apply_button_text' %} <span class="arrow">→</span></a>
+          {% endif %}
+          <a class="btn btn-outline light" href="#job-details">{% static_text "Read Details" %}</a>
+        </div>
+        <div class="career-already-applied-note {% if not already_applied %}is-hidden{% endif %}" data-job-applied-note>
+          <strong>{% static_text "Application already submitted" %}</strong>
+          <span>{% static_text "You have already applied to this post." %}{% if applied_reference %} {% static_text "Reference" %}: {{ applied_reference }}{% endif %}</span>
+        </div>
+      </div>
+
+      <aside class="career-detail-quick-card">
+        <span>{% static_text "Job overview" %}</span>
+        <dl>
+          <div><dt>{% static_text "Location" %}</dt><dd>{% localized_plain job 'location' %}</dd></div>
+          <div><dt>{% static_text "Deadline" %}</dt><dd>{% if job.application_deadline %}{{ job.application_deadline|date:"M d, Y" }}{% else %}{% static_text "Open until filled" %}{% endif %}</dd></div>
+          <div><dt>{% static_text "Experience" %}</dt><dd>{% localized_plain job 'experience_level' %}</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section id="job-details" class="section-sm">
+    <div class="container job-detail-layout">
+      <aside class="job-summary-card card">
+        <div class="job-summary-head">
+          <span class="badge">{% if job.department %}{% localized_plain job.department 'name' %}{% else %}{% static_text "General" %}{% endif %}</span>
+          {% if job.job_code %}<small>{{ job.job_code }}</small>{% endif %}
+        </div>
+        <h3>{% static_text "Job Overview" %}</h3>
+        <dl>
+          <dt>{% static_text "Department" %}</dt><dd>{% if job.department %}{% localized_plain job.department 'name' %}{% else %}{% static_text "General" %}{% endif %}</dd>
+          <dt>{% static_text "Location" %}</dt><dd>{% localized_plain job 'location' %}</dd>
+          <dt>{% static_text "Job Type" %}</dt><dd>{% static_text job.get_employment_type_display %}</dd>
+          <dt>{% static_text "Work Mode" %}</dt><dd>{% static_text job.get_work_mode_display %}</dd>
+          <dt>{% static_text "Level" %}</dt><dd>{% static_text job.get_job_level_display %}</dd>
+          <dt>{% static_text "Experience" %}</dt><dd>{% localized_plain job 'experience_level' %}</dd>
+          <dt>{% static_text "Positions" %}</dt><dd>{{ job.positions_available }}</dd>
+          {% if job.display_salary %}<dt>{% static_text "Salary" %}</dt><dd>{{ job.display_salary }}</dd>{% endif %}
+          <dt>{% static_text "Deadline" %}</dt><dd>{% if job.application_deadline %}{{ job.application_deadline|date:"M d, Y" }}{% else %}{% static_text "Open until filled" %}{% endif %}</dd>
+        </dl>
+        <div data-job-apply-area data-job-slug="{{ job.slug }}">
+          {% if already_applied %}
+            <span class="btn btn-applied full" data-job-applied-message>{% static_text "Already Applied" %}</span>
+          {% elif job.external_application_url %}
+            <a class="btn btn-primary full" data-job-apply-link href="{{ job.external_application_url }}" target="_blank" rel="noopener">{% localized_plain job 'apply_button_text' %}</a>
+          {% else %}
+            <a class="btn btn-primary full" data-job-apply-link href="{% url 'job_apply' job.slug %}">{% localized_plain job 'apply_button_text' %}</a>
+          {% endif %}
+        </div>
+      </aside>
+
+      <div class="job-detail-content">
+        <nav class="job-section-nav" aria-label="Job sections">
+          {% if job.job_description %}<a href="#about-role">{% static_text "About" %}</a>{% endif %}
+          {% if job.responsibility_list %}<a href="#responsibilities">{% static_text "Responsibilities" %}</a>{% endif %}
+          {% if job.requirement_list %}<a href="#requirements">{% static_text "Requirements" %}</a>{% endif %}
+          {% if job.qualification_list %}<a href="#qualifications">{% static_text "Qualifications" %}</a>{% endif %}
+          {% if job.skill_list %}<a href="#skills">{% static_text "Skills" %}</a>{% endif %}
+        </nav>
+
+        {% if job.job_description %}
+        <section id="about-role" class="job-content-block card">
+          <span class="eyebrow">{% static_text "Role summary" %}</span>
+          <h2>{% static_text "About the Role" %}</h2>
+          {% localized job 'job_description' as job_description_text %}
+          <div class="job-rich-text">{{ job_description_text|striptags|linebreaks }}</div>
+        </section>
+        {% endif %}
+
+        {% if job.responsibility_list %}
+        <section id="responsibilities" class="job-content-block card">
+          <span class="eyebrow">{% static_text "What you will do" %}</span>
+          <h2>{% static_text "Responsibilities" %}</h2>
+          <ul class="career-check-list">
+            {% localized_lines job 'responsibilities' as responsibility_items %}{% for item in responsibility_items %}<li>{% static_text item %}</li>{% endfor %}
+          </ul>
+        </section>
+        {% endif %}
+
+        {% if job.requirement_list %}
+        <section id="requirements" class="job-content-block card">
+          <span class="eyebrow">{% static_text "What we need" %}</span>
+          <h2>{% static_text "Requirements" %}</h2>
+          <ul class="career-check-list">
+            {% localized_lines job 'requirements' as requirement_items %}{% for item in requirement_items %}<li>{% static_text item %}</li>{% endfor %}
+          </ul>
+        </section>
+        {% endif %}
+
+        {% if job.qualification_list %}
+        <section id="qualifications" class="job-content-block card">
+          <span class="eyebrow">{% static_text "Certificates / education" %}</span>
+          <h2>{% static_text "Qualifications" %}</h2>
+          <ul class="career-check-list">
+            {% localized_lines job 'qualifications' as qualification_items %}{% for item in qualification_items %}<li>{% static_text item %}</li>{% endfor %}
+          </ul>
+        </section>
+        {% endif %}
+
+        {% if job.skill_list %}
+        <section id="skills" class="job-content-block card">
+          <span class="eyebrow">{% static_text "Preferred" %}</span>
+          <h2>{% static_text "Preferred Skills" %}</h2>
+          <ul class="career-check-list muted">
+            {% localized_lines job 'skills' as skill_items %}{% for item in skill_items %}<li>{% static_text item %}</li>{% endfor %}
+          </ul>
+        </section>
+        {% endif %}
+
+        {% if job.benefit_list %}
+        <section class="job-content-block card">
+          <span class="eyebrow">{% static_text "Additional details" %}</span>
+          <h2>{% static_text "Benefits / Notes" %}</h2>
+          <ul class="career-check-list muted">
+            {% localized_lines job 'benefits' as benefit_items %}{% for item in benefit_items %}<li>{% static_text item %}</li>{% endfor %}
+          </ul>
+        </section>
+        {% endif %}
+
+        <section class="job-content-block career-apply-strip">
+          <div>
+            <span class="eyebrow">{% static_text "Ready to apply?" %}</span>
+            <h2>{% localized_plain career_settings 'application_guide_title' %}</h2>
+            <p>{% localized career_settings 'application_guide_text' %}</p>
+          </div>
+          <div data-job-apply-area data-job-slug="{{ job.slug }}">
+            {% if already_applied %}
+              <span class="btn btn-applied" data-job-applied-message>{% static_text "Already Applied" %}</span>
+            {% elif job.external_application_url %}
+              <a class="btn btn-light" data-job-apply-link href="{{ job.external_application_url }}" target="_blank" rel="noopener">{% localized_plain job 'apply_button_text' %} <span class="arrow">→</span></a>
+            {% else %}
+              <a class="btn btn-light" data-job-apply-link href="{% url 'job_apply' job.slug %}">{% localized_plain job 'apply_button_text' %} <span class="arrow">→</span></a>
+            {% endif %}
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  {% if related_jobs %}
+  <section class="section-sm career-related-jobs">
+    <div class="container">
+      <div class="career-section-head compact-head">
+        <div>
+          <span class="eyebrow">{% static_text "More Open Roles" %}</span>
+          <h2>{% static_text "Related opportunities" %}</h2>
+        </div>
+      </div>
+      <div class="career-list-grid compact">
+        {% for related in related_jobs %}
+        <article class="career-job-card">
+          <div class="career-job-top"><span class="badge">{% if related.department %}{% localized_plain related.department 'name' %}{% else %}{% static_text "General" %}{% endif %}</span></div>
+          {% if related.job_code %}<span class="career-job-code">{{ related.job_code }}</span>{% endif %}
+          <h3><a href="{% url 'job_detail' related.slug %}">{% localized_plain related 'title' %}</a></h3>
+          <p>{% localized related 'summary' %}</p>
+          <a class="btn btn-outline" href="{% url 'job_detail' related.slug %}">{% static_text "View Details" %}</a>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/career_applied_state.js' %}?v=career-applied-1"></script>
+{% endblock %}

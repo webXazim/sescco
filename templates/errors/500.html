@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Server Error" %} | {{ company.short_name }}{% endblock %}
+{% block meta_description %}{% trans "SESCCO encountered an unexpected error. Please try again or contact the team." %}{% endblock %}
+{% block content %}
+<section class="hero dark error-hero">
+  <div class="container hero-content">
+    <span class="eyebrow">500</span>
+    <h1>{% trans "Something Went Wrong" %}</h1>
+    <p>{% trans "Our website encountered an unexpected error. Please try again later or contact our team." %}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{% url 'home' %}">{% trans "Back to Home" %} <span class="arrow">→</span></a>
+      <a class="btn btn-outline" href="{% url 'contact' %}">{% trans "Contact Us" %}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

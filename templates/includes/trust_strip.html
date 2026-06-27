@@ -1,0 +1,25 @@
+{% load localization %}
+{% load page_sections %}
+<div class="info-strip home-trust-strip" {% section_attrs section_page section_key section_default_order %}>
+  {% for metric in trust_metrics_global %}
+    {% if metric.show_on_home %}
+      <div class="info-item">
+        <span class="info-icon">
+          {% if metric.icon_image %}
+            <img class="info-icon-img" src="{{ metric.icon_image.url }}" alt="" loading="lazy">
+          {% else %}
+            {{ metric.icon_text|default:"✦" }}
+          {% endif %}
+        </span>
+        <div><small>{% localized_plain metric 'title' %}</small><strong>{% localized_plain metric 'value' %}</strong></div>
+      </div>
+    {% endif %}
+  {% empty %}
+    <div class="info-item"><span class="info-icon">⌖</span><div><small>{% static_text "Saudi Arabia Based" %}</small><strong>{{ company.city|default:"Dammam" }}, KSA</strong></div></div>
+    <div class="info-item"><span class="info-icon">▣</span><div><small>{% static_text "Established" %}</small><strong>{{ company.established_year }}</strong></div></div>
+    <div class="info-item"><span class="info-icon">🛡</span><div><small>{% static_text "SEC Vendor Code" %}</small><strong>{{ company.sec_vendor_code }}</strong></div></div>
+    <div class="info-item"><span class="info-icon">✦</span><div><small>{% static_text "Aramco Vendor Code" %}</small><strong>{{ company.aramco_vendor_code }}</strong></div></div>
+    <div class="info-item"><span class="info-icon">👥</span><div><small>{% static_text "Trusted Clients" %}</small><strong>85+</strong></div></div>
+    <div class="info-item"><span class="info-icon">✓</span><div><small>{% static_text "Certifications" %}</small><strong>6+</strong></div></div>
+  {% endfor %}
+</div>

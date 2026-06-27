@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load localization %}
+{% load i18n %}
+{% block title %}{% static_text "Request" %} Document | {{ company.short_name }}{% endblock %}
+{% block content %}
+<main>
+  <section class="hero dark">
+    <div class="container hero-content">
+      <h1>{% static_text "Request a Document" %}</h1>
+      <p>{% static_text "Tell us which document you need and our team will respond soon." %}</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container" style="max-width:760px">
+      <form class="card" method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="grid grid-2">
+          <div>{{ form.name.label_tag }}{{ form.name }}{{ form.name.errors }}</div>
+          <div>{{ form.company.label_tag }}{{ form.company }}{{ form.company.errors }}</div>
+          <div>{{ form.email.label_tag }}{{ form.email }}{{ form.email.errors }}</div>
+          <div>{{ form.phone.label_tag }}{{ form.phone }}{{ form.phone.errors }}</div>
+        </div>
+        <div style="margin-top:18px">{{ form.requested_document.label_tag }}{{ form.requested_document }}{{ form.requested_document.errors }}</div>
+        <div style="margin-top:18px">{{ form.message.label_tag }}{{ form.message }}{{ form.message.errors }}</div>
+        <button class="btn btn-primary" type="submit" style="width:100%;margin-top:18px">{% static_text "Submit Request" %} <span class="arrow">→</span></button>
+      </form>
+    </div>
+  </section>
+</main>
+{% endblock %}

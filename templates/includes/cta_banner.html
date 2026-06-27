@@ -1,0 +1,14 @@
+{% load localization %}
+<section class="cta">
+  <div class="container">
+    <div>
+      <h2>{% if global_cta %}{% localized_plain global_cta 'title' %}{% else %}{% localized_plain cta_settings 'main_cta_title' %}{% endif %}</h2>
+      <p>{% if global_cta %}{% localized global_cta 'subtitle' %}{% else %}{% localized cta_settings 'main_cta_subtitle' %}{% endif %}</p>
+    </div>
+    {% if global_cta and global_cta.button_text %}
+      <a href="{% localized_url global_cta.button_url %}" class="btn btn-light">{% localized_plain global_cta 'button_text' %} <span class="arrow">→</span></a>
+    {% else %}
+      <a href="{% localized_url cta_settings.main_cta_button_url %}" class="btn btn-light">{% localized_plain cta_settings 'main_cta_button_text' %} <span class="arrow">→</span></a>
+    {% endif %}
+  </div>
+</section>

@@ -1,0 +1,188 @@
+/* Upgrade 184 — consistent public accordion design and independent FAQ columns. */
+.faq-accordion-grid,
+.contact-faq-grid,
+.services-faq-grid,
+.service-detail-faq-grid {
+  display: block !important;
+  column-count: 2;
+  column-gap: clamp(18px, 2vw, 24px);
+  align-items: start !important;
+}
+
+.faq-accordion-card,
+details.card.faq-accordion-card,
+.contact-faq-card,
+.services-faq-item {
+  display: block;
+  width: 100%;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 0 clamp(16px, 2vw, 22px);
+  padding: 0 !important;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  overflow: hidden;
+  border: 1px solid #d8e4f2 !important;
+  border-radius: 10px !important;
+  background: #fff !important;
+  box-shadow: 0 18px 44px rgba(6, 27, 54, .045) !important;
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.faq-accordion-card[open],
+details.card.faq-accordion-card[open],
+.contact-faq-card[open],
+.services-faq-item[open] {
+  border-color: var(--primary) !important;
+  box-shadow: 0 22px 54px rgba(7, 88, 216, .08) !important;
+}
+
+.faq-accordion-card summary,
+details.card.faq-accordion-card summary,
+.contact-faq-card summary,
+.services-faq-item summary {
+  position: relative;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 78px;
+  padding: 22px 26px !important;
+  color: #061b3f;
+  font-size: 16px;
+  line-height: 1.35;
+  font-weight: 950 !important;
+  cursor: pointer;
+  list-style: none;
+  outline: 0;
+}
+
+.faq-accordion-card summary::-webkit-details-marker,
+details.card.faq-accordion-card summary::-webkit-details-marker,
+.contact-faq-card summary::-webkit-details-marker,
+.services-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-accordion-card summary::marker,
+details.card.faq-accordion-card summary::marker,
+.contact-faq-card summary::marker,
+.services-faq-item summary::marker {
+  content: "";
+}
+
+.faq-accordion-card summary > span,
+details.card.faq-accordion-card summary > span,
+.services-faq-item summary > span:first-child {
+  min-width: 0;
+}
+
+.faq-accordion-card summary::after,
+details.card.faq-accordion-card summary::after,
+.contact-faq-card summary::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: #eef6ff;
+  color: var(--primary);
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 8L10 13L15 8' stroke='%230758d8' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform .18s ease, background-color .18s ease;
+}
+
+.services-faq-item summary::after {
+  display: none;
+}
+
+.faq-accordion-card[open] summary::after,
+details.card.faq-accordion-card[open] summary::after,
+.contact-faq-card[open] summary::after {
+  transform: rotate(180deg);
+  background-color: #e7f1ff;
+}
+
+.services-faq-chevron {
+  display: grid !important;
+  place-items: center;
+  flex: 0 0 36px;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 999px;
+  background: #eef6ff;
+  color: var(--primary);
+  transition: transform .18s ease, background-color .18s ease;
+}
+
+.services-faq-item[open] .services-faq-chevron {
+  transform: rotate(180deg);
+  background: #e7f1ff;
+}
+
+.faq-accordion-card > div,
+details.card.faq-accordion-card > div,
+.contact-faq-card > div,
+.services-faq-answer {
+  margin: 0 !important;
+  padding: 18px 26px 24px !important;
+  border-top: 1px solid #dbe7f6;
+  color: #274465;
+  font-size: 16px;
+  line-height: 1.68;
+}
+
+.faq-accordion-card > div p:last-child,
+details.card.faq-accordion-card > div p:last-child,
+.contact-faq-card > div p:last-child,
+.services-faq-answer p:last-child {
+  margin-bottom: 0;
+}
+
+.faq-accordion-card summary:focus-visible,
+details.card.faq-accordion-card summary:focus-visible,
+.contact-faq-card summary:focus-visible,
+.services-faq-item summary:focus-visible {
+  box-shadow: inset 0 0 0 2px rgba(7, 88, 216, .22);
+}
+
+html[dir="rtl"] .faq-accordion-card summary,
+html[dir="rtl"] details.card.faq-accordion-card summary,
+html[dir="rtl"] .contact-faq-card summary,
+html[dir="rtl"] .services-faq-item summary {
+  text-align: right;
+}
+
+html[dir="rtl"] .faq-accordion-card summary::after,
+html[dir="rtl"] details.card.faq-accordion-card summary::after,
+html[dir="rtl"] .contact-faq-card summary::after {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+@media (max-width: 860px) {
+  .faq-accordion-grid,
+  .contact-faq-grid,
+  .services-faq-grid,
+  .service-detail-faq-grid {
+    column-count: 1;
+  }
+
+  .faq-accordion-card summary,
+  details.card.faq-accordion-card summary,
+  .contact-faq-card summary,
+  .services-faq-item summary {
+    min-height: 70px;
+    padding: 19px 20px !important;
+    font-size: 15px;
+  }
+
+  .faq-accordion-card > div,
+  details.card.faq-accordion-card > div,
+  .contact-faq-card > div,
+  .services-faq-answer {
+    padding: 16px 20px 20px !important;
+    font-size: 15px;
+  }
+}

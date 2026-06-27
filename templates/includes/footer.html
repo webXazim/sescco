@@ -1,0 +1,98 @@
+{% load static %}
+{% load i18n %}
+{% load localization %}
+{% include "includes/cta_banner.html" %}
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        {% include "includes/site_logo.html" %}
+        <p>{{ company.tagline }}</p>
+        {% if social_links %}
+          <div class="footer-social-block" aria-label="{{ site_settings.footer_social_title|default:'Find us on social media' }}">
+            <h4>{{ site_settings.footer_social_title|default:"Find us on social media" }}</h4>
+            <div class="social footer-social-links">
+              {% for social in social_links %}
+                <a href="{{ social.url }}" target="_blank" rel="noopener" aria-label="{{ social.title }}">
+                  {{ social.icon_text|default:social.title|slice:":2" }}
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div>
+        <h4>{% static_text "Contact Us" %}</h4>
+        <ul>
+          {% for method in contact_methods %}
+            {% if method.show_in_footer %}
+              <li>{% if method.url %}<a href="{{ method.url }}">{{ method.value }}</a>{% else %}{{ method.value }}{% endif %}</li>
+            {% endif %}
+          {% empty %}
+            {% if company.phone_primary %}<li>{{ company.phone_primary }}</li>{% endif %}
+            {% if company.phone_secondary %}<li>{{ company.phone_secondary }}</li>{% endif %}
+            {% if company.email_primary %}<li>{{ company.email_primary }}</li>{% endif %}
+            {% if company.email_secondary %}<li>{{ company.email_secondary }}</li>{% endif %}
+            {% if company.email_third %}<li>{{ company.email_third }}</li>{% endif %}
+            {% if company.address %}<li>{{ company.address }}</li>{% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+      {% if footer_columns %}
+        {% for column in footer_columns|slice:":2" %}
+          <div>
+            <h4>{% localized_plain column 'title' %}</h4>
+            <ul>
+              {% for link in column.links.all %}
+                {% if link.is_active %}
+                  <li><a href="{% localized_url link.url %}" {% if link.open_in_new_tab %}target="_blank" rel="noopener"{% endif %}>{% localized_plain link 'title' %}</a></li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div><h4>{% static_text "Quick Links" %}</h4><ul><li><a href="{% localized_url '/about/' %}">{% static_text "About Us" %}</a></li><li><a href="{% localized_url '/services/' %}">{% static_text "Services" %}</a></li><li><a href="{% localized_url '/projects/' %}">{% static_text "Projects" %}</a></li><li><a href="{% localized_url '/careers/' %}">{% static_text "Careers" %}</a></li></ul></div>
+        <div><h4>{% static_text "Careers" %}</h4><ul><li><a href="{% localized_url '/careers/' %}">{% static_text "Open Jobs" %}</a></li><li><a href="{% localized_url '/careers/' %}">{% static_text "Apply Online" %}</a></li><li><a href="{% localized_url '/contact/' %}">{% static_text "Contact HR" %}</a></li></ul></div>
+      {% endif %}
+
+      <div>
+        <h4>{% static_text "Connect" %}</h4>
+        {% if footer_map_embed_url %}
+          <a class="footer-mini-map" href="{{ footer_map_url|default:'/contact/' }}" target="_blank" rel="noopener" aria-label="{% static_text 'Open SESCCO location in Google Maps' %}">
+            <iframe
+              src="{{ footer_map_embed_url }}"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              tabindex="-1"
+              aria-hidden="true"></iframe>
+            <span class="footer-map-overlay">{% trans "View map" %} →</span>
+          </a>
+        {% else %}
+          <div class="map-dots"></div>
+        {% endif %}
+        {% if footer_primary_office %}
+          <p>{{ footer_primary_office.address }}</p>
+        {% else %}
+          {% for office in office_locations %}
+            {% if office.is_primary %}<p>{{ office.address }}</p>{% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2015 – 2025 {{ company.company_name }}. All rights reserved.</span>
+      <span class="footer-bottom-links">
+        <span>{{ site_settings.domain }}</span>
+        {% if site_settings.show_developer_credit and site_settings.developer_name and site_settings.developer_url %}
+          <span class="footer-dev-credit">
+            {{ site_settings.developer_credit_label|default:"Website developed by" }}
+            <a href="{{ site_settings.developer_url }}" target="_blank" rel="noopener" title="{{ site_settings.developer_seo_description|default:'Website development partner' }}">{{ site_settings.developer_name }}</a>
+          </span>
+        {% endif %}
+      </span>
+    </div>
+  </div>
+</footer>

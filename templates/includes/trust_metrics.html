@@ -1,0 +1,17 @@
+{% load localization %}
+{% if trust_metrics %}
+<div class="info-strip">
+  {% for metric in trust_metrics %}
+    <div class="info-item">
+      <span class="info-icon">
+        {% if metric.icon_image %}
+          <img class="info-icon-img" src="{{ metric.icon_image.url }}" alt="" loading="lazy">
+        {% else %}
+          {{ metric.icon_text|default:"✦" }}
+        {% endif %}
+      </span>
+      <div><small>{% localized_plain metric 'title' %}</small><strong>{% localized_plain metric 'value' %}</strong></div>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}

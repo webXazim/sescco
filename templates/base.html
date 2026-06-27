@@ -1,0 +1,95 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ meta_title|default:site_settings.default_seo_title|default:company.short_name }}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}{{ meta_description|default:site_settings.default_seo_description|default:company.tagline }}{% endblock %}">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="theme-color" content="{{ theme.primary_color|default:'#0758d8' }}">
+  <script>
+    (function () {
+      try {
+        var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (!reduceMotion) document.documentElement.classList.add("gsap-preload");
+      } catch (error) {
+        document.documentElement.classList.remove("gsap-preload");
+      }
+    })();
+  </script>
+  <link rel="preload" href="{% static 'img/brand/sescco-logo.svg' %}" as="image" type="image/svg+xml">
+  <link rel="preload" href="{% static 'img/fallbacks/industrial-fallback.svg' %}" as="image" type="image/svg+xml">
+  <meta name="application-name" content="{{ site_settings.site_name|default:company.short_name }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site_settings.site_name|default:company.short_name }}">
+  <meta property="og:title" content="{{ meta_title|default:site_settings.default_seo_title|default:company.short_name }}">
+  <meta property="og:description" content="{{ meta_description|default:site_settings.default_seo_description|default:company.tagline }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  {% if meta_image_url %}<meta property="og:image" content="{{ meta_image_url }}">{% elif site_settings.default_og_image %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ site_settings.default_og_image.url }}">{% endif %}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ meta_title|default:site_settings.default_seo_title|default:company.short_name }}">
+  <meta name="twitter:description" content="{{ meta_description|default:site_settings.default_seo_description|default:company.tagline }}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}?v=hero-name-polish-169">
+  <link rel="stylesheet" href="{% static 'css/prototype_alignment.css' %}?v=responsive-109">
+  <link rel="stylesheet" href="{% static 'css/rtl.css' %}?v=hero-name-polish-169">
+  <link rel="stylesheet" href="{% static 'css/career_ux.css' %}?v=career-ux-mobile-90">
+  <link rel="stylesheet" href="{% static 'css/rtl_layout_stabilization.css' %}?v=rtl-layout-140">
+  <link rel="stylesheet" href="{% static 'css/rtl_hero_restore_141.css' %}?v=rtl-hero-141">
+  <link rel="stylesheet" href="{% static 'css/rtl_hero_spacing_breadcrumbs_142.css' %}?v=rtl-hero-breadcrumbs-142">
+  <link rel="stylesheet" href="{% static 'css/visible_localization_polish_143.css' %}?v=visible-localization-143">
+  <link rel="stylesheet" href="{% static 'css/sticky_local_nav_top_144.css' %}?v=sticky-local-nav-144">
+  <link rel="stylesheet" href="{% static 'css/sticky_local_nav_header_sync_145.css' %}?v=sticky-local-nav-145">
+  <link rel="stylesheet" href="{% static 'css/certificate_premium_cards_147.css' %}?v=certificate-minimal-158">
+  <link rel="stylesheet" href="{% static 'css/hero_center_proper_names_169.css' %}?v=hero-center-proper-names-169">
+  <link rel="stylesheet" href="{% static 'css/home_hero_background_visibility_170.css' %}?v=home-hero-bg-170">
+  <link rel="stylesheet" href="{% static 'css/home_hero_consistent_dark_171.css' %}?v=home-hero-consistent-dark-171">
+  <link rel="stylesheet" href="{% static 'css/home_sphere_no_extra_text_172.css' %}?v=home-sphere-no-extra-text-172">
+  <link rel="stylesheet" href="{% static 'css/project_cards_fixed_media_176.css' %}?v=project-cards-fixed-media-176">
+  <link rel="stylesheet" href="{% static 'css/nav_compact_sphere_smooth_177.css' %}?v=sphere-wheel-right-180">
+  <link rel="stylesheet" href="{% static 'css/accordion_consistency_184.css' %}?v=accordion-consistency-184">
+  <link rel="stylesheet" href="{% static 'css/gsap_prehide_186.css' %}?v=gsap-prehide-final-187">
+  <link rel="stylesheet" href="{% static 'css/mobile_polish_188.css' %}?v=home-mobile-hero-193">
+  <link rel="stylesheet" href="{% static 'css/hero_card_spacing_clarity_194.css' %}?v=hero-card-spacing-197">
+  <link rel="stylesheet" href="{% static 'css/home_mobile_photo_visible_198.css' %}?v=home-mobile-photo-visible-202">
+  <link rel="stylesheet" href="{% static 'css/mobile_site_polish_203.css' %}?v=mobile-site-polish-207">
+  <style>
+    :root {
+      --primary: {{ theme.primary_color|default:'#0758d8' }};
+      --secondary: {{ theme.secondary_color|default:'#042a5f' }};
+      --accent: {{ theme.accent_color|default:'#00a6df' }};
+      --dark: {{ theme.dark_color|default:'#061a34' }};
+      --soft: {{ theme.light_color|default:'#f4f8fd' }};
+    }
+  </style>
+  {% include "includes/seo_localization.html" %}
+  {% block extra_head %}{% endblock %}
+  {% include "includes/schema_organization.html" %}
+  {% block schema_json %}
+  {% for schema in schema_markups %}
+    <script type="application/ld+json">{{ schema.json_ld|safe }}</script>
+  {% endfor %}
+  {% endblock %}
+</head>
+<body>
+  <a class="skip-link" href="#main-content">{% trans "Skip to content" %}</a>
+  {% include "includes/header.html" %}
+  {% if messages %}
+    <div class="container messages">
+      {% for message in messages %}<div class="message">{{ message }}</div>{% endfor %}
+    </div>
+  {% endif %}
+  <main id="main-content" tabindex="-1">
+    {% block content %}{% endblock %}
+  </main>
+  {% include "includes/footer.html" %}
+  <script src="{% static 'js/main.js' %}?v=project-gallery-autoplay-204"></script>
+  <script src="{% static 'js/cms_section_order.js' %}?v=section-order-163"></script>
+  <script src="{% static 'vendor/gsap/gsap.min.js' %}?v=3.15.0"></script>
+  <script src="{% static 'vendor/gsap/ScrollTrigger.min.js' %}?v=3.15.0"></script>
+  <script src="{% static 'js/gsap_enhancements.js' %}?v=gsap-project-card-visibility-206"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% load localization static %}
+<a href="{% localized_url project.get_absolute_url %}" class="card project-card project-result-card"
+   data-project-card
+   data-title="{% localized_plain project 'title' %}"
+   data-category="{% if project.category %}{{ project.category.slug }}{% endif %}"
+   data-category-name="{% if project.category %}{% localized_plain project.category 'name' as project_category_data %}{% static_text project_category_data %}{% endif %}"
+   data-status="{{ project.status }}"
+   data-status-label="{% with status_label=project.get_status_display %}{% static_text status_label %}{% endwith %}"
+   data-year="{% if project.year %}{{ project.year }}{% endif %}"
+   data-location="{% static_text project.location %}"
+   data-client="{% static_text project.client_name %}"
+   data-contractor="{% static_text project.contractor_name %}"
+   data-description="{% localized project 'short_description' as project_desc_data %}{{ project_desc_data|striptags }}">
+  {% if project.cover_image %}
+    <img class="project-thumb" src="{{ project.cover_image.url }}" alt="{% localized_plain project 'title' %}" loading="lazy" decoding="async" data-fallback="{% static 'img/fallbacks/industrial-fallback.svg' %}" style="object-fit:cover;width:100%">
+  {% else %}
+    <img class="project-thumb project-thumb-fallback" src="{% static 'img/fallbacks/industrial-fallback.svg' %}" alt="{% localized_plain project 'title' %}" loading="lazy" decoding="async" style="object-fit:cover;width:100%">
+  {% endif %}
+  <div class="project-body">
+    <div class="service-meta">
+      {% if project.category %}<span class="badge">{% localized_plain project.category 'name' as project_category_name %}{% static_text project_category_name %}</span>{% endif %}
+      {% if project.status %}<span class="badge">{% with status_label=project.get_status_display %}{% static_text status_label %}{% endwith %}</span>{% endif %}
+    </div>
+    <h3>{% localized_plain project 'title' %}</h3>
+    <p class="text-muted">{% if project.location %}{% static_text project.location %}{% endif %}{% if project.year %} · {{ project.year }}{% endif %}</p>
+    <p>{% localized project 'short_description' as project_desc %}{{ project_desc|striptags|truncatewords:18 }}</p>
+  </div>
+</a>

@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load localization %}
+{% load i18n %}
+{% load page_sections %}
+{% block title %}{% trans "Services" %} | {{ company.short_name }}{% endblock %}
+{% block content %}
+<main class="services-page services-modern-page cms-section-sort cms-page-services-list">
+  <section class="services-modern-hero{% if service_page_settings.hero_image %} has-parallax-hero{% endif %}" {% section_attrs "services_list" "hero" 10 %} {% if service_page_settings.hero_image %}style="--services-hero-bg:url('{{ service_page_settings.hero_image.url }}')"{% endif %}>
+    <div class="container">
+      <span class="eyebrow">{% localized_plain service_page_settings 'eyebrow' %}</span>
+      <h1>{% localized_plain service_page_settings 'hero_title' %}</h1>
+      <p>{% localized service_page_settings 'hero_subtitle' %}</p>
+    </div>
+  </section>
+
+  <section class="section-sm services-modern-section" {% section_attrs "services_list" "search_services" 20 %}>
+    <div class="container">
+      {% if service_page_settings.show_search %}
+      <form method="get" class="services-filter-bar" data-services-filter role="search" aria-label="{% static_text 'Search services' %}">
+        <label class="services-search-field">
+          <span class="services-filter-icon" aria-hidden="true">⌕</span>
+          <input type="search" name="q" value="{{ query }}" autocomplete="off" data-services-search placeholder="{% static_text 'Search services, keywords...' %}">
+        </label>
+
+        <label class="services-select-field">
+          <span class="services-filter-icon" aria-hidden="true">▦</span>
+          <select name="category" data-services-category aria-label="{% static_text 'Service category' %}">
+            <option value="">{% static_text "All Categories" %}</option>
+            {% for category in categories %}
+              <option value="{{ category.slug }}" {% if active_category == category.slug %}selected{% endif %}>{% localized_plain category 'name' %}</option>
+            {% endfor %}
+          </select>
+        </label>
+
+        <label class="services-select-field services-sort-field">
+          <span class="services-filter-icon" aria-hidden="true">⇅</span>
+          <select name="sort" data-services-sort aria-label="{% static_text 'Sort services' %}">
+            <option value="default" {% if sort == 'default' %}selected{% endif %}>{% static_text "Default" %}</option>
+            <option value="featured" {% if sort == 'featured' %}selected{% endif %}>{% static_text "Featured first" %}</option>
+            <option value="title" {% if sort == 'title' %}selected{% endif %}>{% static_text "A to Z" %}</option>
+            <option value="newest" {% if sort == 'newest' %}selected{% endif %}>{% static_text "Newest" %}</option>
+          </select>
+        </label>
+
+        <button class="btn btn-primary services-search-btn" type="submit"><span aria-hidden="true">⌕</span> {% static_text "Search" %}</button>
+      </form>
+      {% endif %}
+
+      <div class="services-results-summary" data-services-summary aria-live="polite"></div>
+
+      <div class="services-modern-grid" data-services-grid>
+        {% for service in services %}
+          {% include "includes/service_card.html" %}
+        {% empty %}
+          <div class="services-empty-state">
+            <h3>{% static_text "No services found." %}</h3>
+            <p>{% static_text "Try a different keyword or category." %}</p>
+          </div>
+        {% endfor %}
+        <div class="services-empty-state services-live-empty" data-services-empty hidden>
+          <h3>{% static_text "No services found." %}</h3>
+          <p>{% static_text "Try a different keyword or category." %}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% if service_page_settings.show_featured_service and featured_service or service_page_settings.show_featured_service and request.user.is_staff %}
+  <section class="section-sm" {% section_attrs "services_list" "featured_service" 30 %}>
+    <div class="container">
+      <div class="services-featured-panel">
+        {% if featured_service %}
+        <span class="eyebrow">{% static_text "Featured Service" %}</span>
+        <h2>{% localized_plain featured_service 'title' %}</h2>
+        <p>{% localized featured_service 'short_description' %}</p>
+        <a class="btn btn-light" href="{{ featured_service.get_absolute_url }}">{% static_text "Explore Service" %} <span class="arrow">→</span></a>
+        {% else %}
+        {% include "includes/admin_empty_section.html" with section_title="Featured service" section_hint="Mark one Service as Featured in admin, or disable Featured service in Services list section order." %}
+        {% endif %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if service_page_settings.show_process and process_steps or service_page_settings.show_process and request.user.is_staff %}
+  <section class="section-sm" {% section_attrs "services_list" "process" 40 %}>
+    <div class="container services-process-section">
+      <span class="eyebrow">{% static_text "Our Approach" %}</span>
+      <h2>{% static_text "Built on a clear and proven process." %}</h2>
+      <div class="services-process-grid">
+        {% for step in process_steps %}
+          <div class="services-process-card card">
+            <div class="services-process-icon" aria-hidden="true">
+              {% if forloop.counter == 1 %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 2h3a1 1 0 0 1 1 1v12a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V6a1 1 0 0 1 1-1h3l1-2Z"/><path d="M9 12h6"/><path d="M9 16h4"/><path d="M9 8h6"/></svg>
+              {% elif forloop.counter == 2 %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h8"/><path d="M4 12h12"/><path d="M4 17h9"/><circle cx="18" cy="7" r="2"/><circle cx="14" cy="17" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+              {% elif forloop.counter == 3 %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6l7-3Z"/><path d="m9.5 12 1.8 1.8 3.2-3.6"/></svg>
+              {% else %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/><path d="M5 6h6"/><path d="M5 18h14"/></svg>
+              {% endif %}
+            </div>
+            <h3>{% localized_plain step 'title' %}</h3>
+            <p>{% localized step 'description' %}</p>
+          </div>
+        {% empty %}
+          {% include "includes/admin_empty_section.html" with section_title="Service process" section_hint="Add Service process steps in admin, or disable Service questions/process in Services list section order." %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if service_page_settings.show_faqs and service_list_faqs or service_page_settings.show_faqs and request.user.is_staff %}
+  <section class="section-sm" {% section_attrs "services_list" "faqs" 50 %}>
+    <div class="container services-faq-section">
+      <h2>{% static_text "Service Questions" %}</h2>
+      <div class="services-faq-grid" data-accordion-group>
+        {% for faq in service_list_faqs %}
+          <details class="services-faq-item card" data-accordion-item {% if forloop.first %}open{% endif %}>
+            <summary>
+              <span>{% localized_plain faq 'question' %}</span>
+              <span class="services-faq-chevron" aria-hidden="true">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 5 5 5-5"/></svg>
+              </span>
+            </summary>
+            <div class="services-faq-answer">{% localized faq 'answer' %}</div>
+          </details>
+        {% empty %}
+          {% include "includes/admin_empty_section.html" with section_title="Service questions" section_hint="Add active Service FAQs in admin, or disable FAQs in Services list section order." %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+</main>
+{% endblock %}

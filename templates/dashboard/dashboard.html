@@ -1,0 +1,98 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% trans "Dashboard" %} | {{ company.short_name }}</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar">
+    {% include "includes/site_logo.html" %}
+    <nav class="side-nav">
+      <a class="active" href="{% url 'dashboard_home' %}">{% trans "Dashboard" %}</a>
+      <a href="/admin/core/companyprofile/">Company Profile</a>
+      <a href="/admin/core/navigationmenu/">Navigation</a>
+      <a href="/admin/core/footercolumn/">Footer</a>
+      <a href="/admin/pages/homehero/">Home Hero</a>
+      <a href="/admin/pages/page/">Pages</a>
+      <a href="/admin/services/service/">{% trans "Services" %}</a>
+      <a href="/admin/projects/project/">{% trans "Projects" %}</a>
+      <a href="/admin/clients/client/">{% trans "Client s" %}</a>
+      <a href="/admin/clients/certificate/">{% trans "Certificates" %}</a>
+      <a href="/admin/documents/downloaddocument/">{% trans "Documents" %}</a>
+      <a href="{% url 'career_applications_dashboard' %}">Career Applications</a>
+      <a href="/admin/careers/jobopening/">Career Jobs</a>
+      <a href="/admin/inquiries/contactinquiry/">Inquiries</a>
+      <a href="{% url 'translation_dashboard' %}">{% trans "Translation Center" %}</a>
+      <a href="/admin/seo/robotssettings/">SEO / Robots</a>
+      <a href="/admin/">Django {% trans "Admin" %}</a>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-top">
+      <h2>{% trans "Dashboard" %}</h2>
+      <div>
+        <a class="btn btn-outline" href="/admin/">Open Django Admin</a>
+        <a class="btn btn-primary" href="{% url 'home' %}">{% trans "View Website" %} ↗</a>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:24px">
+      <h2>Welcome back, {% trans "Admin" %}!</h2>
+      <p class="text-muted">Manage the full company profile website content from here.</p>
+    </div>
+
+    <section class="grid grid-4">
+      <div class="card"><h4>{% trans "Published Pages" %}</h4><strong style="font-size:32px">{{ total_pages }}</strong></div>
+      <div class="card"><h4>{% trans "Services" %}</h4><strong style="font-size:32px">{{ total_services }}</strong></div>
+      <div class="card"><h4>{% trans "Projects" %}</h4><strong style="font-size:32px">{{ total_projects }}</strong></div>
+      <div class="card"><h4>{% trans "New Inquiries" %}</h4><strong style="font-size:32px">{{ new_inquiries }}</strong></div>
+      <div class="card"><h4>Career Jobs</h4><strong style="font-size:32px">{{ career_jobs }}</strong></div>
+      <div class="card"><h4>New Applicants</h4><strong style="font-size:32px">{{ new_career_applications }}</strong></div>
+      <div class="card"><h4>{% trans "Documents" %}</h4><strong style="font-size:32px">{{ total_documents }}</strong></div>
+      <div class="card"><h4>{% trans "Document Request s" %}</h4><strong style="font-size:32px">{{ total_document_requests }}</strong></div>
+      <div class="card"><h4>{% trans "Certificates" %}</h4><strong style="font-size:32px">{{ total_certificates }}</strong></div>
+      <div class="card"><h4>{% trans "Spam Suspected" %}</h4><strong style="font-size:32px">{{ spam_inquiries }}</strong></div>
+    </section>
+
+    <section class="grid grid-2 section-sm">
+      <div class="card table-card">
+        <h3 style="padding:22px 22px 0">{% trans "Recent Inquiries" %}</h3>
+        <table><tbody>
+          {% for inquiry in recent_inquiries %}
+            <tr><td>{{ inquiry.full_name }}</td><td>{{ inquiry.subject }}</td><td><span class="badge">{{ inquiry.get_status_display }}</span></td></tr>
+          {% empty %}<tr><td>No inquiries yet.</td></tr>{% endfor %}
+        </tbody></table>
+      </div>
+      <div class="card table-card">
+        <h3 style="padding:22px 22px 0">{% trans "Recent Document Request s" %}</h3>
+        <table><tbody>
+          {% for req in recent_document_requests %}
+            <tr><td>{{ req.name }}</td><td>{{ req.requested_document }}</td><td>{% if req.is_resolved %}<span class="badge">Resolved</span>{% else %}<span class="badge red">{% trans "Open" %}</span>{% endif %}</td></tr>
+          {% empty %}<tr><td>No document requests yet.</td></tr>{% endfor %}
+        </tbody></table>
+      </div>
+    </section>
+
+    <section class="grid grid-2">
+      <div class="card">
+        <h3>{% trans "Recent Updates" %}</h3>
+        <ul>{% for log in recent_updates %}<li>{{ log.action }} {{ log.object_title }} — {{ log.created_at|date:"M d, Y H:i" }}</li>{% empty %}<li>No activity logs yet.</li>{% endfor %}</ul>
+      </div>
+      <div class="card">
+        <h3>{% trans "Content Overview" %}</h3>
+        <div class="grid grid-3">
+          <div class="card"><strong>{{ total_clients }}</strong><br>{% trans "Client s" %}</div>
+          <div class="card"><strong>{{ total_partners }}</strong><br>{% trans "Partners" %}</div>
+          <div class="card"><strong>{{ total_testimonials }}</strong><br>{% trans "Testimonials" %}</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

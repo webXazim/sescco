@@ -1,0 +1,24 @@
+{% load localization %}
+{% load i18n %}
+{% load page_sections %}
+<div class="project-gallery-card project-gallery-showcase" data-project-slider>
+  <div class="project-slideshow" aria-label="{% static_text 'Project image slideshow' %}">
+    <span class="project-gallery-count" data-project-slider-count></span>
+    <div class="project-slides">
+      {% for img in gallery_images %}
+        <figure class="project-slide{% if forloop.first %} is-active{% endif %}" data-project-slide>
+          <img src="{{ img.image.url }}" alt="{% localized_plain project 'title' %}" loading="lazy">
+        </figure>
+      {% empty %}
+        <figure class="project-slide is-active project-slide-placeholder" data-project-slide>
+          <div class="placeholder-img"></div>
+        </figure>
+      {% endfor %}
+    </div>
+
+    <button type="button" class="project-slide-control prev" data-project-slide-prev aria-label="{% static_text 'Previous image' %}">‹</button>
+    <button type="button" class="project-slide-control next" data-project-slide-next aria-label="{% static_text 'Next image' %}">›</button>
+
+    <div class="project-gallery-thumbs" data-project-slide-thumbs aria-label="{% static_text 'Select project image' %}"></div>
+  </div>
+</div>

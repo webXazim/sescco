@@ -1,0 +1,31 @@
+{% load localization %}
+{% load page_sections %}
+{% if about_settings.show_strengths %}
+<section class="section about-strengths-section" {% section_attrs "about" "strengths" 60 %}>
+  <div class="container">
+    <div class="about-strengths-panel">
+      <span class="eyebrow">{% localized_plain about_settings 'strengths_eyebrow' %}</span>
+      <h2>{% localized_plain about_settings 'strengths_title' %}</h2>
+      <div class="about-strengths-grid">
+        {% for item in why_choose_items %}
+          {% if item.show_on_about %}
+            <div class="about-strength-item">
+              <h3 class="about-strength-title">
+                {% if item.icon_image %}
+                  <img src="{{ item.icon_image.url }}" alt="" loading="lazy">
+                {% else %}
+                  <span>{{ item.icon_text|default:"✓" }}</span>
+                {% endif %}
+                {% localized_plain item 'title' %}
+              </h3>
+              <p>{% localized item 'description' %}</p>
+            </div>
+          {% endif %}
+        {% empty %}
+          <p>{% static_text "Add Why Choose Items and enable show on about." %}</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}

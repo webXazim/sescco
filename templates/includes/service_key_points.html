@@ -1,0 +1,21 @@
+{% load localization %}
+{% load page_sections %}
+{% if detail_settings.show_key_points %}
+{% with active_points=service.key_points.all|active_items %}
+{% if active_points|has_items or request.user.is_staff %}
+<section class="section-sm" {% section_attrs "service_detail" "key_points" 20 %}>
+  <div class="container grid grid-4 service-detail-card-grid service-detail-keypoints-grid">
+    {% for point in active_points %}
+      <div class="card icon-card">
+        <div class="icon">{{ point.icon_text|default:"✦" }}</div>
+        <h3>{% localized_plain point 'title' %}</h3>
+        <p>{% localized point 'description' %}</p>
+      </div>
+    {% empty %}
+      {% include "includes/admin_empty_section.html" with section_title="Service key points" section_hint="Add key points inside this Service in admin, or disable Key points in Service detail section order." %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endwith %}
+{% endif %}

@@ -1,0 +1,55 @@
+/* Upgrade 143: remaining visible Arabic RTL polish. */
+html[dir="rtl"] .home-leadership-quote-card__accent,
+html[lang="ar"] .home-leadership-quote-card__accent {
+  right: clamp(30px, 4vw, 62px) !important;
+  left: auto !important;
+}
+html[dir="rtl"] .home-leadership-quote-card__accent::after,
+html[lang="ar"] .home-leadership-quote-card__accent::after {
+  right: 50% !important;
+  left: auto !important;
+}
+html[dir="rtl"] .home-leadership-quote-card__body,
+html[lang="ar"] .home-leadership-quote-card__body {
+  margin-right: auto !important;
+  margin-left: 0 !important;
+  padding-right: 0 !important;
+  padding-left: clamp(36px, 7vw, 110px) !important;
+}
+html[dir="rtl"] .home-leadership-quote-card__footer,
+html[lang="ar"] .home-leadership-quote-card__footer {
+  text-align: right !important;
+}
+html[dir="rtl"] details.card summary,
+html[lang="ar"] details.card summary {
+  direction: rtl !important;
+  text-align: right !important;
+}
+html[dir="rtl"] details.card div,
+html[lang="ar"] details.card div {
+  direction: rtl !important;
+  text-align: right !important;
+}
+details.card summary:focus {
+  outline: 2px solid rgba(7, 88, 216, .24);
+  outline-offset: 6px;
+}
+html[dir="rtl"] .service-detail-hero .hero-actions .arrow,
+html[lang="ar"] .service-detail-hero .hero-actions .arrow {
+  transform: scaleX(-1);
+  display: inline-block;
+}
+html[dir="rtl"] .service-detail-hero .hero-actions .btn,
+html[lang="ar"] .service-detail-hero .hero-actions .btn {
+  direction: rtl;
+}
+html[dir="rtl"] .service-detail-hero h1,
+html[lang="ar"] .service-detail-hero h1 {
+  max-width: min(860px, 100%) !important;
+  font-size: clamp(3rem, 6vw, 6.2rem) !important;
+  line-height: 1.08 !important;
+}
+html[dir="rtl"] .card h2:only-child,
+html[lang="ar"] .card h2:only-child {
+  text-align: right;
+}

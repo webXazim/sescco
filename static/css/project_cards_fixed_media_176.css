@@ -1,0 +1,70 @@
+/* Upgrade 176: keep project list cards stable even when uploaded photos are portrait/tall. */
+.project-grid,
+.projects-grid,
+.project-list-grid,
+[data-project-grid]{
+  align-items: stretch;
+}
+
+.project-result-card,
+.project-card{
+  display: flex !important;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.project-result-card .project-thumb,
+.project-card .project-thumb,
+.project-result-card > img.project-thumb,
+.project-card > img.project-thumb{
+  display: block;
+  width: 100% !important;
+  height: clamp(190px, 15vw, 230px) !important;
+  max-height: 230px !important;
+  aspect-ratio: 16 / 9;
+  object-fit: cover !important;
+  object-position: center center !important;
+  flex: 0 0 auto;
+  background: #eaf3ff;
+}
+
+.project-result-card .project-body,
+.project-card .project-body{
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-result-card h3,
+.project-card h3{
+  margin-bottom: 10px;
+}
+
+.project-result-card .project-body p,
+.project-card .project-body p{
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* Keep the featured project image wider, but still controlled. */
+.featured-project img,
+.project-featured img{
+  height: clamp(220px, 22vw, 340px) !important;
+  max-height: 340px !important;
+  width: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
+@media (max-width: 760px){
+  .project-result-card .project-thumb,
+  .project-card .project-thumb,
+  .project-result-card > img.project-thumb,
+  .project-card > img.project-thumb{
+    height: 190px !important;
+    max-height: 190px !important;
+  }
+}

@@ -1,0 +1,172 @@
+/* Upgrade 177 — compact top nav and smoother home sphere polish. */
+:root{
+  --site-header-height: 74px; /* used as page offset only */
+  --sescco-header-compact-height: 74px; /* fixed visual header height */
+}
+
+.site-header{
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  padding: 0 !important;
+}
+
+.site-header .navbar,
+.navbar{
+  height: var(--sescco-header-compact-height) !important;
+  min-height: var(--sescco-header-compact-height) !important;
+  max-height: var(--sescco-header-compact-height) !important;
+  gap: clamp(16px, 2vw, 24px) !important;
+}
+
+.site-header .site-logo-lockup,
+.site-header .logo{
+  transform: scale(.98);
+  transform-origin: left center;
+}
+
+html[dir="rtl"] .site-header .site-logo-lockup,
+html[dir="rtl"] .site-header .logo{
+  transform-origin: right center;
+}
+
+.site-header .site-logo-mark,
+.site-header .site-logo-mark img,
+.site-header .logo-mark{
+  width: 52px !important;
+  height: 52px !important;
+  flex-basis: 52px !important;
+}
+
+.site-header .nav-links{
+  gap: clamp(18px, 1.9vw, 24px) !important;
+  font-size: 13.5px !important;
+}
+
+.site-header .nav-links a{
+  padding-block: 27px !important;
+}
+
+.site-header .nav-links a.active::after,
+.site-header .nav-links a:hover::after{
+  bottom: 15px !important;
+}
+
+.site-header .language-links{
+  min-height: 42px !important;
+  padding: 3px !important;
+}
+
+.site-header .language-links a{
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 34px !important;
+  padding: 0 12px !important;
+  font-size: 12.5px !important;
+  line-height: 1 !important;
+  text-align: center !important;
+}
+
+.site-header > .container > .btn-primary,
+.site-header .navbar > .btn-primary{
+  min-height: 44px !important;
+  padding-inline: 22px !important;
+  border-radius: 8px !important;
+}
+
+/* Smooth sphere: decorative rotating visual, not a selectable card carousel. */
+.hero-home .home-sphere-wrap{
+  cursor: default !important;
+  touch-action: pan-y !important;
+}
+
+.hero-home .home-sphere-card{
+  pointer-events: none !important;
+  cursor: default !important;
+  transition: filter .34s ease, opacity .34s ease, box-shadow .34s ease !important;
+}
+
+.hero-home .home-sphere-card.is-active,
+.hero-home .home-sphere-card:focus,
+.hero-home .home-sphere-card:hover{
+  border-color: rgba(255,255,255,.86) !important;
+  box-shadow:
+    0 24px 54px rgba(5,26,64,.24),
+    inset 0 1px 0 rgba(255,255,255,.86) !important;
+  filter: inherit !important;
+  outline: 0 !important;
+}
+
+.hero-home .home-sphere-wrap.is-hovered .home-sphere-card{
+  box-shadow:
+    0 24px 54px rgba(5,26,64,.24),
+    inset 0 1px 0 rgba(255,255,255,.86) !important;
+}
+
+.hero-home .home-sphere{
+  will-change: transform !important;
+  transform-style: preserve-3d !important;
+}
+
+@media (min-width: 981px){
+  .hero-home .hero-trust-sphere-exact{
+    right: clamp(-4px, 4.2vw, 82px) !important;
+    transform: translateY(-50%) translateX(4%) !important;
+  }
+
+  html[dir="rtl"] .hero-home .hero-trust-sphere-exact{
+    right: auto !important;
+    left: clamp(-4px, 4.2vw, 82px) !important;
+    transform: translateY(-50%) translateX(-4%) !important;
+  }
+}
+
+@media (max-width: 980px){
+  :root{
+    --site-header-height: 68px;
+    --sescco-header-compact-height: 68px;
+  }
+
+  .site-header .site-logo-lockup,
+  .site-header .logo{
+    transform: none;
+  }
+}
+
+@media (max-width: 560px){
+  :root{
+    --site-header-height: 64px;
+    --sescco-header-compact-height: 64px;
+  }
+
+  .site-header .site-logo-mark,
+  .site-header .site-logo-mark img,
+  .site-header .logo-mark{
+    width: 40px !important;
+    height: 40px !important;
+    flex-basis: 40px !important;
+  }
+}
+
+
+/* Upgrade 178 hotfix: prevent ResizeObserver/header-height feedback loop from ever stretching the public header. */
+.site-header .container,
+.site-header .navbar{
+  overflow: visible !important;
+}
+
+.site-header .nav-links a{
+  display: inline-flex !important;
+  align-items: center !important;
+  height: var(--sescco-header-compact-height) !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.site-header .site-logo-lockup,
+.site-header .logo,
+.site-header .language-links,
+.site-header .btn{
+  flex-shrink: 0 !important;
+}

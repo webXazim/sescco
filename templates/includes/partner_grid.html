@@ -1,0 +1,26 @@
+{% load localization %}
+{% load page_sections %}
+{% if trust_settings.show_partners %}
+<section {% section_attrs section_page section_key section_default_order %} class="section-sm trust-logo-section trust-partner-section">
+  <div class="container">
+    <span class="eyebrow">{% localized_plain trust_settings 'partners_eyebrow' %}</span>
+    <h2>{% localized_plain trust_settings 'partners_title' %}</h2>
+    <div class="trust-logo-grid trust-partner-grid">
+      {% for partner in partners %}
+        <article class="trust-logo-card">
+          <div class="trust-logo-media">
+            {% if partner.logo %}
+              <img src="{{ partner.logo.url }}" alt="{% localized_plain partner 'name' %}" loading="lazy">
+            {% else %}
+              <span class="trust-logo-fallback">{{ partner.name|slice:":2" }}</span>
+            {% endif %}
+          </div>
+          <h3>{% localized_plain partner 'name' %}</h3>
+        </article>
+      {% empty %}
+        <p>{% static_text "No partners yet." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

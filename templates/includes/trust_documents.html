@@ -1,0 +1,60 @@
+{% load i18n %}
+{% load localization %}
+{% load page_sections %}
+{% if trust_settings.show_documents and documents %}
+<section {% section_attrs section_page section_key section_default_order %} class="section-sm trust-documents-section" id="supporting-documents">
+  <div class="container trust-documents-shell">
+    <div class="trust-documents-head">
+      <div>
+        <span class="eyebrow">{% static_text "Company Documents" %}</span>
+        <h2>{% static_text "Supporting documents, ready when needed." %}</h2>
+      </div>
+      <p>{% static_text "Public company files can be downloaded directly. Sensitive official documents can be marked request-only from admin." %}</p>
+    </div>
+
+    <div class="trust-document-grid">
+      {% for doc in documents %}
+        {% localized_plain doc 'title' as doc_title %}
+        {% localized doc 'description' as doc_desc %}
+        {% localized_plain doc 'file_type' as doc_type %}
+        <article class="trust-document-card {% if doc.access_level != 'public' or doc.requires_request %}is-request{% endif %}">
+          <div class="trust-document-topline">
+            <span class="trust-document-type">{{ doc_type|default:"PDF" }}</span>
+            {% if doc.category %}<span class="trust-document-category">{% localized_plain doc.category 'name' %}</span>{% endif %}
+          </div>
+
+          <div class="trust-document-main">
+            <div class="trust-document-thumb" aria-hidden="true">
+              {% if doc.thumbnail %}
+                <img src="{{ doc.thumbnail.url }}" alt="">
+              {% else %}
+                <span>DOC</span>
+              {% endif %}
+            </div>
+            <div class="trust-document-copy">
+              <h3>{{ doc_title }}</h3>
+              {% if doc_desc %}<p>{{ doc_desc|striptags|truncatewords:24 }}</p>{% endif %}
+            </div>
+          </div>
+
+          <div class="trust-document-meta">
+            {% if doc.version %}<span>{% static_text "Version" %}: {{ doc.version }}</span>{% endif %}
+            {% if doc.file_size %}<span>{{ doc.file_size }}</span>{% endif %}
+            {% if doc.published_date %}<span>{% static_text "Published" %}: {{ doc.published_date|date:"M Y" }}</span>{% endif %}
+          </div>
+
+          <div class="trust-document-actions">
+            {% if doc.access_level == 'public' and not doc.requires_request and doc.file %}
+              <a class="btn btn-primary" href="{% url 'download_file' doc.slug %}">{% static_text "Download document" %} ↓</a>
+            {% elif doc.access_level == 'public' and not doc.requires_request and not doc.file %}
+              <span class="trust-document-note">{% static_text "File will appear here after admin upload." %}</span>
+            {% else %}
+              <a class="btn btn-outline" href="{% url 'document_request' %}?document={{ doc_title|urlencode }}">{% static_text "Request access" %}</a>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

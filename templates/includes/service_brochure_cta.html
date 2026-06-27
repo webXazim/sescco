@@ -1,0 +1,34 @@
+{% load i18n %}
+{% load localization %}
+{% load page_sections %}
+{% if detail_settings.show_brochure or service.cta.is_active %}
+<section class="section" {% section_attrs "service_detail" "brochure" 80 %}>
+  <div class="container grid grid-2">
+    {% if detail_settings.show_brochure %}
+    <div class="card">
+      <h3>{% static_text "Download Brochure" %}</h3>
+      <p>{% static_text "Download the service brochure, capability reference or company profile document for this service." %}</p>
+      {% if service.brochure %}
+        <a class="btn btn-primary" href="{{ service.brochure.url }}" target="_blank" rel="noopener">{% static_text "Download Capability PDF" %} ↓</a>
+      {% else %}
+        <a class="btn btn-outline" href="{% url 'contact' %}">{% static_text "Request Document" %}</a>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {% if service.cta and service.cta.is_active %}
+      <div class="card cta-card-contrast">
+        <h3>{% localized_plain service.cta 'title' %}</h3>
+        <p>{% localized service.cta 'subtitle' %}</p>
+        <a class="btn btn-light" href="{{ service.cta.button_url }}">{% localized_plain service.cta 'button_text' %} <span class="arrow">→</span></a>
+      </div>
+    {% else %}
+      <div class="card cta-card-contrast">
+        <h3>{% static_text "Have a Project in Mind?" %}</h3>
+        <p>{% static_text "Talk to our experts and let’s build the right solution for your business." %}</p>
+        <a class="btn btn-light" href="{% url 'contact' %}">{% static_text "Get in Touch" %} <span class="arrow">→</span></a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}

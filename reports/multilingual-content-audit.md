@@ -1,0 +1,371 @@
+# SESCCO Multilingual Content Accuracy Audit
+
+Summary: **0 error(s)**, **301 warning(s)**, **301 total finding(s)**.
+
+## Coverage
+
+- **localized_rows_ar**: 1759
+- **localized_rows_total**: 3518
+- **localized_rows_zh_hans**: 1759
+- **missing_field_rows_ar**: 202
+- **missing_field_rows_zh-hans**: 202
+- **rows_aboutpagesettings**: 12
+- **rows_businesshour**: 8
+- **rows_careerbenefit**: 12
+- **rows_careerdepartment**: 12
+- **rows_careerpagesettings**: 84
+- **rows_careerprocessstep**: 16
+- **rows_careerstat**: 12
+- **rows_client**: 1278
+- **rows_companyprofile**: 14
+- **rows_contactmethod**: 12
+- **rows_contactpagesettings**: 18
+- **rows_ctasettings**: 8
+- **rows_documentcategory**: 6
+- **rows_documentpagecta**: 6
+- **rows_downloaddocument**: 28
+- **rows_downloadspagesettings**: 10
+- **rows_faq**: 28
+- **rows_footercolumn**: 6
+- **rows_footerlink**: 20
+- **rows_homeaboutblock**: 8
+- **rows_homehero**: 8
+- **rows_homehighlight**: 24
+- **rows_homesectionsettings**: 16
+- **rows_inquirysubject**: 10
+- **rows_jobopening**: 90
+- **rows_leadershipmessage**: 8
+- **rows_navigationmenu**: 14
+- **rows_officelocation**: 8
+- **rows_page**: 60
+- **rows_pagesection**: 48
+- **rows_project**: 342
+- **rows_projectlistpagesettings**: 10
+- **rows_projectscopeitem**: 300
+- **rows_service**: 50
+- **rows_servicecategory**: 20
+- **rows_servicecta**: 30
+- **rows_servicedeliverable**: 80
+- **rows_servicefaq**: 80
+- **rows_servicefeature**: 60
+- **rows_servicekeypoint**: 80
+- **rows_servicelistfaq**: 16
+- **rows_servicelistpagesettings**: 10
+- **rows_servicelistprocessstep**: 16
+- **rows_serviceprocessstep**: 80
+- **rows_statictext**: 402
+- **rows_trustmetric**: 36
+- **rows_trustpagesettings**: 22
+
+## Findings
+
+- [WARN] Localization: client:214:ar:name — translation appears to be an exact English copy.
+- [WARN] Localization: client:214:zh-hans:name — translation appears to be an exact English copy.
+- [WARN] Localization: client:220:ar:name — translation appears to be an exact English copy.
+- [WARN] Localization: client:220:zh-hans:name — translation appears to be an exact English copy.
+- [WARN] Localization: client:228:ar:name — translation appears to be an exact English copy.
+- [WARN] Localization: client:228:zh-hans:name — translation appears to be an exact English copy.
+- [WARN] Localization: client:229:ar:name — translation appears to be an exact English copy.
+- [WARN] Localization: client:229:zh-hans:name — translation appears to be an exact English copy.
+- [WARN] Localization: client:234:ar:name — translation appears to be an exact English copy.
+- [WARN] Localization: client:234:zh-hans:name — translation appears to be an exact English copy.
+- [WARN] Localization: client:237:ar:name — translation appears to be an exact English copy.
+- [WARN] Localization: client:237:zh-hans:name — translation appears to be an exact English copy.
+- [WARN] Localization: companyprofile:1:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Arabic: downloaddocument:8:ar:title — Arabic row is Latin-heavy and may be untranslated.
+- [WARN] Localization: homeaboutblock:1:zh-hans:body — translation is suspiciously short compared with English source.
+- [WARN] Localization: page:2:zh-hans:body — translation is suspiciously short compared with English source.
+- [WARN] Localization: page:2:zh-hans:seo_description — translation is suspiciously short compared with English source.
+- [WARN] Localization: pagesection:3:zh-hans:content — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:1:zh-hans:scope — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:1:zh-hans:seo_description — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:2:zh-hans:scope — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:2:zh-hans:seo_description — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:3:zh-hans:scope — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:3:zh-hans:seo_description — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:3:zh-hans:short_description — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:4:zh-hans:scope — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:4:zh-hans:seo_description — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:5:zh-hans:scope — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:5:zh-hans:seo_description — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:5:zh-hans:short_description — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:6:zh-hans:scope — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:6:zh-hans:seo_description — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:7:zh-hans:scope — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:7:zh-hans:seo_description — translation is suspiciously short compared with English source.
+- [WARN] Chinese: project:7:zh-hans:seo_title — Chinese row is Latin-heavy and may be untranslated.
+- [WARN] Localization: project:8:zh-hans:scope — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:8:zh-hans:seo_description — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:9:zh-hans:scope — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:9:zh-hans:seo_description — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:10:zh-hans:scope — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:10:zh-hans:seo_description — translation is suspiciously short compared with English source.
+- [WARN] Chinese: project:10:zh-hans:seo_title — Chinese row is Latin-heavy and may be untranslated.
+- [WARN] Chinese: project:11:zh-hans:seo_title — Chinese row is Latin-heavy and may be untranslated.
+- [WARN] Chinese: project:12:zh-hans:seo_title — Chinese row is Latin-heavy and may be untranslated.
+- [WARN] Chinese: project:16:zh-hans:seo_title — Chinese row is Latin-heavy and may be untranslated.
+- [WARN] Chinese: project:17:zh-hans:seo_title — Chinese row is Latin-heavy and may be untranslated.
+- [WARN] Localization: project:18:zh-hans:scope — translation is suspiciously short compared with English source.
+- [WARN] Localization: project:18:zh-hans:seo_description — translation is suspiciously short compared with English source.
+- [WARN] Chinese: project:18:zh-hans:seo_title — Chinese row is Latin-heavy and may be untranslated.
+- [WARN] Localization: projectscopeitem:40:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefaq:1:zh-hans:answer — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefaq:5:zh-hans:answer — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefaq:9:zh-hans:answer — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefaq:13:zh-hans:answer — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefaq:17:zh-hans:answer — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefeature:1:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefeature:2:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefeature:3:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefeature:4:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefeature:5:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefeature:6:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefeature:7:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefeature:8:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefeature:9:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefeature:10:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefeature:11:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefeature:12:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefeature:13:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefeature:14:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicefeature:15:zh-hans:description — translation is suspiciously short compared with English source.
+- [WARN] Localization: servicelistfaq:1:zh-hans:answer — translation is suspiciously short compared with English source.
+- [WARN] Field Parity: project:1 missing ar translation for: contractor_name, duration, location, status.
+- [WARN] Field Parity: project:1 missing zh-hans translation for: contractor_name, duration, location, status.
+- [WARN] Field Parity: project:2 missing ar translation for: contractor_name, duration, location, status.
+- [WARN] Field Parity: project:2 missing zh-hans translation for: contractor_name, duration, location, status.
+- [WARN] Field Parity: project:3 missing ar translation for: client_name, contractor_name, duration, location, status.
+- [WARN] Field Parity: project:3 missing zh-hans translation for: client_name, contractor_name, duration, location, status.
+- [WARN] Field Parity: project:4 missing ar translation for: contractor_name, duration, location.
+- [WARN] Field Parity: project:4 missing zh-hans translation for: contractor_name, duration, location.
+- [WARN] Field Parity: project:5 missing ar translation for: client_name, duration, location, status.
+- [WARN] Field Parity: project:5 missing zh-hans translation for: client_name, duration, location, status.
+- [WARN] Field Parity: project:6 missing ar translation for: client_name, duration, location, status.
+- [WARN] Field Parity: project:6 missing zh-hans translation for: client_name, duration, location, status.
+- [WARN] Field Parity: project:7 missing ar translation for: contractor_name, duration, location, status.
+- [WARN] Field Parity: project:7 missing zh-hans translation for: contractor_name, duration, location, status.
+- [WARN] Field Parity: project:8 missing ar translation for: client_name, contractor_name, duration, location, status.
+- [WARN] Field Parity: project:8 missing zh-hans translation for: client_name, contractor_name, duration, location, status.
+- [WARN] Field Parity: project:9 missing ar translation for: client_name, contractor_name, duration, location, status.
+- [WARN] Field Parity: project:9 missing zh-hans translation for: client_name, contractor_name, duration, location, status.
+- [WARN] Field Parity: project:10 missing ar translation for: client_name, contractor_name, duration, location.
+- [WARN] Field Parity: project:10 missing zh-hans translation for: client_name, contractor_name, duration, location.
+- [WARN] Field Parity: project:11 missing ar translation for: client_name, contractor_name, duration, location, status.
+- [WARN] Field Parity: project:11 missing zh-hans translation for: client_name, contractor_name, duration, location, status.
+- [WARN] Field Parity: project:12 missing ar translation for: client_name, contractor_name, duration, location, status.
+- [WARN] Field Parity: project:12 missing zh-hans translation for: client_name, contractor_name, duration, location, status.
+- [WARN] Field Parity: project:13 missing ar translation for: duration, location, status.
+- [WARN] Field Parity: project:13 missing zh-hans translation for: duration, location, status.
+- [WARN] Field Parity: project:14 missing ar translation for: duration, location, status.
+- [WARN] Field Parity: project:14 missing zh-hans translation for: duration, location, status.
+- [WARN] Field Parity: project:15 missing ar translation for: client_name, duration, location, status.
+- [WARN] Field Parity: project:15 missing zh-hans translation for: client_name, duration, location, status.
+- [WARN] Field Parity: project:16 missing ar translation for: client_name, contractor_name, duration, location.
+- [WARN] Field Parity: project:16 missing zh-hans translation for: client_name, contractor_name, duration, location.
+- [WARN] Field Parity: project:17 missing ar translation for: client_name, contractor_name, duration, location.
+- [WARN] Field Parity: project:17 missing zh-hans translation for: client_name, contractor_name, duration, location.
+- [WARN] Field Parity: project:18 missing ar translation for: client_name, duration, location, status.
+- [WARN] Field Parity: project:18 missing zh-hans translation for: client_name, duration, location, status.
+- [WARN] Field Parity: project:19 missing ar translation for: contractor_name, duration, location, status.
+- [WARN] Field Parity: project:19 missing zh-hans translation for: contractor_name, duration, location, status.
+- [WARN] Field Parity: jobopening:1 missing ar translation for: employment_type, status.
+- [WARN] Field Parity: jobopening:1 missing zh-hans translation for: employment_type, status.
+- [WARN] Field Parity: jobopening:2 missing ar translation for: employment_type, status.
+- [WARN] Field Parity: jobopening:2 missing zh-hans translation for: employment_type, status.
+- [WARN] Field Parity: jobopening:3 missing ar translation for: employment_type, status.
+- [WARN] Field Parity: jobopening:3 missing zh-hans translation for: employment_type, status.
+- [WARN] Field Parity: projectmetric:1 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:1 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:5 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:5 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:9 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:9 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:13 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:13 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:17 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:17 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:21 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:21 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:25 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:25 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:29 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:29 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:33 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:33 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:37 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:37 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:41 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:41 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:45 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:45 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:49 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:49 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:53 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:53 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:58 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:58 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:63 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:63 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:68 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:68 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:73 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:73 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:78 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:78 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:2 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:2 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:6 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:6 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:10 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:10 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:18 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:18 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:22 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:22 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:26 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:26 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:30 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:30 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:34 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:34 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:42 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:42 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:46 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:46 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:50 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:50 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:54 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:54 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:59 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:59 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:74 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:74 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:79 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:79 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:3 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:3 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:7 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:7 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:11 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:11 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:15 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:15 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:19 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:19 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:23 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:23 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:27 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:27 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:31 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:31 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:35 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:35 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:39 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:39 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:43 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:43 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:47 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:47 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:51 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:51 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:55 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:55 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:60 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:60 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:65 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:65 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:70 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:70 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:75 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:75 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:80 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:80 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:4 missing ar translation for: label, value.
+- [WARN] Field Parity: projectmetric:4 missing zh-hans translation for: label, value.
+- [WARN] Field Parity: projectmetric:8 missing ar translation for: label, value.
+- [WARN] Field Parity: projectmetric:8 missing zh-hans translation for: label, value.
+- [WARN] Field Parity: projectmetric:12 missing ar translation for: label, value.
+- [WARN] Field Parity: projectmetric:12 missing zh-hans translation for: label, value.
+- [WARN] Field Parity: projectmetric:16 missing ar translation for: label, value.
+- [WARN] Field Parity: projectmetric:16 missing zh-hans translation for: label, value.
+- [WARN] Field Parity: projectmetric:20 missing ar translation for: label.
+- [WARN] Field Parity: projectmetric:20 missing zh-hans translation for: label.
+- [WARN] Field Parity: projectmetric:24 missing ar translation for: label.
+- [WARN] Field Parity: projectmetric:24 missing zh-hans translation for: label.
+- [WARN] Field Parity: projectmetric:28 missing ar translation for: label, value.
+- [WARN] Field Parity: projectmetric:28 missing zh-hans translation for: label, value.
+- [WARN] Field Parity: projectmetric:32 missing ar translation for: label, value.
+- [WARN] Field Parity: projectmetric:32 missing zh-hans translation for: label, value.
+- [WARN] Field Parity: projectmetric:36 missing ar translation for: label, value.
+- [WARN] Field Parity: projectmetric:36 missing zh-hans translation for: label, value.
+- [WARN] Field Parity: projectmetric:40 missing ar translation for: label, value.
+- [WARN] Field Parity: projectmetric:40 missing zh-hans translation for: label, value.
+- [WARN] Field Parity: projectmetric:44 missing ar translation for: label, value.
+- [WARN] Field Parity: projectmetric:44 missing zh-hans translation for: label, value.
+- [WARN] Field Parity: projectmetric:48 missing ar translation for: label, value.
+- [WARN] Field Parity: projectmetric:48 missing zh-hans translation for: label, value.
+- [WARN] Field Parity: projectmetric:52 missing ar translation for: label.
+- [WARN] Field Parity: projectmetric:52 missing zh-hans translation for: label.
+- [WARN] Field Parity: projectmetric:61 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:61 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:66 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:66 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:71 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:71 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:76 missing ar translation for: value.
+- [WARN] Field Parity: projectmetric:76 missing zh-hans translation for: value.
+- [WARN] Field Parity: projectmetric:57 missing ar translation for: label.
+- [WARN] Field Parity: projectmetric:57 missing zh-hans translation for: label.
+- [WARN] Field Parity: projectmetric:62 missing ar translation for: label.
+- [WARN] Field Parity: projectmetric:62 missing zh-hans translation for: label.
+- [WARN] Field Parity: projectmetric:67 missing ar translation for: label, value.
+- [WARN] Field Parity: projectmetric:67 missing zh-hans translation for: label, value.
+- [WARN] Field Parity: projectmetric:72 missing ar translation for: label, value.
+- [WARN] Field Parity: projectmetric:72 missing zh-hans translation for: label, value.
+- [WARN] Field Parity: projectmetric:77 missing ar translation for: label.
+- [WARN] Field Parity: projectmetric:77 missing zh-hans translation for: label.
+- [WARN] Field Parity: projectmetric:82 missing ar translation for: label, value.
+- [WARN] Field Parity: projectmetric:82 missing zh-hans translation for: label, value.
+- [WARN] Field Parity: faq:1 missing ar translation for: question.
+- [WARN] Field Parity: faq:1 missing zh-hans translation for: question.
+- [WARN] Field Parity: faq:2 missing ar translation for: question.
+- [WARN] Field Parity: faq:2 missing zh-hans translation for: question.
+- [WARN] Field Parity: faq:3 missing ar translation for: question.
+- [WARN] Field Parity: faq:3 missing zh-hans translation for: question.
+- [WARN] Field Parity: faq:4 missing ar translation for: question.
+- [WARN] Field Parity: faq:4 missing zh-hans translation for: question.
+- [WARN] Field Parity: certificate:1 missing ar translation for: certificate_type, description, issuer.
+- [WARN] Field Parity: certificate:1 missing zh-hans translation for: certificate_type, description, issuer.
+- [WARN] Field Parity: certificate:2 missing ar translation for: certificate_type, description, issuer, title.
+- [WARN] Field Parity: certificate:2 missing zh-hans translation for: certificate_type, description, issuer, title.
+- [WARN] Field Parity: certificate:3 missing ar translation for: certificate_type, description, issuer, title.
+- [WARN] Field Parity: certificate:3 missing zh-hans translation for: certificate_type, description, issuer, title.
+- [WARN] Field Parity: certificate:6 missing ar translation for: certificate_type, description, title.
+- [WARN] Field Parity: certificate:6 missing zh-hans translation for: certificate_type, description, title.
+- [WARN] Field Parity: downloaddocument:1 missing ar translation for: description, title.
+- [WARN] Field Parity: downloaddocument:1 missing zh-hans translation for: description, title.
+- [WARN] Field Parity: downloaddocument:2 missing ar translation for: description, title.
+- [WARN] Field Parity: downloaddocument:2 missing zh-hans translation for: description, title.
+- [WARN] Field Parity: downloaddocument:3 missing ar translation for: title.
+- [WARN] Field Parity: downloaddocument:3 missing zh-hans translation for: title.
+- [WARN] Field Parity: downloaddocument:9 missing ar translation for: title.
+- [WARN] Field Parity: downloaddocument:9 missing zh-hans translation for: title.
+- [WARN] Field Parity: downloaddocument:10 missing ar translation for: title.
+- [WARN] Field Parity: downloaddocument:10 missing zh-hans translation for: title.
+- [WARN] Field Parity: downloaddocument:11 missing ar translation for: title.
+- [WARN] Field Parity: downloaddocument:11 missing zh-hans translation for: title.
+- [WARN] Field Parity: pagesection:1 missing ar translation for: section_type.
+- [WARN] Field Parity: pagesection:1 missing zh-hans translation for: section_type.
+- [WARN] Field Parity: pagesection:3 missing ar translation for: section_type.
+- [WARN] Field Parity: pagesection:3 missing zh-hans translation for: section_type.
+- [WARN] Field Parity: pagesection:2 missing ar translation for: section_type.
+- [WARN] Field Parity: pagesection:2 missing zh-hans translation for: section_type.
+
+## Recommended command sequence
+
+```bash
+python manage.py migrate
+python manage.py seed_sescco_production --run-audit --run-language-audit --run-asset-audit
+python manage.py multilingual_content_audit --strict --output reports/multilingual-content-audit.md
+python manage.py collectstatic --noinput
+```

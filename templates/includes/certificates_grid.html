@@ -1,0 +1,83 @@
+{% load localization %}
+{% load page_sections %}
+{% if trust_settings.show_certificates %}
+<section {% section_attrs section_page section_key section_default_order %} class="section-sm certificate-gallery-section" id="certificates">
+  <div class="container">
+    <div class="certificate-gallery-head">
+      <div>
+        <span class="eyebrow">{% localized_plain trust_settings 'certificates_eyebrow' %}</span>
+        <h2>{% localized_plain trust_settings 'certificates_title' %}</h2>
+      </div>
+      <p>{% static_text "Click any certificate to view the full image and basic document details." %}</p>
+    </div>
+
+    <div class="certificate-photo-grid" aria-label="{% static_text 'Certificate image gallery' %}">
+      {% for cert in certificates %}
+        {% localized_plain cert 'title' as cert_title %}
+        {% localized_plain cert 'description' as cert_description %}
+        {% localized_plain cert 'certificate_type' as cert_type %}
+        {% localized_plain cert 'issuer' as cert_issuer %}
+        {% if cert.image %}
+          <button
+            type="button"
+            class="certificate-photo-item {% if cert.is_expired %}is-expired{% else %}is-active{% endif %}"
+            data-certificate-open
+            data-image="{{ cert.image.url }}"
+            data-title="{{ cert_title|escape }}"
+            data-description="{{ cert_description|default:cert_type|escape }}"
+            data-type="{{ cert_type|escape }}"
+            data-issuer="{{ cert_issuer|escape }}"
+            data-meta="{% if cert_type %}{{ cert_type|escape }}{% endif %}{% if cert_type and cert_issuer %} · {% endif %}{% if cert_issuer %}{{ cert_issuer|escape }}{% endif %}"
+            data-download="{% if cert.file %}{{ cert.file.url }}{% endif %}"
+            aria-label="{% static_text 'View certificate' %}: {{ cert_title }}"
+          >
+            <img src="{{ cert.image.url }}" alt="{{ cert_title }}" loading="lazy">
+            <span class="certificate-photo-overlay" aria-hidden="true">
+              <span class="certificate-photo-title">{{ cert_title }}</span>
+              {% if cert_description %}<span class="certificate-photo-desc">{{ cert_description|truncatechars:90 }}</span>{% elif cert_type %}<span class="certificate-photo-desc">{{ cert_type }}</span>{% endif %}
+              <span class="certificate-photo-action">{% static_text "View full image" %}</span>
+            </span>
+          </button>
+        {% else %}
+          <div class="certificate-photo-item certificate-photo-placeholder {% if cert.is_expired %}is-expired{% else %}is-active{% endif %}">
+            <strong>{{ cert_title }}</strong>
+            {% if cert_description %}<small>{{ cert_description|truncatechars:90 }}</small>{% endif %}
+          </div>
+        {% endif %}
+      {% empty %}
+        <p class="certificate-empty-state">{% static_text "No certificates yet." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="certificate-modal" data-certificate-modal aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="certificate-modal-title">
+    <button type="button" class="certificate-modal-backdrop" data-certificate-close aria-label="{% static_text 'Close certificate preview' %}"></button>
+    <div class="certificate-modal-panel" role="document">
+      <button type="button" class="certificate-modal-close" data-certificate-close aria-label="{% static_text 'Close certificate preview' %}">&times;</button>
+      <div class="certificate-modal-image-wrap">
+        <img src="" alt="" class="certificate-modal-image" data-certificate-modal-image>
+      </div>
+      <aside class="certificate-modal-info">
+        <span class="eyebrow">{% static_text "Certificate Details" %}</span>
+        <h3 id="certificate-modal-title" data-certificate-modal-title></h3>
+        <dl class="certificate-modal-facts" data-certificate-modal-facts>
+          <div data-certificate-modal-type-row>
+            <dt>{% static_text "Certificate type" %}</dt>
+            <dd data-certificate-modal-type></dd>
+          </div>
+          <div data-certificate-modal-issuer-row>
+            <dt>{% static_text "Issued by" %}</dt>
+            <dd data-certificate-modal-issuer></dd>
+          </div>
+        </dl>
+        <p class="certificate-modal-meta" data-certificate-modal-meta></p>
+        <div class="certificate-modal-description-block" data-certificate-modal-description-block>
+          <span>{% static_text "Description" %}</span>
+          <p data-certificate-modal-description></p>
+        </div>
+        <a href="#" class="btn btn-light certificate-modal-download" data-certificate-modal-download>{% static_text "Download file" %}</a>
+      </aside>
+    </div>
+  </div>
+</section>
+{% endif %}

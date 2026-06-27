@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load localization %}
+{% load i18n %}
+{% load page_sections %}
+{% block title %}{% trans "Certifications" %} & {% trans "Clients" %} | {{ company.short_name }}{% endblock %}
+{% block content %}
+<main class="cms-section-sort cms-page-clients-certifications">
+  <section class="hero dark page-photo-hero" {% section_attrs "clients_certifications" "hero" 10 %} {% if trust_settings.hero_image %}style="--page-hero-bg:url('{{ trust_settings.hero_image.url }}')"{% endif %}>
+    <div class="container hero-content">
+      <span class="eyebrow" style="color:#bcd8ff">{% localized_plain trust_settings 'eyebrow' %}</span>
+      <h1>{% localized_plain trust_settings 'hero_title' %}</h1>
+      <p>{% localized trust_settings 'hero_subtitle' %}</p>
+    </div>
+  </section>
+
+  {% include "includes/certificates_grid.html" with section_page="clients_certifications" section_key="certificates" section_default_order=20 %}
+  {% include "includes/client_grid.html" with section_page="clients_certifications" section_key="clients" section_default_order=30 %}
+  {% include "includes/trust_metrics.html" with section_page="clients_certifications" section_key="metrics" section_default_order=15 %}
+  {% include "includes/accreditation_standards.html" with section_page="clients_certifications" section_key="accreditations" section_default_order=40 %}
+  {% include "includes/compliance_blocks.html" with section_page="clients_certifications" section_key="standards" section_default_order=50 %}
+  {% include "includes/testimonials_section.html" with section_page="clients_certifications" section_key="testimonials" section_default_order=60 %}
+  {% include "includes/trust_documents.html" with section_page="clients_certifications" section_key="documents" section_default_order=70 %}
+</main>
+{% endblock %}

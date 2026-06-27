@@ -1,0 +1,23 @@
+{% load localization %}
+{% load page_sections %}
+{% if about_settings.show_stats %}
+{% with active_stats=page.stats.all|active_items %}
+{% if active_stats|has_items or request.user.is_staff %}
+<section class="section-sm" {% section_attrs "about" "stats" 70 %}>
+  <div class="container">
+    <div class="grid grid-4">
+      {% for stat in active_stats %}
+        <div class="card icon-card">
+          <div class="icon">{{ stat.icon_text|default:"✦" }}</div>
+          <strong style="font-size:32px;color:var(--primary)">{% localized_plain stat 'value' %}</strong>
+          <h3>{% localized_plain stat 'label' %}</h3>
+        </div>
+      {% empty %}
+        {% include "includes/admin_empty_section.html" with section_title="About stats" section_hint="Add Stat items inside Admin → Pages → open About page → Stat items inline, or disable Stats in About section order." %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endwith %}
+{% endif %}

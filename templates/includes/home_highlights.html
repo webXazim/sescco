@@ -1,0 +1,29 @@
+{% load localization %}
+{% load page_sections %}
+{% if home_highlights or request.user.is_staff %}
+<section class="section-sm home-highlights-section" {% section_attrs "home" "highlights" 30 %}>
+  <div class="container">
+    <div class="home-highlights-grid" aria-label="Company capabilities">
+      {% for item in home_highlights %}
+        <article class="home-highlight-card">
+          <div class="home-highlight-icon" aria-hidden="true">
+            {% if item.icon_image %}
+              <img src="{{ item.icon_image.url }}" alt="" loading="lazy">
+            {% else %}
+              <span>{{ item.icon_text|default:"✦" }}</span>
+            {% endif %}
+          </div>
+          {% if item.value %}<h3 class="home-highlight-value">{% localized_plain item 'value' %}</h3>{% endif %}
+          <strong class="home-highlight-title">{% localized_plain item 'title' %}</strong>
+          {% if item.description %}<p>{% localized item 'description' %}</p>{% endif %}
+          {% if item.link_text and item.link_url %}
+            <a class="btn btn-outline home-highlight-btn" href="{{ item.link_url }}">{% localized_plain item 'link_text' %}</a>
+          {% endif %}
+        </article>
+      {% empty %}
+        {% include "includes/admin_empty_section.html" with section_title="Capability highlights" section_hint="Add Home highlights in admin, or disable this section in Home section order." %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

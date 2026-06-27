@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Page Not Found" %} | {{ company.short_name }}{% endblock %}
+{% block meta_description %}{% trans "The requested SESCCO page could not be found. Return to the homepage or contact the team for assistance." %}{% endblock %}
+{% block content %}
+<section class="hero dark error-hero">
+  <div class="container hero-content">
+    <span class="eyebrow">404</span>
+    <h1>{% trans "Page Not Found" %}</h1>
+    <p>{% trans "The page you are looking for may have been moved, deleted, or does not exist." %}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{% url 'home' %}">{% trans "Back to Home" %} <span class="arrow">→</span></a>
+      <a class="btn btn-outline" href="{% url 'contact' %}">{% trans "Contact Us" %}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

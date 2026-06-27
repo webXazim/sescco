@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-label="SESCCO industrial engineering visual placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#eef6ff"/>
+      <stop offset="0.52" stop-color="#d7eaff"/>
+      <stop offset="1" stop-color="#f7fbff"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" x2="1">
+      <stop offset="0" stop-color="#0758d8" stop-opacity=".92"/>
+      <stop offset="1" stop-color="#00a6df" stop-opacity=".74"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#06356d" flood-opacity=".16"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="720" fill="url(#bg)"/>
+  <path d="M0 560 C210 485 335 650 546 556 C735 471 840 379 1200 420 L1200 720 L0 720 Z" fill="#ffffff" opacity=".68"/>
+  <g opacity=".16" stroke="#0758d8" stroke-width="2" fill="none">
+    <path d="M125 155h950M125 245h950M125 335h950M125 425h950M125 515h950"/>
+    <path d="M205 105v480M385 105v480M565 105v480M745 105v480M925 105v480"/>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="180" y="190" width="840" height="330" rx="34" fill="#fff" opacity=".86"/>
+    <path d="M250 462h695" stroke="url(#line)" stroke-width="18" stroke-linecap="round"/>
+    <path d="M285 422V302h70v120M405 422V270h70v152M525 422V328h70v94M645 422V238h70v184M765 422V292h70v130" stroke="#0758d8" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M870 422V330l72-42v134" stroke="#00a6df" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <circle cx="942" cy="286" r="18" fill="#0758d8" opacity=".78"/>
+  </g>
+  <text x="600" y="600" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700" fill="#06356d">SESCCO</text>
+  <text x="600" y="644" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#4b6789">Engineering • Construction • Contract Support</text>
+</svg>

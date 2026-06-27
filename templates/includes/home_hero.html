@@ -1,0 +1,48 @@
+{% load i18n %}
+{% load static %}
+{% load localization %}
+{% load page_sections %}
+<section class="hero hero-home" {% section_attrs "home" "hero" 10 %}>
+  <div class="hero-visual-layer" aria-hidden="true">
+    <div
+      class="hero-visual-photo"
+      style="--home-hero-bg:
+        url('{% if home_hero and home_hero.background_image %}{{ home_hero.background_image.url }}{% else %}{% static "img/sescco-hero-engineers.png" %}{% endif %}');
+        background-image:
+        linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(219,233,248,.10) 14%, rgba(205,224,243,.34) 34%, rgba(173,199,225,.48) 62%, rgba(148,178,207,.62) 100%),
+        var(--home-hero-bg);"
+    ></div>
+  </div>
+
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <span class="hero-kicker">{{ company.company_name|default:"Summit Engineering Solutions Cont. Co." }}</span>
+      <h1>{% if home_hero %}{% localized_plain home_hero 'title' %}{% else %}{{ page.hero_title|default:company.tagline }}{% endif %}</h1>
+      <p>{% if home_hero %}{% localized home_hero 'subtitle' %}{% else %}{{ page.hero_subtitle|default:"Integrated engineering, construction and technical solutions across Saudi Arabia with safety, quality and integrity at the core." }}{% endif %}</p>
+
+      <div class="hero-actions">
+        {% if home_hero %}
+          <a class="btn btn-primary" href="{% localized_url home_hero.primary_button_url %}">{% localized_plain home_hero 'primary_button_text' %} <span class="arrow">→</span></a>
+          <a class="btn btn-outline" href="{% localized_url home_hero.secondary_button_url %}">{% localized_plain home_hero 'secondary_button_text' %}</a>
+        {% else %}
+          <a class="btn btn-primary" href="{% localized_url '/services/' %}">{% static_text "Our Services" %} <span class="arrow">→</span></a>
+          <a class="btn btn-outline" href="{% localized_url '/projects/' %}">{% static_text "View Our Projects" %}</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="hero-side-panel" aria-hidden="true">
+      {% if not home_hero or home_hero.show_sphere %}
+        <div class="hero-side-grid"></div>
+        <div class="hero-side-glow"></div>
+        <div class="hero-trust-sphere hero-trust-sphere-exact" data-home-trust-sphere>
+          <div class="hero-trust-sphere-ambient"></div>
+          <div class="home-sphere-wrap" data-home-sphere-wrap>
+            <div class="home-sphere" data-home-sphere aria-live="polite"></div>
+          </div>
+        </div>
+        {{ home_sphere_cards_json|json_script:"home-sphere-card-data" }}
+      {% endif %}
+    </div>
+  </div>
+</section>

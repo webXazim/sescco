@@ -1,0 +1,24 @@
+{% load localization %}
+{% load page_sections %}
+{% if detail_settings.show_features %}
+{% with active_features=service.features.all|active_items %}
+{% if active_features|has_items or request.user.is_staff %}
+<section class="section-sm" {% section_attrs "service_detail" "features" 50 %}>
+  <div class="container">
+    <span class="eyebrow">{% static_text "Service Features" %}</span>
+    <div class="grid grid-3 service-detail-card-grid service-detail-features-grid" style="margin-top:22px">
+      {% for feature in active_features %}
+        <div class="card">
+          <div class="icon">{{ feature.icon_text|default:"✓" }}</div>
+          <h3>{% localized_plain feature 'title' %}</h3>
+          <p>{% localized feature 'description' %}</p>
+        </div>
+      {% empty %}
+        {% include "includes/admin_empty_section.html" with section_title="Service features" section_hint="Add features inside this Service in admin, or disable Features in Service detail section order." %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endwith %}
+{% endif %}

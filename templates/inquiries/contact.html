@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% load localization %}
+{% load i18n %}
+{% load page_sections %}
+{% get_current_language as LANGUAGE_CODE %}
+{% block title %}Contact | {{ company.short_name }}{% endblock %}
+{% block content %}
+<main class="cms-section-sort cms-page-contact contact-page-v2">
+  <section class="contact-hero{% if contact_settings.hero_image %} has-contact-hero-image contact-hero-parallax{% endif %}" {% section_attrs "contact" "hero" 10 %} {% if contact_settings.hero_image %}style="--contact-hero-bg:url('{{ contact_settings.hero_image.url }}')"{% endif %}>
+    <div class="container contact-hero-inner">
+      <div class="contact-hero-copy">
+        <span class="eyebrow">{% localized_plain contact_settings 'eyebrow' %}</span>
+        <h1>{% localized_plain contact_settings 'hero_title' %}</h1>
+        <p>{% localized contact_settings 'hero_subtitle' %}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact-intro-form-section" {% section_attrs "contact" "intro_form" 20 %}>
+    <div class="container contact-intro-grid">
+      <aside class="contact-intro-card contact-side-panel">
+        <span class="eyebrow">{% static_text "Project inquiry" %}</span>
+        <h2>{% localized_plain contact_settings 'intro_title' %}</h2>
+        {% if contact_settings.intro_text %}<p class="contact-side-copy">{% localized contact_settings 'intro_text' %}</p>{% endif %}
+
+        {% if show_contact_methods_section %}
+          <div class="contact-side-group">
+            <strong class="contact-side-label">{% static_text "Contact methods" %}</strong>
+            <div class="contact-side-list">
+              {% for method in contact_methods %}
+                {% if method.show_on_contact_page %}
+                  <a class="contact-side-item" {% if method.url %}href="{{ method.url }}"{% endif %}>
+                    <span class="contact-side-icon">{{ method.icon_text|default:"☎" }}</span>
+                    <span>
+                      <b>{% localized_plain method 'title' %}</b>
+                      <small>{% localized_plain method 'value' %}</small>
+                    </span>
+                  </a>
+                {% endif %}
+              {% empty %}
+                {% include "includes/admin_empty_section.html" with section_title="Contact methods" section_hint="Add active contact methods in admin, or disable Contact Methods in Contact Page Settings." %}
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        {% if show_business_hours_section %}
+          <div class="contact-side-group contact-side-hours">
+            <strong class="contact-side-label">{% static_text "Business hours" %}</strong>
+            <div class="contact-side-list compact">
+              {% for hour in business_hours %}
+                <p class="contact-side-hour"><b>{% localized_plain hour 'day_label' %}</b><small>{% localized_plain hour 'hours' %}</small></p>
+              {% empty %}
+                {% include "includes/admin_empty_section.html" with section_title="Business hours" section_hint="Add active business hours in admin, or disable Business Hours in Contact Page Settings." %}
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </aside>
+
+      <form class="contact-form-card" method="post">
+        {% csrf_token %}
+        <div class="contact-form-head">
+          {% if LANGUAGE_CODE == "ar" %}
+            <span class="eyebrow">استفسار جديد</span>
+            <h2>أرسل استفسارك</h2>
+            <p>املأ النموذج وسيقوم فريقنا بالتواصل معك.</p>
+          {% elif LANGUAGE_CODE == "zh-hans" %}
+            <span class="eyebrow">新的咨询</span>
+            <h2>发送咨询</h2>
+            <p>请填写下面的表格，我们的团队会尽快与您联系。</p>
+          {% else %}
+            <span class="eyebrow">{% static_text "New inquiry" %}</span>
+            <h2>{% static_text "Send Us an Inquiry" %}</h2>
+            <p>{% static_text "Share your requirement and our team will contact you." %}</p>
+          {% endif %}
+        </div>
+
+        {{ form.non_field_errors }}
+        <div class="contact-form-fields">
+          <div>{{ form.full_name.label_tag }}{{ form.full_name }}{{ form.full_name.errors }}</div>
+          <div>{{ form.company_name.label_tag }}{{ form.company_name }}{{ form.company_name.errors }}</div>
+          <div>{{ form.email.label_tag }}{{ form.email }}{{ form.email.errors }}</div>
+          <div>{{ form.phone.label_tag }}{{ form.phone }}{{ form.phone.errors }}</div>
+          <div class="full">{{ form.subject.label_tag }}{{ form.subject }}{{ form.subject.errors }}</div>
+          <div class="full">{{ form.message.label_tag }}{{ form.message }}{{ form.message.errors }}</div>
+        </div>
+        <label class="contact-consent">{{ form.consent }} <span>{% static_text "I agree to be contacted by" %} {{ company.short_name }}.</span></label>
+        <button class="btn btn-primary contact-submit-btn" type="submit">{% static_text "Send Inquiry" %} <span class="arrow">→</span></button>
+      </form>
+    </div>
+  </section>
+
+  {% if show_map_section %}
+  <section class="section contact-map-section" {% section_attrs "contact" "map" 30 %}>
+    <div class="container">
+      <div class="contact-map-head">
+        <div>
+          <span class="eyebrow">{% localized_plain contact_settings 'map_eyebrow' %}</span>
+          <h2>{% localized_plain contact_settings 'map_title' %}</h2>
+          <p>{% localized contact_settings 'map_subtitle' %}</p>
+        </div>
+        {% if contact_map_url %}
+          <a class="btn btn-outline" href="{{ contact_map_url }}" target="_blank" rel="noopener">{% localized_plain contact_settings 'map_button_text' %} <span class="arrow">↗</span></a>
+        {% endif %}
+      </div>
+      <div class="contact-map-layout">
+        <div class="contact-map-frame">
+          {% if contact_map_embed_url %}
+            <iframe title="{{ company.short_name }} Google location map" src="{{ contact_map_embed_url }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          {% else %}
+            <div class="contact-map-placeholder">
+              <span>⌖</span>
+              <strong>{% static_text "Google map is not configured yet." %}</strong>
+              <p>{% static_text "Add the Google Maps embed URL in Contact Page Settings." %}</p>
+            </div>
+          {% endif %}
+        </div>
+        <aside class="contact-map-side-card">
+          <span class="eyebrow">{% static_text "Location" %}</span>
+          {% if primary_office %}
+            <h3>{% localized_plain primary_office 'name' %}</h3>
+            <p>{% localized_plain primary_office 'address' %}{% if primary_office.city %}<br>{% localized_plain primary_office 'city' %}{% endif %}{% if primary_office.country %}, {% localized_plain primary_office 'country' %}{% endif %}</p>
+          {% else %}
+            <h3>{{ company.short_name }}</h3>
+            <p>{{ company.address }}</p>
+          {% endif %}
+          {% if request.user.is_staff %}
+          <div class="contact-map-actions-note">
+            <strong>{% static_text "Admin note" %}</strong>
+            <small>{% static_text "The map and directions link are controlled from Contact Page Settings in admin." %}</small>
+          </div>
+          {% endif %}
+          {% if contact_map_url %}<a class="btn btn-primary" href="{{ contact_map_url }}" target="_blank" rel="noopener">{% localized_plain contact_settings 'map_button_text' %}</a>{% endif %}
+        </aside>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if contact_settings.show_offices and show_offices_section %}
+  <section class="section-sm contact-offices-section" {% section_attrs "contact" "offices" 50 %}>
+    <div class="container">
+      <div class="contact-section-head">
+        <span class="eyebrow">{% static_text "Office Locations" %}</span>
+        <h2>{% static_text "Where to find us." %}</h2>
+      </div>
+      <div class="contact-office-grid">
+        {% for office in office_locations %}
+          <article class="contact-office-card">
+            <div class="contact-office-pin">⌖</div>
+            <h3>{% localized_plain office 'name' %}</h3>
+            <p>{% localized_plain office 'address' %}{% if office.city %}<br>{% localized_plain office 'city' %}{% endif %}{% if office.country %}, {% localized_plain office 'country' %}{% endif %}</p>
+            {% if office.phone %}<small>{{ office.phone }}</small>{% endif %}
+            {% if office.email %}<small>{{ office.email }}</small>{% endif %}
+          </article>
+        {% empty %}
+          {% include "includes/admin_empty_section.html" with section_title="Office locations" section_hint="Add office locations in admin, or disable Offices in Contact section order." %}
+        {% endfor %}
+        {% if only_primary_office_preview %}
+          {% include "includes/admin_empty_section.html" with section_title="Additional offices" section_hint="Only the primary office is configured, so public visitors see it in the map section instead of a duplicate office card. Add another active office to show the office list publicly." %}
+        {% endif %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if show_faqs_section %}
+  <section class="section-sm contact-faq-section" {% section_attrs "contact" "faqs" 70 %}>
+    <div class="container">
+      <div class="contact-section-head">
+        <span class="eyebrow">{% static_text "Questions" %}</span>
+        <h2>{% static_text "Frequently Asked Questions" %}</h2>
+      </div>
+      <div class="contact-faq-grid" data-accordion-group>
+        {% for faq in faqs %}
+          <details class="contact-faq-card" data-accordion-item><summary>{% localized_plain faq 'question' %}</summary><div>{% localized faq 'answer' %}</div></details>
+        {% empty %}
+          {% include "includes/admin_empty_section.html" with section_title="Contact FAQs" section_hint="Add active contact FAQs in admin, or disable FAQs in Contact section order." %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+
+</main>
+{% endblock %}

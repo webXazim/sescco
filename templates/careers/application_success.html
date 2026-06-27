@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load localization %}
+{% block title %}{% localized_plain career_settings 'success_eyebrow' %} | {{ company.short_name }}{% endblock %}
+{% block meta_description %}{% localized_meta career_settings 'meta_description' company.tagline %}{% endblock %}
+{% block content %}
+<main class="career-page">
+  <section class="section career-success-section">
+    <div class="container page-width-narrow">
+      <div class="card career-success-card">
+        <span class="success-icon">✓</span>
+        <span class="eyebrow">{% localized_plain career_settings 'success_eyebrow' %}</span>
+        <h1>{% localized_plain career_settings 'success_title' %}</h1>
+        <p>{% localized career_settings 'success_text' %}</p>
+        <p class="success-job-line">{% static_text "Application role" %}: <strong>{% localized_plain job 'title' %}</strong></p>
+
+        {% if application %}
+        <div class="application-reference-card">
+          <span>{% static_text "Application reference" %}</span>
+          <strong>{{ application.application_reference }}</strong>
+          <small>{% static_text "Use this reference if you contact HR about your application." %}</small>
+        </div>
+        {% endif %}
+
+        <div class="success-next-steps">
+          <div><b>01</b><strong>{% static_text "Application received" %}</strong><span>{% static_text "Your applicant record and documents are saved in the admin system." %}</span></div>
+          <div><b>02</b><strong>{% static_text "HR review" %}</strong><span>{% static_text "Admin can review, shortlist, reject or mark the application as hired." %}</span></div>
+          <div><b>03</b><strong>{% static_text "Interview" %}</strong><span>{% static_text "Shortlisted applicants will receive interview date, mode and instructions by email." %}</span></div>
+        </div>
+
+        <div class="hero-actions centered">
+          <a class="btn btn-primary" href="{% url 'career_list' %}">{% static_text "Back to Careers" %}</a>
+          <a class="btn btn-outline" href="{% localized_url career_settings.cta_button_url %}">{% localized_plain career_settings 'cta_button_text' %}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+try {
+  localStorage.removeItem("sescco-career-draft-{{ job.slug }}");
+  var appliedJobs = JSON.parse(localStorage.getItem("sescco-career-applied-jobs") || "{}");
+  appliedJobs["{{ job.slug }}"] = {
+    reference: "{% if application %}{{ application.application_reference }}{% endif %}",
+    savedAt: new Date().toISOString()
+  };
+  localStorage.setItem("sescco-career-applied-jobs", JSON.stringify(appliedJobs));
+} catch (error) {}
+</script>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% load i18n %}
+{% load localization static %}
+{% if project_page_settings.show_featured_project and featured_project %}
+<div class="card project-featured-card" data-project-featured
+     data-title="{% localized_plain featured_project 'title' %}"
+     data-category="{% if featured_project.category %}{{ featured_project.category.slug }}{% endif %}"
+     data-status="{{ featured_project.status }}"
+     data-year="{% if featured_project.year %}{{ featured_project.year }}{% endif %}"
+     data-location="{% static_text featured_project.location %}"
+     data-client="{% static_text featured_project.client_name %}"
+     data-contractor="{% static_text featured_project.contractor_name %}"
+     data-description="{% localized featured_project 'short_description' as featured_desc_data %}{{ featured_desc_data|striptags }}">
+  <div>
+    <span class="eyebrow">{% static_text "Featured Project" %}</span>
+    <h2>{% localized_plain featured_project 'title' %}</h2>
+    <p>{% localized featured_project 'short_description' %}</p>
+    <div class="service-meta">
+      {% if featured_project.category %}<span class="badge">{% localized_plain featured_project.category 'name' as featured_category_name %}{% static_text featured_category_name %}</span>{% endif %}
+      {% if featured_project.status %}<span class="badge">{% with status_label=featured_project.get_status_display %}{% static_text status_label %}{% endwith %}</span>{% endif %}
+      {% if featured_project.year %}<span class="badge">{{ featured_project.year }}</span>{% endif %}
+    </div>
+    <a class="btn btn-primary" href="{{ featured_project.get_absolute_url }}">{% static_text "View Project Details" %} <span class="arrow">→</span></a>
+  </div>
+  {% if featured_project.cover_image %}
+    <img src="{{ featured_project.cover_image.url }}" alt="{% localized_plain featured_project 'title' %}" loading="lazy" decoding="async" data-fallback="{% static 'img/fallbacks/industrial-fallback.svg' %}" style="height:320px;width:100%;object-fit:cover;border-radius:12px">
+  {% else %}
+    <div class="project-thumb" style="height:320px;border-radius:12px"></div>
+  {% endif %}
+</div>
+{% endif %}

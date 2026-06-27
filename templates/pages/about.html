@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load localization %}
+{% load page_sections %}
+{% block title %}{% localized_meta page 'seo_title' 'About Us' %}{% endblock %}
+{% block meta_description %}{% localized_meta page 'seo_description' company.tagline %}{% endblock %}
+{% block content %}
+<main class="cms-section-sort cms-page-about">
+  <section class="hero dark page-photo-hero" {% section_attrs "about" "hero" 10 %} {% if page.hero_image %}style="--page-hero-bg:url('{{ page.hero_image.url }}')"{% endif %}>
+    <div class="container hero-content">
+      <span class="eyebrow">{% static_text "About Us" %}</span>
+      <h1>{% localized_plain page 'hero_title' %}</h1>
+      <p>{% localized page 'hero_subtitle' %}</p>
+    </div>
+  </section>
+
+  {% if about_settings.show_trust_strip %}
+    {% include "includes/trust_strip.html" with section_page="about" section_key="trust_strip" section_default_order=20 %}
+  {% endif %}
+
+  {% if about_settings.show_overview %}
+  <section class="section" {% section_attrs "about" "overview" 30 %}>
+    <div class="container split">
+      {% if about_settings.overview_image %}
+        <img src="{{ about_settings.overview_image.url }}" alt="{% localized_plain about_settings 'overview_title' %}" class="placeholder-img" style="object-fit:cover;width:100%">
+      {% else %}
+        <div class="placeholder-img"></div>
+      {% endif %}
+      <div>
+        <span class="eyebrow">{% localized_plain about_settings 'overview_eyebrow' %}</span>
+        <h2>{% localized_plain about_settings 'overview_title' %}</h2>
+        {% if page.body %}{% localized page 'body' %}{% else %}{% localized company 'description' %}{% endif %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% include "includes/about_mission_vision.html" %}
+  {% include "includes/about_timeline.html" %}
+  {% include "includes/about_strengths.html" %}
+
+  {% include "includes/about_stats.html" %}
+
+  {% if about_settings.show_leadership and leadership_message %}
+    {% include "includes/home_leadership_message.html" with current_leadership_message=leadership_message section_page="about" section_key="leadership" section_default_order=80 %}
+  {% endif %}
+
+  {% if about_settings.show_custom_sections %}
+    {% include "includes/dynamic_page_sections.html" with section_page="about" section_key="custom_sections" section_default_order=90 %}
+  {% endif %}
+
+  {% if about_settings.show_faqs %}
+    {% include "includes/page_faqs.html" with section_page="about" section_key="faqs" section_default_order=100 %}
+  {% endif %}
+</main>
+{% endblock %}

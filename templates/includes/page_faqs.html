@@ -1,0 +1,22 @@
+{% load i18n %}
+{% load localization %}
+{% load page_sections %}
+{% with active_faqs=page.faqs.all|active_items %}
+{% if active_faqs|has_items or request.user.is_staff %}
+<section class="section-sm" {% section_attrs section_page section_key section_default_order %}>
+  <div class="container">
+    <h2>{% static_text "Frequently Asked Questions" %}</h2>
+    <div class="grid grid-2 faq-accordion-grid" data-accordion-group>
+      {% for faq in active_faqs %}
+        <details class="card faq-accordion-card" data-accordion-item>
+          <summary><span>{% localized_plain faq 'question' %}</span></summary>
+          <div>{% localized faq 'answer' %}</div>
+        </details>
+      {% empty %}
+        {% include "includes/admin_empty_section.html" with section_title="FAQs" section_hint="Add FAQs inside Admin → Pages → open this page → FAQs inline, or disable FAQs in this page section order." %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endwith %}

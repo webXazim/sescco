@@ -1,0 +1,16 @@
+{% load localization %}
+{% load i18n %}
+{% if detail_settings.show_quick_facts %}
+<div class="card">
+  <span class="eyebrow">{% static_text "Project at a Glance" %}</span>
+  <ul>
+    <li>{% static_text "Client" %}: {% if project.client_name %}{% proper_name project.client_name %}{% else %}N/A{% endif %}</li>
+    {% if project.contractor_name %}<li>{% static_text "Contractor" %}: {% proper_name project.contractor_name %}</li>{% endif %}
+    <li>{% static_text "Location" %}: {% if project.location %}{% static_text project.location %}{% else %}N/A{% endif %}</li>
+    <li>{% static_text "Status" %}: {% with project_status=project.get_status_display %}{% static_text project_status %}{% endwith %}</li>
+    <li>{% static_text "Duration" %}: {% if project.duration %}{% static_text project.duration %}{% else %}N/A{% endif %}</li>
+    <li>{% static_text "Year" %}: {{ project.year|default:"N/A" }}</li>
+    <li>{% static_text "Category" %}: {% if project.category %}{% localized_plain project.category "name" as project_category_name %}{% static_text project_category_name %}{% else %}N/A{% endif %}</li>
+  </ul>
+</div>
+{% endif %}

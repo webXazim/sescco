@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load localization %}
+{% block title %}{% static_text "Apply" %}: {% localized_plain job 'title' %} | {{ company.short_name }}{% endblock %}
+{% block meta_description %}{% localized_meta career_settings 'meta_description' company.tagline %}{% endblock %}
+{% block content %}
+<main class="career-page application-page">
+  <section class="hero dark career-form-hero">
+    <div class="container hero-content career-form-copy">
+      <span class="breadcrumb"><a href="{% url 'career_list' %}">{% static_text "Careers" %}</a> / <a href="{% url 'job_detail' job.slug %}">{% localized_plain job 'title' %}</a></span>
+      <span class="eyebrow career-hero-eyebrow">{% static_text "Job Application" %}</span>
+      <h1>{% static_text "Apply for" %} {% localized_plain job 'title' %}</h1>
+      <p>{% localized career_settings 'application_guide_text' %}</p>
+      <div class="career-detail-tags">
+        {% if job.job_code %}<span>{{ job.job_code }}</span>{% endif %}
+        <span>{% localized_plain job 'location' %}</span>
+        <span>{% static_text job.get_employment_type_display %}</span>
+        <span>{% if job.application_deadline %}{% static_text "Deadline" %}: {{ job.application_deadline|date:"M d, Y" }}{% else %}{% static_text "Open until filled" %}{% endif %}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="application-progress" aria-label="Application process">
+        <div><b>01</b><span>{% static_text "Candidate details" %}</span></div>
+        <div><b>02</b><span>{% static_text "Profile review" %}</span></div>
+        <div><b>03</b><span>{% static_text "Upload documents" %}</span></div>
+        <div><b>04</b><span>{% static_text "Verify email separately" %}</span></div>
+      </div>
+    </div>
+
+    <div class="container application-layout">
+      <aside class="application-help card">
+        <span class="eyebrow">{% localized_plain career_settings 'application_guide_title' %}</span>
+        <h3>{% localized_plain career_settings 'form_help_title' %}</h3>
+        <p>{% localized career_settings 'form_help_text' %}</p>
+        <div class="application-job-mini">
+          <strong>{% localized_plain job 'title' %}</strong>
+          <span>{% if job.department %}{% localized_plain job.department 'name' %}{% else %}{% static_text "General" %}{% endif %}</span>
+          <small>{% if job.application_deadline %}{% static_text "Deadline" %}: {{ job.application_deadline|date:"M d, Y" }}{% else %}{% static_text "Open until filled" %}{% endif %}</small>
+        </div>
+        <ul class="career-check-list compact-list">
+          <li>{% static_text "Use PDF, DOC or DOCX files only." %}</li>
+          <li>{% static_text "Only one application is accepted per email for each job." %}</li>
+          <li>{% static_text "Attach certificates, licenses or portfolio files if they support the role." %}</li>
+          <li>{% static_text "Shortlisted applicants will receive interview details by email." %}</li>
+        </ul>
+        {% if career_settings.privacy_notice %}
+        <div class="application-privacy-note">
+          <strong>{% static_text "Privacy note" %}</strong>
+          <span>{% localized career_settings 'privacy_notice' %}</span>
+        </div>
+        {% endif %}
+      </aside>
+
+      <form method="post" enctype="multipart/form-data" class="card career-application-form" novalidate data-career-apply-form data-draft-key="sescco-career-draft-{{ job.slug }}" data-check-email-url="{% url 'job_apply_check_email' job.slug %}" data-send-code-url="{% url 'job_apply_send_code' job.slug %}" data-verify-code-url="{% url 'job_apply_verify_code' job.slug %}"
+        data-msg-enter-email-first="{% static_text 'Enter your email address first.' %}"
+        data-msg-enter-email-display="{% static_text 'Enter your email first' %}"
+        data-msg-duplicate-summary="{% static_text 'You have already applied to this job with this email.' %}"
+        data-msg-duplicate-short="{% static_text 'This email already has an application for this job.' %}"
+        data-msg-email-verified-success="{% static_text 'Email verified successfully. You can now submit the application.' %}"
+        data-msg-verify-before-submit="{% static_text 'Verify your email before submitting your application.' %}"
+        data-msg-please-verify-before-submit="{% static_text 'Please verify your email before submitting the application.' %}"
+        data-msg-email-changed="{% static_text 'Email changed. Please verify the new email before submitting.' %}"
+        data-msg-email-can-be-used="{% static_text 'This email can be used. Verify it before submitting.' %}"
+        data-msg-check-email="{% static_text 'Please check your email address.' %}"
+        data-msg-sending="{% static_text 'Sending...' %}"
+        data-msg-code-not-sent="{% static_text 'Verification code could not be sent.' %}"
+        data-msg-code-sent="{% static_text 'Verification code sent. Please check your email.' %}"
+        data-msg-code-send-failed="{% static_text 'Verification code could not be sent. Please try again.' %}"
+        data-msg-enter-code="{% static_text 'Enter the 6-digit code sent to your email.' %}"
+        data-msg-verifying="{% static_text 'Verifying...' %}"
+        data-msg-email-not-verified="{% static_text 'Email could not be verified.' %}"
+        data-msg-verification-failed="{% static_text 'Verification failed. Please try again.' %}"
+        data-label-verified="{% static_text 'Verified' %}"
+        data-label-not-verified="{% static_text 'Not verified' %}"
+        data-label-verify-email="{% static_text 'Verify Email' %}"
+        data-label-send-code="{% static_text 'Send Code' %}">
+        {% csrf_token %}
+        {{ form.company_website }}
+        {% if form.non_field_errors %}<div class="form-error application-form-alert">{{ form.non_field_errors }}</div>{% endif %}
+        {% if form.email.errors %}
+          <div class="application-form-alert duplicate-alert">
+            <strong>{% localized_plain career_settings 'duplicate_application_title' %}</strong>
+            <span>{{ form.email.errors }}</span>
+          </div>
+        {% endif %}
+
+        <div class="career-form-section-title">
+          <span>{% static_text "01" %}</span>
+          <div><h2>{% static_text "Personal information" %}</h2><p>{% static_text "This information helps HR contact and evaluate the applicant correctly." %}</p></div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-field"><label for="{{ form.full_name.id_for_label }}">{{ form.full_name.label }}</label>{{ form.full_name }}{{ form.full_name.errors }}</div>
+          <div class="form-field career-email-field">
+            <div class="career-email-label-row">
+              <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+              <span class="career-email-verified-pill" data-inline-verified-pill hidden>{% static_text "Verified" %}</span>
+            </div>
+            {{ form.email }}{{ form.email.errors }}
+          </div>
+          <div class="career-verification-inline" data-verification-inline>
+            <div class="career-verification-inline-copy">
+              <strong>{% static_text "Email verification" %}</strong>
+              <p data-verification-summary>{% static_text "Verify your email before submitting your application." %}</p>
+            </div>
+            <div class="career-verification-inline-actions">
+              <b data-verification-state>{% static_text "Not verified" %}</b>
+              <button class="btn btn-outline" type="button" data-open-verification-modal>{% static_text "Verify Email" %}</button>
+            </div>
+            {{ form.email_verification_code.errors }}
+            <div class="career-email-status" data-email-status></div>
+          </div>
+
+          <div class="career-modal-backdrop" data-verification-modal hidden>
+            <div class="career-modal-dialog career-verification-modal" role="dialog" aria-modal="true" aria-labelledby="careerVerifyTitle">
+              <button class="career-modal-close" type="button" aria-label="{% static_text 'Close' %}" data-close-verification-modal>×</button>
+              <div class="career-modal-head">
+                <span class="eyebrow">{% static_text "Secure check" %}</span>
+                <h3 id="careerVerifyTitle">{% static_text "Verify your email" %}</h3>
+                <p>{% static_text "We will send a 6-digit code to your email. After successful verification, the submit button will unlock automatically." %}</p>
+              </div>
+              <div class="career-modal-email-box">
+                <small>{% static_text "Verification email" %}</small>
+                <strong data-verification-email-display></strong>
+              </div>
+              <div class="career-email-verify-row modal-verify-row">
+                {{ form.email_verification_code }}
+                <button class="btn btn-outline" type="button" data-send-code>{% static_text "Send Code" %}</button>
+              </div>
+              <div class="career-email-status" data-email-status></div>
+              <div class="career-modal-actions">
+                <button class="btn btn-outline" type="button" data-close-verification-modal>{% static_text "Cancel" %}</button>
+                <button class="btn btn-primary" type="button" data-verify-code>{% static_text "Verify Email" %}</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-field"><label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>{{ form.phone }}{{ form.phone.errors }}</div>
+          <div class="form-field"><label for="{{ form.current_location.id_for_label }}">{{ form.current_location.label }}</label>{{ form.current_location }}{{ form.current_location.errors }}</div>
+          <div class="form-field"><label for="{{ form.nationality.id_for_label }}">{{ form.nationality.label }}</label>{{ form.nationality }}{{ form.nationality.errors }}</div>
+        </div>
+
+        <div class="career-form-section-title profile-title">
+          <span>{% static_text "02" %}</span>
+          <div><h2>{% localized_plain career_settings 'applicant_profile_title' %}</h2><p>{% localized career_settings 'applicant_profile_text' %}</p></div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-field"><label for="{{ form.work_authorization.id_for_label }}">{{ form.work_authorization.label }}</label>{{ form.work_authorization }}{{ form.work_authorization.errors }}</div>
+          <div class="form-field"><label for="{{ form.years_experience.id_for_label }}">{{ form.years_experience.label }}</label>{{ form.years_experience }}{{ form.years_experience.errors }}</div>
+          <div class="form-field"><label for="{{ form.expected_salary.id_for_label }}">{{ form.expected_salary.label }}</label>{{ form.expected_salary }}{{ form.expected_salary.errors }}</div>
+          <div class="form-field"><label for="{{ form.available_from.id_for_label }}">{{ form.available_from.label }}</label>{{ form.available_from }}{{ form.available_from.errors }}</div>
+          <div class="form-field"><label for="{{ form.preferred_interview_time.id_for_label }}">{{ form.preferred_interview_time.label }}</label>{{ form.preferred_interview_time }}{{ form.preferred_interview_time.errors }}</div>
+          <div class="form-field"><label for="{{ form.source.id_for_label }}">{{ form.source.label }}</label>{{ form.source }}{{ form.source.errors }}</div>
+          <div class="form-field"><label for="{{ form.linkedin_url.id_for_label }}">{{ form.linkedin_url.label }}</label>{{ form.linkedin_url }}{{ form.linkedin_url.errors }}</div>
+          <div class="form-field"><label for="{{ form.portfolio_url.id_for_label }}">{{ form.portfolio_url.label }}</label>{{ form.portfolio_url }}{{ form.portfolio_url.errors }}</div>
+        </div>
+        <div class="form-field"><label for="{{ form.cover_letter.id_for_label }}">{{ form.cover_letter.label }}</label>{{ form.cover_letter }}{{ form.cover_letter.errors }}</div>
+
+        <div class="career-form-section-title upload-title">
+          <span>{% static_text "03" %}</span>
+          <div><h2>{% localized_plain career_settings 'document_upload_title' %}</h2><p>{% localized career_settings 'document_upload_text' %}</p></div>
+        </div>
+        <div class="career-upload-grid documents-v2">
+          <div class="upload-box required"><strong>{{ form.cv.label }}</strong><span>{% static_text "Required · PDF/DOC/DOCX · max 8MB" %}</span>{{ form.cv }}{{ form.cv.errors }}</div>
+          <div class="upload-box"><strong>{{ form.extra_documents.label }}</strong><span>{% static_text "Optional multiple files · PDF/DOC/DOCX · max 8MB each" %}</span>{{ form.extra_documents }}{{ form.extra_documents.errors }}</div>
+          <div class="upload-box"><strong>{{ form.supporting_document.label }}</strong><span>{% static_text "Optional supporting document · PDF/DOC/DOCX · max 8MB" %}</span>{{ form.supporting_document }}{{ form.supporting_document.errors }}</div>
+          <div class="upload-box"><strong>{{ form.certificate_document.label }}</strong><span>{% static_text "Optional certificate/license · PDF/DOC/DOCX · max 8MB" %}</span>{{ form.certificate_document }}{{ form.certificate_document.errors }}</div>
+        </div>
+        <p class="career-draft-note" data-draft-note>{% static_text "Your typed information is saved in this browser while you complete the form. For security, uploaded files must be selected again after a refresh." %}</p>
+
+        <div class="career-form-section-title submit-title">
+          <span>{% static_text "04" %}</span>
+          <div><h2>{% static_text "Submit application" %}</h2><p>{% static_text "After your email is marked verified, submit the final application for HR review." %}</p></div>
+        </div>
+        <label class="consent-row">{{ form.consent }} <span>{{ form.consent.label }}</span></label>
+        {{ form.consent.errors }}
+        <div class="form-actions">
+          <a class="btn btn-outline" href="{% url 'job_detail' job.slug %}">{% static_text "Back to Job" %}</a>
+          <button class="btn btn-primary" type="submit">{% localized_plain job 'apply_button_text' %} <span class="arrow">→</span></button>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/career_apply.js' %}?v=career-localized-167"></script>
+{% endblock %}

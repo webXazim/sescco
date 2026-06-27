@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="1120" viewBox="0 0 860 1120">
+<rect width="860" height="1120" fill="#ffffff"/>
+<path d="M0 0 H860 V200 C780 146 720 108 632 90 C468 56 222 106 0 0 Z" fill="#1f56de" opacity="0.98"/>
+<path d="M0 1120 H860 V948 C760 1010 656 1034 510 1040 C320 1046 166 1018 0 1120 Z" fill="#1f56de" opacity="0.94"/>
+<text x="84" y="126" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="800" fill="#fff">SESCCO</text>
+<text x="84" y="244" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="800" fill="#102b55">Safety &amp; Quality</text>
+<text x="84" y="308" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="800" fill="#102b55">Commitment</text>
+<text x="84" y="426" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#415a77">We are committed to delivering</text>
+<text x="84" y="466" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#415a77">safe, reliable and high-quality</text>
+<text x="84" y="506" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#415a77">services that exceed client</text>
+<text x="84" y="546" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#415a77">expectations.</text>
+<line x1="84" y1="820" x2="420" y2="820" stroke="#5f7ba5" stroke-width="3"/>
+<path d="M140 776 C176 756 208 792 248 768 C278 750 314 760 340 780" stroke="#2f4f79" stroke-width="4" fill="none"/>
+<text x="84" y="874" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#415a77">Management Representative</text>
+</svg>

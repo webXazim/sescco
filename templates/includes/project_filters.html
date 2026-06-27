@@ -1,0 +1,52 @@
+{% load i18n %}
+{% load localization %}
+{% if project_page_settings.show_category_tabs %}
+<div class="project-filter-tabs" data-project-category-tabs>
+  <button class="project-filter-tab {% if not active_category %}active{% endif %}" type="button" data-project-category="">{% static_text "All Projects" %}</button>
+  {% for category in categories %}
+    <button class="project-filter-tab {% if active_category == category.slug %}active{% endif %}" type="button" data-project-category="{{ category.slug }}">{{ category.icon_text }} {% localized_plain category 'name' %}</button>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if project_page_settings.show_search %}
+<form method="get" class="project-live-filter" data-project-filter-form autocomplete="off">
+  <label class="project-search-field" for="project-live-search">
+    <span class="project-field-icon">⌕</span>
+    <input id="project-live-search" type="search" name="q" value="{{ query }}" placeholder="{% static_text 'Search by project, client, contractor, location, scope...' %}" data-project-search>
+  </label>
+
+  <label class="project-select-field" for="project-status-filter">
+    <span class="project-field-icon">●</span>
+    <select id="project-status-filter" name="status" data-project-status>
+      <option value="">{% static_text "All statuses" %}</option>
+      <option value="completed" {% if active_status == "completed" %}selected{% endif %}>{% static_text "Completed" %}</option>
+      <option value="ongoing" {% if active_status == "ongoing" %}selected{% endif %}>{% static_text "Ongoing" %}</option>
+      <option value="planned" {% if active_status == "planned" %}selected{% endif %}>{% static_text "Planned" %}</option>
+    </select>
+  </label>
+
+  <label class="project-select-field" for="project-year-filter">
+    <span class="project-field-icon">◷</span>
+    <select id="project-year-filter" name="year" data-project-year>
+      <option value="">{% static_text "All years" %}</option>
+      {% for y in years %}
+        <option value="{{ y }}" {% if active_year == y|stringformat:"s" %}selected{% endif %}>{{ y }}</option>
+      {% endfor %}
+    </select>
+  </label>
+
+  <label class="project-select-field" for="project-sort-filter">
+    <span class="project-field-icon">↕</span>
+    <select id="project-sort-filter" name="sort" data-project-sort>
+      <option value="-year" {% if sort == "-year" %}selected{% endif %}>{% static_text "Newest first" %}</option>
+      <option value="year" {% if sort == "year" %}selected{% endif %}>{% static_text "Oldest first" %}</option>
+      <option value="title" {% if sort == "title" %}selected{% endif %}>A–Z</option>
+      <option value="sort_order" {% if sort == "sort_order" %}selected{% endif %}>{% static_text "Default order" %}</option>
+    </select>
+  </label>
+
+  <button class="btn btn-outline project-clear-filter" type="button" data-project-clear hidden>{% static_text "Clear" %}</button>
+</form>
+<div class="project-filter-feedback" data-project-filter-feedback data-single="{% static_text 'Showing 1 matching project.' %}" data-many="{% static_text 'Showing {count} matching projects.' %}" aria-live="polite"></div>
+{% endif %}

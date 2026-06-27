@@ -1,0 +1,21 @@
+Dear {{ application.full_name }},
+
+Thank you for applying for the {{ job.title }} position at SESCCO.
+
+You have been shortlisted for an interview.
+
+Application reference: {{ application.application_reference }}
+
+Interview details:
+Position: {{ job.title }}
+Date and time: {{ application.interview_date|date:"l, F d, Y - h:i A" }}
+Mode: {{ application.get_interview_mode_display }}
+Location / meeting link: {{ application.interview_location }}
+{% if application.interview_notes %}
+Additional notes:
+{{ application.interview_notes }}
+{% endif %}
+Please bring or keep ready your CV, identification and relevant certificates.
+
+Regards,
+SESCCO HR Team

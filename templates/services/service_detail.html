@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load localization %}
+{% load i18n %}
+{% load page_sections %}
+{% block title %}{% localized_meta service 'seo_title' service.title %}{% endblock %}
+{% block meta_description %}{% localized_meta service 'seo_description' service.short_description %}{% endblock %}
+{% block content %}
+<main class="cms-section-sort cms-page-service-detail">
+  <section class="hero dark service-detail-hero{% if service.cover_image %} has-parallax-hero{% endif %}" {% section_attrs "service_detail" "hero" 10 %} {% if service.cover_image %}style="--service-hero-bg:url('{{ service.cover_image.url }}')"{% endif %}>
+    <div class="container hero-content">
+      <div class="breadcrumb">{% static_text "Home" %} › {% static_text "Services" %} › {% localized_plain service 'title' %}</div>
+      <span class="eyebrow" style="color:#bcd8ff">{{ service.category|default:detail_settings.default_hero_eyebrow }}</span>
+      <h1>{% localized_plain service 'title' %}</h1>
+      <p>{% localized service 'short_description' %}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="{% localized_url '/contact/' %}">{% static_text "Request a Quote" %} <span class="arrow">→</span></a>
+        {% if service.brochure %}<a class="btn btn-outline" href="{{ service.brochure.url }}">{% static_text "Download Brochure" %} ↓</a>{% endif %}
+      </div>
+    </div>
+  </section>
+
+  {% include "includes/service_key_points.html" %}
+
+  <section class="section" {% section_attrs "service_detail" "body_summary" 30 %}>
+    <div class="container grid grid-2">
+      <div>
+        <span class="eyebrow">{% static_text "About This Service" %}</span>
+        <h2>{% localized_plain service 'title' %}</h2>
+        {% localized service 'body' %}
+      </div>
+      <div class="card">
+        <h2>{% static_text "Service Summary" %}</h2>
+        <ul>
+          <li>{% static_text "Category" %}: {% if service.category %}{% localized_plain service.category "name" %}{% else %}{% static_text "General" %}{% endif %}</li>
+          <li>{% static_text "Featured" %}: {% if service.is_featured %}{% static_text "Yes" %}{% else %}{% static_text "No" %}{% endif %}</li>
+          {% if service.brochure %}<li>{% static_text "Brochure available" %}</li>{% endif %}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {% include "includes/service_deliverables.html" %}
+  {% include "includes/service_features.html" %}
+  {% include "includes/service_process.html" %}
+
+  {% if detail_settings.show_related_projects %}
+  <section class="section-sm" {% section_attrs "service_detail" "related_projects" 70 %}>
+    <div class="container">
+      <span class="eyebrow">{% static_text "Related Projects" %}</span>
+      <h2>{% static_text "See how this service is applied in real work." %}</h2>
+      <div class="grid grid-4">
+        {% for project in related_projects %}{% include "includes/project_card.html" %}{% empty %}<p>{% static_text "No related projects yet." %}</p>{% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% include "includes/service_brochure_cta.html" %}
+
+  {% if detail_settings.show_faqs %}
+  {% with active_faqs=service.faqs.all|active_items %}
+  {% if active_faqs|has_items or request.user.is_staff %}
+  <section class="section-sm" {% section_attrs "service_detail" "faqs" 90 %}>
+    <div class="container">
+      <h2>{% static_text "Frequently Asked Questions" %}</h2>
+      <div class="grid grid-2 faq-accordion-grid service-detail-faq-grid" data-accordion-group>
+        {% for faq in active_faqs %}
+          <details class="card faq-accordion-card" data-accordion-item><summary><span>{% localized_plain faq 'question' %}</span></summary><div>{% localized faq 'answer' %}</div></details>
+        {% empty %}
+          {% include "includes/admin_empty_section.html" with section_title="Service detail FAQs" section_hint="Add FAQs inside this Service in admin, or disable FAQs in Service detail section order." %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+  {% endwith %}
+  {% endif %}
+</main>
+{% endblock %}

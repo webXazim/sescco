@@ -1,0 +1,21 @@
+{% load localization %}
+{% load page_sections %}
+{% if detail_settings.show_deliverables %}
+{% with active_deliverables=service.deliverables.all|active_items %}
+{% if active_deliverables|has_items or request.user.is_staff %}
+<section class="section-sm" {% section_attrs "service_detail" "deliverables" 40 %}>
+  <div class="container">
+    <span class="eyebrow">{% static_text "What We Deliver" %}</span>
+    <h2>{% static_text "Structured deliverables for this service" %}</h2>
+    <div class="grid grid-4 service-detail-card-grid service-detail-deliverables-grid" style="margin-top:22px">
+      {% for item in active_deliverables %}
+        <div class="card icon-card"><div class="icon">{{ item.icon_text|default:"▧" }}</div><h3>{% localized_plain item 'title' %}</h3><p>{% localized item 'description' %}</p></div>
+      {% empty %}
+        {% include "includes/admin_empty_section.html" with section_title="Service deliverables" section_hint="Add deliverables inside this Service in admin, or disable Deliverables in Service detail section order." %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endwith %}
+{% endif %}

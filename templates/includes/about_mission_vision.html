@@ -1,0 +1,48 @@
+{% load localization %}
+{% load page_sections %}
+{% if about_settings.show_mission_vision %}
+<section class="section-sm about-mvv-simple-section" id="mission-vision-values" {% section_attrs "about" "mission_vision" 40 %}>
+  <div class="container">
+    <div class="about-mvv-simple-head">
+      <span class="eyebrow">{% localized_plain about_settings 'mission_section_title' %}</span>
+    </div>
+
+    <div class="about-mvv-centered-grid">
+      {% for item in page.mission_vision_items.all %}
+        {% if item.is_active %}
+          <article class="card icon-card about-mvv-simple-card about-mvv-card-{{ item.item_type|default:'item' }}">
+            <div class="icon about-mvv-simple-icon">{{ item.icon_text|default:"◎" }}</div>
+            <h3>{% localized_plain item 'title' %}</h3>
+            <div class="about-mvv-simple-copy">{% localized item 'description' %}</div>
+          </article>
+        {% endif %}
+      {% empty %}
+        <article class="card icon-card about-mvv-simple-card">
+          <div class="icon about-mvv-simple-icon">◎</div>
+          <h3>{% static_text "Mission" %}</h3>
+          <p>{% static_text "To deliver dependable engineering and contracting solutions through safe execution, quality workmanship and practical project support." %}</p>
+        </article>
+        <article class="card icon-card about-mvv-simple-card">
+          <div class="icon about-mvv-simple-icon">◉</div>
+          <h3>{% static_text "Vision" %}</h3>
+          <p>{% static_text "To be recognized across Saudi Arabia as a trusted partner for integrated engineering, construction and support services." %}</p>
+        </article>
+      {% endfor %}
+    </div>
+
+    {% if page.value_items.all %}
+    <div class="about-mvv-centered-grid about-values-centered-grid">
+      {% for value in page.value_items.all %}
+        {% if value.is_active %}
+          <article class="card icon-card about-mvv-simple-card about-value-simple-card">
+            <div class="icon about-mvv-simple-icon">{{ value.icon_text|default:"✓" }}</div>
+            <h3>{% localized_plain value 'title' %}</h3>
+            <p>{% localized value 'description' %}</p>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}

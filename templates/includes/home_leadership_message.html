@@ -1,0 +1,42 @@
+{% load localization %}
+{% load page_sections %}
+{% if current_leadership_message %}
+<section
+  {% section_attrs section_page section_key section_default_order %}
+  class="home-leadership-parallax"
+  aria-labelledby="leadership-message-title"
+  {% if current_leadership_message.background_image %}style="--leadership-bg: url('{{ current_leadership_message.background_image.url }}');"{% endif %}
+>
+  <div class="home-leadership-parallax__shade" aria-hidden="true"></div>
+  <div class="container home-leadership-parallax__inner">
+    <article class="home-leadership-quote-card">
+      <div class="home-leadership-quote-card__accent" aria-hidden="true">
+        <span class="home-leadership-quote-mark">
+          <svg viewBox="0 0 48 48" focusable="false" aria-hidden="true">
+            <path d="M18.7 12.5c-4.7 2.7-7.8 7.7-7.8 13.1 0 5 3.1 8.6 7.4 8.6 3.7 0 6.4-2.6 6.4-6.1 0-3.3-2.2-5.7-5.4-5.9.6-2.4 2.5-4.7 5.2-6.4l-2.8-5.1c-1.1.5-2.1 1.1-3 1.8Zm18 0c-4.7 2.7-7.8 7.7-7.8 13.1 0 5 3.1 8.6 7.4 8.6 3.7 0 6.4-2.6 6.4-6.1 0-3.3-2.2-5.7-5.4-5.9.6-2.4 2.5-4.7 5.2-6.4l-2.8-5.1c-1.1.5-2.1 1.1-3 1.8Z"/>
+          </svg>
+        </span>
+      </div>
+      <div class="home-leadership-quote-card__body">
+        <span class="eyebrow">{% static_text "Leadership Message" %}</span>
+        <span class="home-leadership-quote-card__line" aria-hidden="true"></span>
+        <h2 id="leadership-message-title">{% localized_plain current_leadership_message 'title' %}</h2>
+        {% localized current_leadership_message 'message' as leadership_message_body %}
+        <div class="home-leadership-quote-card__message">{{ leadership_message_body }}</div>
+        <div class="home-leadership-quote-card__footer">
+          <strong>{% localized_plain current_leadership_message 'person_name' %}</strong>
+          {% if current_leadership_message.person_designation %}
+            <span>{% localized_plain current_leadership_message 'person_designation' %}</span>
+          {% endif %}
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+{% elif request.user.is_staff %}
+<section {% section_attrs section_page section_key section_default_order %} class="section-sm">
+  <div class="container">
+    {% include "includes/admin_empty_section.html" with section_title="Leadership message" section_hint="Add an active Leadership message in admin, assign it to this page if needed, or disable this section in page section ordering." %}
+  </div>
+</section>
+{% endif %}

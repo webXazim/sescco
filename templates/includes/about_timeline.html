@@ -1,0 +1,22 @@
+{% load localization %}
+{% load page_sections %}
+{% if about_settings.show_timeline %}
+<section class="section-sm" {% section_attrs "about" "timeline" 50 %}>
+  <div class="container">
+    <span class="eyebrow">{% localized_plain about_settings 'timeline_eyebrow' %}</span>
+    <div class="grid grid-4" style="margin-top:22px">
+      {% for item in page.timeline_items.all %}
+        {% if item.is_active %}
+          <div class="card">
+            <h3>{{ item.year }}</h3>
+            <h4>{% localized_plain item 'title' %}</h4>
+            <p>{% localized item 'description' %}</p>
+          </div>
+        {% endif %}
+      {% empty %}
+        <p>{% static_text "Add timeline items from Django admin." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

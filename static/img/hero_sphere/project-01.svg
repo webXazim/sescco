@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 570">
+<defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#075ed8"/><stop offset="1" stop-color="#9bd7ff"/></linearGradient><pattern id="dot" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="2" fill="white" opacity=".18"/></pattern></defs>
+<rect width="430" height="570" rx="40" fill="url(#bg)"/><rect width="430" height="570" rx="40" fill="url(#dot)"/>
+<circle cx="360" cy="72" r="100" fill="#fff" opacity=".16"/><circle cx="74" cy="445" r="118" fill="#fff" opacity=".12"/>
+<g transform="translate(0 50)" stroke="#fff" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".95"><path d="M85 210h270M130 210V84h145l70 38H150"/><path d="M275 84v126M185 84l90 126M128 126h210"/><circle cx="336" cy="122" r="10" fill="#fff"/></g>
+<g transform="translate(48 402)"><text x="0" y="0" font-family="Arial, sans-serif" font-size="29" font-weight="900" fill="#fff">Industrial Construction</text><text x="0" y="38" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#dceeff">SESCCO project visual</text></g>
+</svg>

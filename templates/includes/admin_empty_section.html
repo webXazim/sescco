@@ -1,0 +1,7 @@
+{% load i18n %}
+{% if request.user.is_staff %}
+  <div class="card cms-admin-empty-section">
+    <strong>Admin preview: {{ section_title|default:"Section" }} is enabled but has no active content.</strong>
+    <p>{{ section_hint|default:"Add content for this section in Django admin, or turn this section off in Page section ordering." }}</p>
+  </div>
+{% endif %}

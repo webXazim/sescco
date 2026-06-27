@@ -1,0 +1,37 @@
+{% load i18n %}
+{% load localization %}
+{% load page_sections %}
+{% if trust_settings.show_clients %}
+<section {% section_attrs section_page section_key section_default_order %} class="section-sm trust-logo-section" id="clients">
+  <div class="container">
+    <span class="eyebrow">{% localized_plain trust_settings 'clients_eyebrow' %}</span>
+    <h2>{% localized_plain trust_settings 'clients_title' %}</h2>
+
+    {% if client_categories %}
+    <div class="tabs trust-logo-tabs">
+      <a class="tab {% if not active_client_category %}active{% endif %}" href="{% url 'clients_certifications' %}#clients">{% static_text "All Clients" %}</a>
+      {% for category in client_categories %}
+        <a class="tab {% if active_client_category == category.slug %}active{% endif %}" href="?client_category={{ category.slug }}#clients">{% localized_plain category 'name' %}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="trust-logo-grid">
+      {% for client in clients %}
+        <article class="trust-logo-card">
+          <div class="trust-logo-media">
+            {% if client.logo %}
+              <img src="{{ client.logo.url }}" alt="{% proper_name client 'name' %}" loading="lazy">
+            {% else %}
+              <span class="trust-logo-fallback">{{ client.name|slice:":2" }}</span>
+            {% endif %}
+          </div>
+          <h3>{% proper_name client 'name' %}</h3>
+        </article>
+      {% empty %}
+        <p>{% static_text "No clients yet." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

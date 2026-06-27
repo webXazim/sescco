@@ -1,0 +1,21 @@
+{% load i18n %}
+{% load localization %}
+{% load page_sections %}
+{% if detail_settings.show_metrics %}
+{% with active_metrics=project.metrics.all|active_items %}
+{% if active_metrics|has_items or request.user.is_staff %}
+<section {% section_attrs section_page section_key section_default_order %} class="section-sm project-metrics-section">
+  <div class="container card project-metrics-card">
+    <span class="eyebrow">{% static_text "Project Metrics" %}</span>
+    <div class="grid grid-4">
+      {% for metric in active_metrics %}
+        <div class="project-metric-item"><strong>{% localized_plain metric 'value' as metric_value %}{% static_text metric_value %}</strong><span>{% localized_plain metric 'label' as metric_label %}{% static_text metric_label %}</span></div>
+      {% empty %}
+        {% include "includes/admin_empty_section.html" with section_title="Project metrics" section_hint="Add active Project metrics in this Project admin, or disable Metrics in Project detail section order." %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endwith %}
+{% endif %}

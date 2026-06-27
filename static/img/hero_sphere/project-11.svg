@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 240">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#9ccfff"/><stop offset=".55" stop-color="#eef8ff"/><stop offset="1" stop-color="#d5ecff"/></linearGradient>
+    <radialGradient id="r" cx="70%" cy="20%" r="70%"><stop offset="0" stop-color="#ffffff" stop-opacity=".9"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="340" height="240" rx="26" fill="url(#g)"/>
+  <circle cx="270" cy="52" r="62" fill="url(#r)"/>
+  <path d="M0 196 C80 152 150 224 340 170 V240 H0Z" fill="#075ed8" opacity=".16"/>
+  <path d="M 42 62 H 284 V 178 H 42 Z M 70 150 H 250 M 72 84 H 172 M 72 110 H 226 M 72 136 H 198 M 220 76 L 264 120 L 220 164" fill="none" stroke="#075ed8" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity=".92"/>
+  <g opacity=".19" stroke="#061b3f" stroke-width="2"><path d="M0 42H340M0 82H340M0 122H340M0 162H340M50 0V240M110 0V240M170 0V240M230 0V240M290 0V240"/></g>
+  <rect x="22" y="22" width="114" height="34" rx="17" fill="#fff" opacity=".88"/>
+  <text x="38" y="44" font-family="Arial, sans-serif" font-size="14" font-weight="800" fill="#061b3f">SESCCO</text>
+  <text x="28" y="216" font-family="Arial, sans-serif" font-size="20" font-weight="900" fill="#061b3f">MEP Coordination</text>
+</svg>

@@ -1,0 +1,40 @@
+{% load localization %}
+{% if about_settings.show_leadership and page %}
+  {% for message in page.leadership_messages.all %}
+    {% if message.is_active %}
+      <section class="section about-leadership-section" id="leadership-message" aria-labelledby="about-leadership-title">
+        <div class="container">
+          <article class="about-leadership-card">
+            <div class="about-leadership-card__visual">
+              {% if message.image %}
+                <img src="{{ message.image.url }}" alt="{{ message.person_name }}" loading="lazy">
+              {% elif company.logo %}
+                <img src="{{ company.logo.url }}" alt="{{ company.short_name }}" loading="lazy">
+              {% else %}
+                <span>CEO</span>
+              {% endif %}
+            </div>
+            <div class="about-leadership-card__content">
+              <span class="eyebrow">{% static_text "Leadership Message" %}</span>
+              <h2 id="about-leadership-title">{% localized_plain message 'title' %}</h2>
+              <div class="about-leadership-card__message">
+                {% localized message 'message' %}
+              </div>
+              <div class="about-leadership-card__signature-row">
+                <div>
+                  <strong>{{ message.person_name }}</strong>
+                  {% if message.person_designation %}
+                    <span>{% localized_plain message 'person_designation' %}</span>
+                  {% endif %}
+                </div>
+                {% if message.signature_image %}
+                  <img src="{{ message.signature_image.url }}" alt="{{ message.person_name }} signature" loading="lazy">
+                {% endif %}
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    {% endif %}
+  {% endfor %}
+{% endif %}

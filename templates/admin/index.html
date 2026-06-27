@@ -1,0 +1,478 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static log %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static "admin/css/dashboard.css" %}">
+<style id="sescco-admin-map-clean">
+  #sescco-admin-map-search table { table-layout: fixed; }
+  #sescco-admin-map-search td { padding: 12px 14px; }
+  #sescco-admin-map-search .admin-map-search-label {
+    display: block;
+    margin: 0 0 8px;
+    font-weight: 700;
+    color: var(--body-fg);
+  }
+  #sesccoAdminSearch {
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box;
+  }
+  #sescco-admin-map-search .help {
+    max-width: none !important;
+    white-space: normal;
+    line-height: 1.45;
+    margin: 8px 0 0;
+  }
+  [data-admin-group] table { table-layout: fixed; }
+  [data-admin-group] th { width: auto; }
+  [data-admin-group] td { width: 90px; text-align: right; white-space: nowrap; }
+  [data-admin-group] .mini.quiet {
+    display: block;
+    margin-top: 3px;
+    white-space: normal;
+    line-height: 1.35;
+  }
+  @media (max-width: 1100px) {
+    [data-admin-group] td { width: 72px; }
+  }
+</style>
+{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+{% block nav-breadcrumbs %}{% endblock %}
+{% block nav-sidebar %}{% include "admin/nav_sidebar.html" %}{% endblock %}
+
+{% block content %}
+<div id="content-main">
+  <div class="module" id="sescco-admin-map-search">
+    <table>
+      <caption>Website content map</caption>
+      <tbody>
+        <tr>
+          <td colspan="2">
+            <label for="sesccoAdminSearch" class="admin-map-search-label">Search shortcuts</label>
+            <input id="sesccoAdminSearch" class="vTextField" type="search" placeholder="Search page section, model, or feature…" autocomplete="off">
+            <p class="help">Use this map to jump directly to every major page area and section. Some rows open the parent model because that section is edited inline there. The full model list remains available in the left navigation.</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module" data-admin-group>
+    <table>
+      <caption>Page section ordering</caption>
+      <tbody>
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_homesectionorder_changelist' %}">01. Home page section order</a><br><span class="mini quiet">Set which homepage section appears first, second, third and so on.</span></th><td><a href="{% url 'admin:pages_homesectionorder_changelist' %}" class="changelink">Open</a></td></tr>
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_aboutsectionorder_changelist' %}">02. About page section order</a><br><span class="mini quiet">Reorder hero, overview, mission/vision, timeline, stats and leadership message.</span></th><td><a href="{% url 'admin:pages_aboutsectionorder_changelist' %}" class="changelink">Open</a></td></tr>
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_serviceslistsectionorder_changelist' %}">03. Services list section order</a><br><span class="mini quiet">Reorder services hero, search/cards, featured service, process and FAQs.</span></th><td><a href="{% url 'admin:pages_serviceslistsectionorder_changelist' %}" class="changelink">Open</a></td></tr>
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_servicedetailsectionorder_changelist' %}">04. Service detail section order</a><br><span class="mini quiet">Reorder service detail hero, key points, body, deliverables, features and CTA.</span></th><td><a href="{% url 'admin:pages_servicedetailsectionorder_changelist' %}" class="changelink">Open</a></td></tr>
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_projectslistsectionorder_changelist' %}">05. Projects list section order</a><br><span class="mini quiet">Reorder project portfolio hero, stats, grid, client strip and CTA.</span></th><td><a href="{% url 'admin:pages_projectslistsectionorder_changelist' %}" class="changelink">Open</a></td></tr>
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_projectdetailsectionorder_changelist' %}">06. Project detail section order</a><br><span class="mini quiet">Reorder project hero, slideshow, overview, deliverables, case study and related projects.</span></th><td><a href="{% url 'admin:pages_projectdetailsectionorder_changelist' %}" class="changelink">Open</a></td></tr>
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_clientscertificationssectionorder_changelist' %}">07. Certifications & clients section order</a><br><span class="mini quiet">Reorder trust hero, clients, partners, certificates, standards and documents.</span></th><td><a href="{% url 'admin:pages_clientscertificationssectionorder_changelist' %}" class="changelink">Open</a></td></tr>
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_careerssectionorder_changelist' %}">08. Careers section order</a><br><span class="mini quiet">Reorder career hero, stats, open roles, benefits, process and CTA.</span></th><td><a href="{% url 'admin:pages_careerssectionorder_changelist' %}" class="changelink">Open</a></td></tr>
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_contactsectionorder_changelist' %}">09. Contact section order</a><br><span class="mini quiet">Reorder contact hero, form, Google map, office locations and FAQs. Contact methods and hours appear beside the form when enabled.</span></th><td><a href="{% url 'admin:pages_contactsectionorder_changelist' %}" class="changelink">Open</a></td></tr>
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_genericsectionorder_changelist' %}">10. Generic CMS page section order</a><br><span class="mini quiet">Reorder generic CMS page hero, body, custom sections and FAQs.</span></th><td><a href="{% url 'admin:pages_genericsectionorder_changelist' %}" class="changelink">Open</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module" data-admin-group>
+    <table>
+      <caption>00 · Global layout used on every page</caption>
+      <tbody>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_companyprofile_changelist' %}">01. Company profile / logo</a><br><span class="mini quiet">Brand name, logo, favicon, contact identity and vendor codes</span></th><td><a href="{% url 'admin:core_companyprofile_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_navigationmenu_changelist' %}">02. Header navigation</a><br><span class="mini quiet">Top menu links shown across the website</span></th><td><a href="{% url 'admin:core_navigationmenu_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_ctasettings_changelist' %}">03. Header CTA button</a><br><span class="mini quiet">Get in Touch button and main CTA defaults</span></th><td><a href="{% url 'admin:core_ctasettings_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_themesettings_changelist' %}">04. Theme settings</a><br><span class="mini quiet">Site colors, header style and visual theme controls</span></th><td><a href="{% url 'admin:core_themesettings_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_sitesettings_changelist' %}">05. Site settings / SEO defaults</a><br><span class="mini quiet">Domain, default language, maintenance mode and SEO defaults</span></th><td><a href="{% url 'admin:core_sitesettings_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_footercolumn_changelist' %}">06. Footer columns and links</a><br><span class="mini quiet">Footer navigation groups and footer links</span></th><td><a href="{% url 'admin:core_footercolumn_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_sociallink_changelist' %}">07. Social links</a><br><span class="mini quiet">Footer/social media links</span></th><td><a href="{% url 'admin:core_sociallink_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_ctasection_changelist' %}">08. Global CTA sections</a><br><span class="mini quiet">Reusable CTA banners used across pages</span></th><td><a href="{% url 'admin:core_ctasection_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_siteasset_changelist' %}">09. Site assets</a><br><span class="mini quiet">Reusable images, logos and shared asset library</span></th><td><a href="{% url 'admin:core_siteasset_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_localizedcontent_changelist' %}">10. Translations</a><br><span class="mini quiet">Arabic and Chinese localized content entries</span></th><td><a href="{% url 'admin:core_localizedcontent_changelist' %}" class="changelink">Open</a></td></tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module" data-admin-group>
+    <table>
+      <caption>01 · Home page</caption>
+      <tbody>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_homehero_changelist' %}">11. Home hero</a><br><span class="mini quiet">Hero title, subtitle, background image, buttons and sphere visibility</span></th><td><a href="{% url 'admin:pages_homehero_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_homehighlight_changelist' %}">12. Home trust strip / highlights</a><br><span class="mini quiet">Dammam, established year, clients, certificates and code cards</span></th><td><a href="{% url 'admin:pages_homehighlight_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_leadershipmessage_changelist' %}">12A. Home leadership / managing committee message</a><br><span class="mini quiet">Homepage parallax message, full text, background image and attribution</span></th><td><a href="{% url 'admin:pages_leadershipmessage_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_homeaboutblock_changelist' %}">13. Home about block</a><br><span class="mini quiet">Homepage about section text, image and button</span></th><td><a href="{% url 'admin:pages_homeaboutblock_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_homesectionsettings_changelist' %}">14. Home section visibility</a><br><span class="mini quiet">Show/hide and limit homepage services, projects, clients, certificates, why choose and custom sections</span></th><td><a href="{% url 'admin:pages_homesectionsettings_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_whychooseitem_changelist' %}">15. Why choose cards</a><br><span class="mini quiet">Safety, quality, workforce and capability cards shown on home/about</span></th><td><a href="{% url 'admin:pages_whychooseitem_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_service_changelist' %}">16. Home service preview source</a><br><span class="mini quiet">Service cards pulled into the homepage preview</span></th><td><a href="{% url 'admin:services_service_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_project_changelist' %}">17. Home project preview source</a><br><span class="mini quiet">Featured project cards pulled into the homepage preview</span></th><td><a href="{% url 'admin:projects_project_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:clients_client_changelist' %}">18. Home client logo preview source</a><br><span class="mini quiet">Client logos pulled into the homepage trusted network</span></th><td><a href="{% url 'admin:clients_client_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:clients_certificate_changelist' %}">19. Home certificate preview source</a><br><span class="mini quiet">Selected certificates shown on homepage</span></th><td><a href="{% url 'admin:clients_certificate_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_pagesection_changelist' %}">20. Home custom sections</a><br><span class="mini quiet">Optional dynamic homepage sections</span></th><td><a href="{% url 'admin:pages_pagesection_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_ctasection_changelist' %}">21. Home CTA banners</a><br><span class="mini quiet">Reusable call-to-action sections placed on homepage</span></th><td><a href="{% url 'admin:core_ctasection_changelist' %}" class="changelink">Open</a></td></tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module" data-admin-group>
+    <table>
+      <caption>02 · About page</caption>
+      <tbody>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_aboutpagesettings_changelist' %}">22. About page settings</a><br><span class="mini quiet">Hero and section visibility for about page</span></th><td><a href="{% url 'admin:pages_aboutpagesettings_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_page_changelist' %}">23. About CMS page hero/body</a><br><span class="mini quiet">About page title, hero image, body and SEO</span></th><td><a href="{% url 'admin:pages_page_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_missionvisionitem_changelist' %}">24. Mission, vision and values</a><br><span class="mini quiet">Mission, vision, value and quality cards</span></th><td><a href="{% url 'admin:pages_missionvisionitem_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_timelineitem_changelist' %}">25. Journey timeline</a><br><span class="mini quiet">Company milestones and achievements</span></th><td><a href="{% url 'admin:pages_timelineitem_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_statitem_changelist' %}">26. About stats</a><br><span class="mini quiet">Statistics and number counters shown on about/generic pages</span></th><td><a href="{% url 'admin:pages_statitem_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_valueitem_changelist' %}">27. Value items</a><br><span class="mini quiet">Trust, safety, partnership and quality values</span></th><td><a href="{% url 'admin:pages_valueitem_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_whychooseitem_changelist' %}">28. About strengths / why choose</a><br><span class="mini quiet">Why choose cards when shown on about page</span></th><td><a href="{% url 'admin:pages_whychooseitem_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_leadershipmessage_changelist' %}">29. Bottom leadership / managing committee message</a><br><span class="mini quiet">About-page bottom parallax message, full text, attribution and background image</span></th><td><a href="{% url 'admin:pages_leadershipmessage_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_pagesection_changelist' %}">30. About dynamic sections</a><br><span class="mini quiet">Extra editable page sections for about page</span></th><td><a href="{% url 'admin:pages_pagesection_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_faq_changelist' %}">31. About FAQs</a><br><span class="mini quiet">Frequently asked questions attached to the page</span></th><td><a href="{% url 'admin:pages_faq_changelist' %}" class="changelink">Open</a></td></tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module" data-admin-group>
+    <table>
+      <caption>03 · Services list page</caption>
+      <tbody>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_servicelistpagesettings_changelist' %}">32. Services page settings</a><br><span class="mini quiet">Hero image/title, intro text, search, filters, process and FAQ visibility</span></th><td><a href="{% url 'admin:services_servicelistpagesettings_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_servicecategory_changelist' %}">33. Service categories</a><br><span class="mini quiet">Electrical, civil, contract support and other service filters</span></th><td><a href="{% url 'admin:services_servicecategory_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_service_changelist' %}">34. Service cards</a><br><span class="mini quiet">Cards, thumbnails, titles, category badges and short descriptions</span></th><td><a href="{% url 'admin:services_service_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_service_changelist' %}">35. Realtime search/filter content source</a><br><span class="mini quiet">Services and categories used by the search, category dropdown and sort UI</span></th><td><a href="{% url 'admin:services_service_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_servicelistprocessstep_changelist' %}">36. Service list process steps</a><br><span class="mini quiet">Process section for services list page</span></th><td><a href="{% url 'admin:services_servicelistprocessstep_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_servicelistfaq_changelist' %}">37. Service list FAQs</a><br><span class="mini quiet">FAQ section shown on services list page</span></th><td><a href="{% url 'admin:services_servicelistfaq_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_service_changelist' %}">38. Featured service source</a><br><span class="mini quiet">Featured service content controlled from Services</span></th><td><a href="{% url 'admin:services_service_changelist' %}" class="changelink">Open</a></td></tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module" data-admin-group>
+    <table>
+      <caption>04 · Service detail pages</caption>
+      <tbody>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_servicedetailpagesettings_changelist' %}">39. Service detail settings</a><br><span class="mini quiet">Show/hide key points, deliverables, features, process, brochure, FAQs and related projects</span></th><td><a href="{% url 'admin:services_servicedetailpagesettings_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_service_changelist' %}">40. Service detail hero / cover image</a><br><span class="mini quiet">Each service cover image used as hero background</span></th><td><a href="{% url 'admin:services_service_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_service_changelist' %}">41. Service detail body</a><br><span class="mini quiet">Main rich service description/body content</span></th><td><a href="{% url 'admin:services_service_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_servicekeypoint_changelist' %}">42. Service key points</a><br><span class="mini quiet">Inline key points shown on service detail</span></th><td><a href="{% url 'admin:services_servicekeypoint_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_service_changelist' %}">43. Service deliverables</a><br><span class="mini quiet">Deliverables are edited inside each Service record</span></th><td><a href="{% url 'admin:services_service_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_servicefeature_changelist' %}">44. Service features</a><br><span class="mini quiet">Feature cards shown on service detail</span></th><td><a href="{% url 'admin:services_servicefeature_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_service_changelist' %}">45. Service process steps</a><br><span class="mini quiet">Process steps are edited inside each Service record</span></th><td><a href="{% url 'admin:services_service_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_service_changelist' %}">46. Service brochure</a><br><span class="mini quiet">Upload brochure file inside Service media fields</span></th><td><a href="{% url 'admin:services_service_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_service_changelist' %}">47. Service detail CTA</a><br><span class="mini quiet">Service CTA is edited inside each Service record</span></th><td><a href="{% url 'admin:services_service_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_service_changelist' %}">48. Service detail FAQs</a><br><span class="mini quiet">Service FAQs are edited inside each Service record</span></th><td><a href="{% url 'admin:services_service_changelist' %}" class="changelink">Open</a></td></tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module" data-admin-group>
+    <table>
+      <caption>05 · Projects list page</caption>
+      <tbody>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_projectlistpagesettings_changelist' %}">49. Projects page settings</a><br><span class="mini quiet">Projects hero, intro, search, category tabs, client strip and CTA visibility</span></th><td><a href="{% url 'admin:projects_projectlistpagesettings_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_projectcategory_changelist' %}">50. Project categories</a><br><span class="mini quiet">Electrical, civil and other project category filters</span></th><td><a href="{% url 'admin:projects_projectcategory_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_projectliststat_changelist' %}">51. Project list stats</a><br><span class="mini quiet">Number/stat cards shown on the projects page</span></th><td><a href="{% url 'admin:projects_projectliststat_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_project_changelist' %}">52. Project cards</a><br><span class="mini quiet">Project titles, thumbnails, short descriptions and featured status</span></th><td><a href="{% url 'admin:projects_project_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_project_changelist' %}">53. Featured project source</a><br><span class="mini quiet">Featured project section content</span></th><td><a href="{% url 'admin:projects_project_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:clients_client_changelist' %}">54. Project client strip source</a><br><span class="mini quiet">Client logos shown around projects</span></th><td><a href="{% url 'admin:clients_client_changelist' %}" class="changelink">Open</a></td></tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module" data-admin-group>
+    <table>
+      <caption>06 · Project detail pages</caption>
+      <tbody>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_projectdetailpagesettings_changelist' %}">55. Project detail settings</a><br><span class="mini quiet">Show/hide summary, gallery, metrics, documents, related projects and CTA</span></th><td><a href="{% url 'admin:projects_projectdetailpagesettings_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_project_changelist' %}">56. Project basic details</a><br><span class="mini quiet">Title, category, services, status, duration, year and SEO</span></th><td><a href="{% url 'admin:projects_project_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_project_changelist' %}">57. Client and contractor selection</a><br><span class="mini quiet">Select client/contractor companies and reuse their logos</span></th><td><a href="{% url 'admin:projects_project_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_project_changelist' %}">58. Project description</a><br><span class="mini quiet">Single CKEditor summary shown in project overview</span></th><td><a href="{% url 'admin:projects_project_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_project_changelist' %}">59. Project cover image</a><br><span class="mini quiet">Hero image / cover visual</span></th><td><a href="{% url 'admin:projects_project_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_project_changelist' %}">60. Project slideshow gallery</a><br><span class="mini quiet">Gallery images are edited inline inside each Project</span></th><td><a href="{% url 'admin:projects_project_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_project_changelist' %}">61. Project metrics</a><br><span class="mini quiet">Metrics are edited inline inside each Project</span></th><td><a href="{% url 'admin:projects_project_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_projectscopeitem_changelist' %}">62. Project scope / deliverables</a><br><span class="mini quiet">Scope and deliverable items attached to projects</span></th><td><a href="{% url 'admin:projects_projectscopeitem_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_projectdocument_changelist' %}">63. Project documents</a><br><span class="mini quiet">Downloadable project profile and related files</span></th><td><a href="{% url 'admin:projects_projectdocument_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:projects_project_changelist' %}">64. Project CTA</a><br><span class="mini quiet">Project CTA is edited inline inside each Project</span></th><td><a href="{% url 'admin:projects_project_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:services_service_changelist' %}">65. Related services</a><br><span class="mini quiet">Services selected on projects for relationship display</span></th><td><a href="{% url 'admin:services_service_changelist' %}" class="changelink">Open</a></td></tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module" data-admin-group>
+    <table>
+      <caption>07 · Certifications & clients page</caption>
+      <tbody>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:clients_trustpagesettings_changelist' %}">66. Certifications page settings</a><br><span class="mini quiet">Hero, certificates, clients, standards, testimonials and documents visibility</span></th><td><a href="{% url 'admin:clients_trustpagesettings_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:clients_clientcategory_changelist' %}">67. Client categories</a><br><span class="mini quiet">Client filtering / grouping</span></th><td><a href="{% url 'admin:clients_clientcategory_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:clients_client_changelist' %}">68. Clients and logos</a><br><span class="mini quiet">Trusted client names and uploaded company logos</span></th><td><a href="{% url 'admin:clients_client_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:clients_certificatecategory_changelist' %}">70. Certificate categories</a><br><span class="mini quiet">ISO, compliance and official document categories</span></th><td><a href="{% url 'admin:clients_certificatecategory_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:clients_certificate_changelist' %}">71. Certificate gallery / modal</a><br><span class="mini quiet">Certificate images, titles, descriptions, modal preview and downloads</span></th><td><a href="{% url 'admin:clients_certificate_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:clients_accreditation_changelist' %}">72. Accreditations</a><br><span class="mini quiet">Vendor codes and accreditation references</span></th><td><a href="{% url 'admin:clients_accreditation_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:clients_standard_changelist' %}">73. Standards</a><br><span class="mini quiet">Standards that guide work</span></th><td><a href="{% url 'admin:clients_standard_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:clients_complianceblock_changelist' %}">74. Compliance blocks</a><br><span class="mini quiet">Safety, quality and reliability blocks</span></th><td><a href="{% url 'admin:clients_complianceblock_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:clients_trustmetric_changelist' %}">75. Trust metrics</a><br><span class="mini quiet">Trust page metrics</span></th><td><a href="{% url 'admin:clients_trustmetric_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:clients_testimonial_changelist' %}">76. Testimonials</a><br><span class="mini quiet">Client testimonial quotes</span></th><td><a href="{% url 'admin:clients_testimonial_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:documents_downloaddocument_changelist' %}">77. Supporting documents</a><br><span class="mini quiet">Official company files shown on clients/certificates, projects and protected request flows</span></th><td><a href="{% url 'admin:documents_downloaddocument_changelist' %}" class="changelink">Open</a></td></tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module" data-admin-group>
+    <table>
+      <caption>08 · Careers page</caption>
+      <tbody>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:careers_careerpagesettings_changelist' %}">78. Career page settings</a><br><span class="mini quiet">Hero, search/filter, benefits, process and application copy</span></th><td><a href="{% url 'admin:careers_careerpagesettings_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:careers_careerstat_changelist' %}">79. Career stats</a><br><span class="mini quiet">Career page stat cards</span></th><td><a href="{% url 'admin:careers_careerstat_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:careers_careerbenefit_changelist' %}">80. Career benefits</a><br><span class="mini quiet">Benefit cards</span></th><td><a href="{% url 'admin:careers_careerbenefit_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:careers_careerprocessstep_changelist' %}">81. Hiring process steps</a><br><span class="mini quiet">Application/interview process cards</span></th><td><a href="{% url 'admin:careers_careerprocessstep_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:careers_careerdepartment_changelist' %}">82. Career departments</a><br><span class="mini quiet">Department filters for job openings</span></th><td><a href="{% url 'admin:careers_careerdepartment_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:careers_jobopening_changelist' %}">83. Job openings</a><br><span class="mini quiet">Open roles, job details and publishing status</span></th><td><a href="{% url 'admin:careers_jobopening_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:careers_jobapplication_changelist' %}">84. Job applications</a><br><span class="mini quiet">Applicant records, statuses and interview actions</span></th><td><a href="{% url 'admin:careers_jobapplication_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:careers_jobapplicationdocument_changelist' %}">85. Applicant documents</a><br><span class="mini quiet">Uploaded applicant CVs and documents</span></th><td><a href="{% url 'admin:careers_jobapplicationdocument_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:careers_careeremailverification_changelist' %}">86. Email verification records</a><br><span class="mini quiet">Applicant email verification status</span></th><td><a href="{% url 'admin:careers_careeremailverification_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:careers_jobapplicationemaillog_changelist' %}">87. Application email logs</a><br><span class="mini quiet">Interview, rejection and application email records</span></th><td><a href="{% url 'admin:careers_jobapplicationemaillog_changelist' %}" class="changelink">Open</a></td></tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module" data-admin-group>
+    <table>
+      <caption>09 · Contact page</caption>
+      <tbody>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:inquiries_contactpagesettings_changelist' %}">88. Contact page settings</a><br><span class="mini quiet">Hero, form, Google map URL/embed and FAQ visibility</span></th><td><a href="{% url 'admin:inquiries_contactpagesettings_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_companyprofile_changelist' %}">89. Company contact profile</a><br><span class="mini quiet">Main phone, email, address and global map embed</span></th><td><a href="{% url 'admin:core_companyprofile_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_contactmethod_changelist' %}">90. Contact methods</a><br><span class="mini quiet">Phone, email, WhatsApp and other contact cards</span></th><td><a href="{% url 'admin:core_contactmethod_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_officelocation_changelist' %}">91. Office locations</a><br><span class="mini quiet">Office address cards and branch details</span></th><td><a href="{% url 'admin:core_officelocation_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_businesshour_changelist' %}">92. Business hours</a><br><span class="mini quiet">Working days and hours</span></th><td><a href="{% url 'admin:core_businesshour_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:inquiries_inquirysubject_changelist' %}">93. Inquiry subjects</a><br><span class="mini quiet">Subject dropdown options for the contact form</span></th><td><a href="{% url 'admin:inquiries_inquirysubject_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:inquiries_contactinquiry_changelist' %}">94. Contact inquiries</a><br><span class="mini quiet">Incoming contact form submissions</span></th><td><a href="{% url 'admin:inquiries_contactinquiry_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:inquiries_newslettersubscriber_changelist' %}">95. Newsletter subscribers</a><br><span class="mini quiet">Newsletter signup records</span></th><td><a href="{% url 'admin:inquiries_newslettersubscriber_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_faq_changelist' %}">96. Contact page FAQs</a><br><span class="mini quiet">FAQ entries used where enabled</span></th><td><a href="{% url 'admin:pages_faq_changelist' %}" class="changelink">Open</a></td></tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module" data-admin-group>
+    <table>
+      <caption>10 · Official documents and files</caption>
+      <tbody>
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:documents_documentcategory_changelist' %}">97. Document categories</a><br><span class="mini quiet">Company profile, certificates, brochures and official file categories.</span></th><td><a href="{% url 'admin:documents_documentcategory_changelist' %}" class="changelink">Open</a></td></tr>
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:documents_downloaddocument_changelist' %}">98. Uploaded official documents</a><br><span class="mini quiet">Files used by certificates, projects, trust sections and protected document requests. No public Downloads page is shown.</span></th><td><a href="{% url 'admin:documents_downloaddocument_changelist' %}" class="changelink">Open</a></td></tr>
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:documents_documentpagecta_changelist' %}">99. Document request CTA</a><br><span class="mini quiet">Request-document call to action used when a private file needs staff follow-up.</span></th><td><a href="{% url 'admin:documents_documentpagecta_changelist' %}" class="changelink">Open</a></td></tr>
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:documents_documentrequest_changelist' %}">100. Document requests</a><br><span class="mini quiet">Private/protected document request records.</span></th><td><a href="{% url 'admin:documents_documentrequest_changelist' %}" class="changelink">Open</a></td></tr>
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:documents_downloadlog_changelist' %}">101. File access logs</a><br><span class="mini quiet">Download/access tracking records for uploaded files.</span></th><td><a href="{% url 'admin:documents_downloadlog_changelist' %}" class="changelink">Open</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module" data-admin-group>
+    <table>
+      <caption>11 · Generic CMS pages</caption>
+      <tbody>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_page_changelist' %}">103. Pages</a><br><span class="mini quiet">Reusable CMS pages, hero, body and SEO</span></th><td><a href="{% url 'admin:pages_page_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_genericpagesettings_changelist' %}">104. Generic page settings</a><br><span class="mini quiet">Generic page width, sidebar, breadcrumbs and CTA</span></th><td><a href="{% url 'admin:pages_genericpagesettings_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_pagesection_changelist' %}">105. Page sections</a><br><span class="mini quiet">Reusable section blocks attached to pages</span></th><td><a href="{% url 'admin:pages_pagesection_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_statitem_changelist' %}">106. Stat items</a><br><span class="mini quiet">Reusable stats attached to pages</span></th><td><a href="{% url 'admin:pages_statitem_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_timelineitem_changelist' %}">107. Timeline items</a><br><span class="mini quiet">Reusable timeline items attached to pages</span></th><td><a href="{% url 'admin:pages_timelineitem_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:pages_faq_changelist' %}">108. FAQs</a><br><span class="mini quiet">Reusable FAQ entries attached to pages</span></th><td><a href="{% url 'admin:pages_faq_changelist' %}" class="changelink">Open</a></td></tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module" data-admin-group>
+    <table>
+      <caption>12 · SEO, localization and system</caption>
+      <tbody>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_localizedcontent_changelist' %}">109. Localized content</a><br><span class="mini quiet">Arabic and Chinese translations for CMS fields</span></th><td><a href="{% url 'admin:core_localizedcontent_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:core_localizedcontent_changelist' %}?content_type__exact=statictext">109A. Static UI labels and button text</a><br><span class="mini quiet">Admin-editable labels from templates, such as empty states, modal labels and repeated buttons. Run sync_static_text_overrides to list them here.</span></th><td><a href="{% url 'admin:core_localizedcontent_changelist' %}?content_type__exact=statictext" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:seo_schemamarkup_changelist' %}">110. Schema markup</a><br><span class="mini quiet">Structured data snippets</span></th><td><a href="{% url 'admin:seo_schemamarkup_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:seo_redirectrule_changelist' %}">111. Redirect rules</a><br><span class="mini quiet">Old-to-new URL redirects</span></th><td><a href="{% url 'admin:seo_redirectrule_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:seo_robotssettings_changelist' %}">112. Robots.txt</a><br><span class="mini quiet">Search crawler rules</span></th><td><a href="{% url 'admin:seo_robotssettings_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:dashboard_activitylog_changelist' %}">113. Activity logs</a><br><span class="mini quiet">Admin and dashboard activity history</span></th><td><a href="{% url 'admin:dashboard_activitylog_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:auth_user_changelist' %}">114. Users</a><br><span class="mini quiet">Admin users and permissions</span></th><td><a href="{% url 'admin:auth_user_changelist' %}" class="changelink">Open</a></td></tr>
+
+        <tr data-admin-row><th scope="row"><a href="{% url 'admin:auth_group_changelist' %}">115. Groups</a><br><span class="mini quiet">Permission groups</span></th><td><a href="{% url 'admin:auth_group_changelist' %}" class="changelink">Open</a></td></tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  {% if not app_list %}
+    <p>{% translate 'You don’t have permission to view or edit anything.' %}</p>
+  {% endif %}
+</div>
+
+<script>
+(function () {
+  const input = document.getElementById('sesccoAdminSearch');
+  const groups = Array.from(document.querySelectorAll('[data-admin-group]'));
+  if (!input || !groups.length) return;
+  input.addEventListener('input', function () {
+    const query = input.value.trim().toLowerCase();
+    groups.forEach(function (group) {
+      let visibleCount = 0;
+      Array.from(group.querySelectorAll('[data-admin-row]')).forEach(function (row) {
+        const isVisible = !query || row.textContent.toLowerCase().includes(query);
+        row.style.display = isVisible ? '' : 'none';
+        if (isVisible) visibleCount += 1;
+      });
+      group.style.display = visibleCount ? '' : 'none';
+    });
+  });
+})();
+</script>
+{% endblock %}
+
+{% block sidebar %}
+<div id="content-related">
+  <div class="module" id="recent-actions-module">
+    <h2>{% translate 'Recent actions' %}</h2>
+    <h3>{% translate 'My actions' %}</h3>
+    {% get_admin_log 10 as admin_log for_user user %}
+    {% if not admin_log %}
+      <p>{% translate 'None available' %}</p>
+    {% else %}
+      <ul class="actionlist">
+        {% for entry in admin_log %}
+          <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+            {% if entry.is_deletion or not entry.get_admin_url %}
+              {{ entry.object_repr }}
+            {% else %}
+              <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+            {% endif %}
+            <br>
+            {% if entry.content_type %}
+              <span class="mini quiet">{% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}</span>
+            {% else %}
+              <span class="mini quiet">{% translate 'Unknown content' %}</span>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

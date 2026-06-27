@@ -1,0 +1,37 @@
+{% load localization %}
+{% load page_sections %}
+{% if detail_settings.show_case_study_blocks %}
+{% if project.challenge or project.scope or project.solution or project.outcomes or request.user.is_staff %}
+<section {% section_attrs section_page section_key section_default_order %} class="section-sm project-case-study-section">
+  <div class="container grid grid-4">
+    {% if project.challenge or project.scope or project.solution or project.outcomes %}
+      <div class="card"><h3>{% static_text "The Challenge" %}</h3>{% localized project 'challenge' %}</div>
+      <div class="card"><h3>{% static_text "Our Scope" %}</h3>{% localized project 'scope' %}</div>
+      <div class="card"><h3>{% static_text "Our Solution" %}</h3>{% localized project 'solution' %}</div>
+      <div class="card"><h3>{% static_text "Key Outcomes" %}</h3>{% localized project 'outcomes' %}</div>
+    {% else %}
+      {% include "includes/admin_empty_section.html" with section_title="Project case study blocks" section_hint="Add Challenge, Scope, Solution and Outcomes in this Project admin, or disable Case study blocks in Project detail section order." %}
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% with active_scope_items=project.scope_items.all|active_items %}
+{% if active_scope_items|has_items %}
+<section class="section-sm project-detailed-scope-section" {% section_attrs section_page "detailed_scope" 60 %}>
+  <div class="container">
+    <span class="eyebrow">{% static_text "Detailed Scope" %}</span>
+    <div class="project-detailed-scope-grid">
+      {% for item in active_scope_items %}
+        <div class="card icon-card project-detailed-scope-card">
+          <div class="icon">{{ item.icon_text|default:"▧" }}</div>
+          <h3>{% localized_plain item 'title' %}</h3>
+          <p>{% localized item 'description' %}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endwith %}
+{% endif %}

@@ -1,0 +1,7 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<div class="language-switcher language-links" aria-label="{% trans 'Language switcher' %}">
+  <a href="{{ language_urls.en }}" class="{% if LANGUAGE_CODE == 'en' %}active{% endif %}">EN</a>
+  <a href="{{ language_urls.ar }}" class="{% if LANGUAGE_CODE == 'ar' %}active{% endif %}">العربية</a>
+  <a href="{{ language_urls.zh_hans }}" class="{% if LANGUAGE_CODE == 'zh-hans' %}active{% endif %}">中文</a>
+</div>

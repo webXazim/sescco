@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 570">
+<defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#0a56c2"/><stop offset="1" stop-color="#c9f546"/></linearGradient><pattern id="dot" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="2" fill="white" opacity=".18"/></pattern></defs>
+<rect width="430" height="570" rx="40" fill="url(#bg)"/><rect width="430" height="570" rx="40" fill="url(#dot)"/>
+<circle cx="360" cy="72" r="100" fill="#fff" opacity=".16"/><circle cx="74" cy="445" r="118" fill="#fff" opacity=".12"/>
+<g transform="translate(0 50)" stroke="#fff" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".95"><path d="M86 216c8-70 58-128 130-128s122 58 130 128H86z" fill="#fff" opacity=".96"/><path d="M128 216v-48M216 88v128M304 216v-48"/><rect x="70" y="212" width="292" height="34" rx="17" fill="#061b3f" opacity=".85"/></g>
+<g transform="translate(48 402)"><text x="0" y="0" font-family="Arial, sans-serif" font-size="29" font-weight="900" fill="#fff">Safety Management</text><text x="0" y="38" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#dceeff">SESCCO project visual</text></g>
+</svg>

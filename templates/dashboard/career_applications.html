@@ -1,0 +1,226 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Applications | {{ company.short_name }}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="admin-layout career-admin-shell">
+  <aside class="sidebar">
+    {% include "includes/site_logo.html" %}
+    <nav class="side-nav">
+      <a href="{% url 'dashboard_home' %}">{% trans "Dashboard" %}</a>
+      <a class="active" href="{% url 'career_applications_dashboard' %}">Career Applications</a>
+      <a href="/admin/careers/jobopening/">Job Openings</a>
+      <a href="/admin/careers/careerpagesettings/">Career CMS</a>
+      <a href="{% url 'translation_dashboard' %}">{% trans "Translation Center" %}</a>
+      <a href="/admin/">Django {% trans "Admin" %}</a>
+    </nav>
+  </aside>
+
+  <main class="admin-main career-admin-main">
+    <div class="admin-top career-admin-topbar">
+      <div>
+        <span class="eyebrow">HR Dashboard</span>
+        <h2>Career Applications</h2>
+        <p class="text-muted">Review applicants by job, download documents, shortlist candidates and send tracked interview invitations.</p>
+      </div>
+      <div class="career-admin-actions">
+        <a class="btn btn-outline" href="/admin/careers/jobapplication/">Django Admin List</a>
+        <a class="btn btn-primary" href="/admin/careers/jobopening/add/">Post New Job</a>
+      </div>
+    </div>
+
+    {% if messages %}
+      <div class="career-admin-messages">
+        {% for message in messages %}<div class="message {{ message.tags }}">{{ message }}</div>{% endfor %}
+      </div>
+    {% endif %}
+
+    <section class="career-admin-kpis">
+      <div class="career-admin-kpi"><span>Total Applications</span><strong>{{ total_applications }}</strong><small>{{ filtered_total }} shown by current filter</small></div>
+      <div class="career-admin-kpi"><span>Today</span><strong>{{ today_applications }}</strong><small>New submissions today</small></div>
+      <div class="career-admin-kpi"><span>Open Jobs</span><strong>{{ open_jobs }}</strong><small>Published active jobs</small></div>
+      <div class="career-admin-kpi"><span>Departments</span><strong>{{ departments_count }}</strong><small>Career departments</small></div>
+    </section>
+
+    <section class="career-admin-status-grid">
+      {% for card in status_cards %}
+        <a class="career-status-card career-status-{{ card.status }}" href="?status={{ card.status }}">
+          <span>{{ card.label }}</span>
+          <strong>{{ card.count }}</strong>
+        </a>
+      {% endfor %}
+    </section>
+
+    <section class="career-admin-panel">
+      <form method="get" class="career-admin-filter">
+        <div class="career-admin-field career-admin-field-wide">
+          <label for="{{ filter_form.q.id_for_label }}">Search applicant</label>
+          {{ filter_form.q }}
+        </div>
+        <div class="career-admin-field">
+          <label for="{{ filter_form.status.id_for_label }}">Status</label>
+          {{ filter_form.status }}
+        </div>
+        <div class="career-admin-field">
+          <label for="{{ filter_form.job.id_for_label }}">Job</label>
+          {{ filter_form.job }}
+        </div>
+        <div class="career-admin-field">
+          <label for="{{ filter_form.department.id_for_label }}">Department</label>
+          {{ filter_form.department }}
+        </div>
+        <div class="career-admin-field">
+          <label for="{{ filter_form.date_from.id_for_label }}">From</label>
+          {{ filter_form.date_from }}
+        </div>
+        <div class="career-admin-field">
+          <label for="{{ filter_form.date_to.id_for_label }}">To</label>
+          {{ filter_form.date_to }}
+        </div>
+        <div class="career-admin-field">
+          <label for="{{ filter_form.sort.id_for_label }}">Sort</label>
+          {{ filter_form.sort }}
+        </div>
+        <div class="career-admin-filter-actions">
+          <button class="btn btn-primary" type="submit">Apply Filters</button>
+          <a class="btn btn-outline" href="{% url 'career_applications_dashboard' %}">Reset</a>
+        </div>
+      </form>
+    </section>
+
+    <section class="career-admin-grid-main">
+      <div class="career-admin-applications-card">
+        <form method="post" id="career-application-bulk-form">
+          {% csrf_token %}
+          <div class="career-admin-bulkbar">
+            <div>
+              <strong>{{ filtered_total }} applicant{{ filtered_total|pluralize }}</strong>
+              <span class="text-muted">Grouped by job on this page</span>
+            </div>
+            <div class="career-admin-bulk-actions">
+              {{ bulk_form.bulk_status }}
+              <button class="btn btn-primary" type="submit">Update Selected</button>
+            </div>
+          </div>
+
+          {% for job, applications in grouped_applications.items %}
+            <article class="career-application-group">
+              <header class="career-application-group-head">
+                <div>
+                  <span class="badge">{{ applications|length }} on this page</span>
+                  <h3>{{ job.title }}</h3>
+                  <p class="text-muted">{{ job.job_code|default:"No job code" }} · {{ job.location }}{% if job.department %} · {{ job.department.name }}{% endif %}</p>
+                </div>
+                <a class="btn btn-outline" href="/admin/careers/jobopening/{{ job.pk }}/change/">Edit Job</a>
+              </header>
+
+              <div class="career-application-table-wrap">
+                <table class="career-application-table">
+                  <thead>
+                    <tr>
+                      <th><input type="checkbox" class="career-check-all" aria-label="Select all in this job group"></th>
+                      <th>Applicant</th>
+                      <th>Contact</th>
+                      <th>Status</th>
+                      <th>Email Verified</th>
+                      <th>Documents</th>
+                      <th>Interview</th>
+                      <th>Submitted</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for application in applications %}
+                      <tr>
+                        <td><input type="checkbox" name="selected_applications" value="{{ application.pk }}" class="career-application-check"></td>
+                        <td>
+                          <strong>{{ application.full_name }}</strong>
+                          <small>{{ application.application_reference }}</small>
+                        </td>
+                        <td>
+                          <a href="mailto:{{ application.email }}">{{ application.email }}</a>
+                          <small>{{ application.phone }}</small>
+                        </td>
+                        <td><span class="career-status career-status-{{ application.status }}">{{ application.get_status_display }}</span></td>
+                        <td>{% if application.email_verified %}<span class="career-status career-status-hired">Verified</span>{% else %}<span class="career-status career-status-interview_invited">Not verified</span>{% endif %}</td>
+                        <td>
+                          <div class="career-doc-buttons">
+                            {% if application.cv %}<a href="{% url 'career_application_field_download' application.pk 'cv' %}" target="_blank" rel="noopener">CV</a>{% endif %}
+                            {% if application.supporting_document %}<a href="{% url 'career_application_field_download' application.pk 'supporting_document' %}" target="_blank" rel="noopener">Support</a>{% endif %}
+                            {% if application.certificate_document %}<a href="{% url 'career_application_field_download' application.pk 'certificate_document' %}" target="_blank" rel="noopener">Cert</a>{% endif %}
+                            {% for doc in application.documents.all %}{% if doc.file %}<a href="{% url 'career_application_document_download' application.pk doc.pk %}" target="_blank" rel="noopener">Doc {{ forloop.counter }}</a>{% endif %}{% endfor %}
+                          </div>
+                        </td>
+                        <td>
+                          {% if application.interview_date %}
+                            {{ application.interview_date|date:"M d, Y H:i" }}
+                            <small>{{ application.get_interview_mode_display }}{% if application.invitation_sent_at %} · Invited{% endif %}</small>
+                          {% else %}
+                            <span class="text-muted">Not set</span>
+                          {% endif %}
+                        </td>
+                        <td>{{ application.created_at|date:"M d, Y" }}</td>
+                        <td>
+                          <a class="btn btn-outline career-mini-btn" href="{% url 'career_application_detail' application.pk %}">{% if application.interview_date and not application.invitation_sent_at %}Invite{% else %}Review{% endif %}</a>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </article>
+          {% empty %}
+            <div class="career-admin-empty">
+              <h3>No applicants found</h3>
+              <p class="text-muted">Try removing some filters or check again after new applications arrive.</p>
+            </div>
+          {% endfor %}
+        </form>
+
+        {% if page_obj.paginator.num_pages > 1 %}
+          <nav class="career-admin-pagination" aria-label="Application pages">
+            {% if page_obj.has_previous %}
+              <a class="btn btn-outline" href="?{% if query_params %}{{ query_params }}&{% endif %}page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+              <a class="btn btn-outline" href="?{% if query_params %}{{ query_params }}&{% endif %}page={{ page_obj.next_page_number }}">Next</a>
+            {% endif %}
+          </nav>
+        {% endif %}
+      </div>
+
+      <aside class="career-admin-sidebar-card">
+        <h3>Applications by Job</h3>
+        <div class="career-job-summary-list">
+          {% for job in job_summary %}
+            <a href="?job={{ job.pk }}">
+              <strong>{{ job.title }}</strong>
+              <span>{{ job.total_applications }} total · {{ job.new_applications }} new · {{ job.shortlisted_applications }} shortlisted · {{ job.invited_applications }} invited</span>
+            </a>
+          {% empty %}
+            <p class="text-muted">No applications yet.</p>
+          {% endfor %}
+        </div>
+      </aside>
+    </section>
+  </main>
+</div>
+<script>
+  document.querySelectorAll('.career-check-all').forEach(function (checkAll) {
+    checkAll.addEventListener('change', function () {
+      const table = checkAll.closest('table');
+      table.querySelectorAll('.career-application-check').forEach(function (box) {
+        box.checked = checkAll.checked;
+      });
+    });
+  });
+</script>
+</body>
+</html>

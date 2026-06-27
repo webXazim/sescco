@@ -1,0 +1,27 @@
+{% load i18n %}
+{% load localization %}
+{% load page_sections %}
+{% if compliance_blocks %}
+<section {% section_attrs section_page section_key section_default_order %} class="section-sm operational-assurance-section" id="operational-assurance">
+  <div class="container operational-assurance-shell">
+    <div class="operational-assurance-intro">
+      <span class="eyebrow">{% static_text "Compliance Focus" %}</span>
+      <h2>{% static_text "Operational assurance, not just listed standards." %}</h2>
+      <p>{% static_text "SESCCO connects every credential with practical site discipline, controlled execution and accountable delivery." %}</p>
+    </div>
+
+    <div class="operational-assurance-list" aria-label="{% static_text 'Operational assurance principles' %}">
+      {% for block in compliance_blocks %}
+        <article class="operational-assurance-item">
+          <div class="operational-assurance-index">{{ forloop.counter|stringformat:"02d" }}</div>
+          <div class="operational-assurance-icon" aria-hidden="true">{{ block.icon_text|default:"✓" }}</div>
+          <div class="operational-assurance-copy">
+            <h3>{% localized_plain block 'title' %}</h3>
+            <p>{% localized block 'description' %}</p>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

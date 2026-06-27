@@ -1,0 +1,25 @@
+{% load localization %}
+{% load page_sections %}
+{% if detail_settings.show_process %}
+{% with active_steps=service.process_steps.all|active_items %}
+{% if active_steps|has_items or request.user.is_staff %}
+<section class="section-sm" {% section_attrs "service_detail" "process" 60 %}>
+  <div class="container card" style="background:#f7fbff">
+    <span class="eyebrow">{% static_text "Our Process" %}</span>
+    <h2>{% static_text "How we deliver this service." %}</h2>
+    <div class="grid grid-5" style="margin-top:22px">
+      {% for step in active_steps %}
+        <div class="card icon-card">
+          <strong style="font-size:30px;color:var(--primary)">{{ step.step_number }}</strong>
+          <h3>{% localized_plain step 'title' %}</h3>
+          <p>{% localized step 'description' %}</p>
+        </div>
+      {% empty %}
+        {% include "includes/admin_empty_section.html" with section_title="Service process" section_hint="Add process steps inside this Service in admin, or disable Process in Service detail section order." %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endwith %}
+{% endif %}

@@ -1,0 +1,19 @@
+{% load localization %}
+{% load page_sections %}
+{% if trust_settings.show_testimonials and testimonials %}
+<section {% section_attrs section_page section_key section_default_order %} class="section-sm">
+  <div class="container">
+    <span class="eyebrow">{% localized_plain trust_settings 'testimonials_eyebrow' %}</span>
+    <h2>{% localized_plain trust_settings 'testimonials_title' %}</h2>
+    <div class="grid grid-3" style="margin-top:22px">
+      {% for testimonial in testimonials %}
+        <div class="card">
+          <div>{% localized testimonial 'quote' %}</div>
+          <p><strong>{{ testimonial.person_name }}</strong><br>{% localized_plain testimonial 'person_designation' %}</p>
+          {% if testimonial.client %}<span class="badge">{% proper_name testimonial.client 'name' %}</span>{% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

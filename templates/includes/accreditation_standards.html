@@ -1,0 +1,66 @@
+{% load i18n %}
+{% load localization %}
+{% load page_sections %}
+{% if trust_settings.show_accreditations or trust_settings.show_standards %}
+<section {% section_attrs section_page section_key section_default_order %} class="section-sm trust-framework-section" id="trust-framework">
+  <div class="container trust-framework-shell {% if not trust_settings.show_accreditations or not trust_settings.show_standards %}is-single{% endif %}">
+    {% if trust_settings.show_accreditations %}
+    <aside class="trust-framework-credentials" aria-labelledby="trust-accreditation-title">
+      <div class="trust-framework-copy">
+        <span class="eyebrow">{% static_text "Accreditations" %}</span>
+        <h2 id="trust-accreditation-title">{% static_text "Verified credentials, organized for confidence." %}</h2>
+        <p>{% static_text "Core vendor references and quality commitments are presented in a clean review-ready format." %}</p>
+      </div>
+
+      <div class="trust-accreditation-stack">
+        {% for item in accreditations %}
+          {% localized_plain item 'title' as accreditation_title %}
+          {% localized_plain item 'description' as accreditation_description %}
+          <article class="trust-accreditation-item">
+            <div class="trust-accreditation-media" aria-hidden="true">
+              {% if item.logo %}
+                <img src="{{ item.logo.url }}" alt="{{ accreditation_title }}">
+              {% else %}
+                <span>{{ forloop.counter|stringformat:"02d" }}</span>
+              {% endif %}
+            </div>
+            <div class="trust-accreditation-body">
+              <strong>{{ accreditation_title }}</strong>
+              {% if accreditation_description %}<p>{{ accreditation_description|truncatechars:100 }}</p>{% endif %}
+            </div>
+          </article>
+        {% empty %}
+          <p class="trust-framework-empty">{% static_text "No accreditations yet." %}</p>
+        {% endfor %}
+      </div>
+    </aside>
+    {% endif %}
+
+    {% if trust_settings.show_standards %}
+    <div class="trust-framework-standards" aria-labelledby="trust-standards-title">
+      <div class="trust-framework-heading">
+        <span class="eyebrow">{% localized_plain trust_settings 'standards_eyebrow' %}</span>
+        <h2 id="trust-standards-title">{% localized_plain trust_settings 'standards_title' %}</h2>
+        <p>{% static_text "A focused view of the compliance references that support safe, dependable and quality-driven project delivery." %}</p>
+      </div>
+
+      <div class="trust-standard-grid">
+        {% for standard in standards %}
+          <article class="trust-standard-card">
+            <div class="trust-standard-mark" aria-hidden="true">
+              <span>{{ standard.icon_text|default:"✓" }}</span>
+            </div>
+            <div class="trust-standard-body">
+              <h3>{% localized_plain standard 'title' %}</h3>
+              <p>{% localized standard 'description' %}</p>
+            </div>
+          </article>
+        {% empty %}
+          <p class="trust-framework-empty">{% static_text "No standards yet." %}</p>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}

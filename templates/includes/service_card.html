@@ -1,0 +1,17 @@
+{% load localization static %}
+<a class="service-modern-card" data-service-card data-category="{{ service.category.slug|default:'' }}" data-order="{{ service.sort_order|default:0 }}" data-featured="{% if service.is_featured %}1{% else %}0{% endif %}" data-created="{{ service.created_at|date:'U' }}" href="{% localized_url service.get_absolute_url %}">
+  <div class="service-card-thumb">
+    {% if service.cover_image %}
+      <img src="{{ service.cover_image.url }}" alt="{% localized_plain service 'title' %}" loading="lazy" decoding="async" data-fallback="{% static 'img/fallbacks/industrial-fallback.svg' %}">
+    {% else %}
+      <img class="service-card-thumb-placeholder" src="{% static 'img/fallbacks/industrial-fallback.svg' %}" alt="{% localized_plain service 'title' %}" loading="lazy" decoding="async">
+    {% endif %}
+  </div>
+  <span class="service-card-icon" aria-hidden="true">{{ service.icon_text|default:"⚙" }}</span>
+  <div class="service-card-body">
+    <h3>{% localized_plain service 'title' %}</h3>
+    {% if service.category %}<span class="badge service-card-badge">{% localized_plain service.category 'name' %}</span>{% endif %}
+    <p>{% localized service 'short_description' as service_desc %}{{ service_desc|striptags|truncatewords:22 }}</p>
+    <span class="service-card-arrow">→</span>
+  </div>
+</a>

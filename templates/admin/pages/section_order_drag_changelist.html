@@ -1,0 +1,225 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_urls static %}
+
+{% block extrahead %}
+  {{ block.super }}
+  <style>
+    .sescco-section-order-panel {
+      margin: 0 0 14px;
+      padding: 12px 14px;
+      border-radius: 4px;
+      background: var(--darkened-bg, #f8f8f8);
+      border: 1px solid var(--hairline-color, #ddd);
+    }
+    .sescco-section-order-panel strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+    .sescco-section-order-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .sescco-order-status {
+      font-weight: 600;
+    }
+    .sescco-order-status.is-ok { color: var(--success-fg, #157347); }
+    .sescco-order-status.is-error { color: var(--error-fg, #ba2121); }
+    .sescco-drag-cell {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 76px;
+    }
+    .sescco-drag-handle {
+      display: inline-grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color, #ccc);
+      background: var(--body-bg, #fff);
+      color: var(--link-fg, #417690);
+      cursor: grab;
+      font-weight: 800;
+      user-select: none;
+      touch-action: none;
+    }
+    .sescco-drag-handle:active {
+      cursor: grabbing;
+    }
+    .sescco-order-number {
+      display: inline-grid;
+      place-items: center;
+      min-width: 28px;
+      height: 28px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: var(--selected-row, #e4f1ff);
+      color: var(--link-fg, #417690);
+      font-weight: 800;
+      font-size: 12px;
+    }
+    #result_list tbody tr.sescco-draggable-row {
+      transition: background-color .16s ease, opacity .16s ease;
+    }
+    #result_list tbody tr.sescco-dragging {
+      opacity: .45;
+    }
+    #result_list tbody tr.sescco-drop-before td,
+    #result_list tbody tr.sescco-drop-before th {
+      border-top: 3px solid var(--link-fg, #417690) !important;
+    }
+    #result_list tbody tr.sescco-drop-after td,
+    #result_list tbody tr.sescco-drop-after th {
+      border-bottom: 3px solid var(--link-fg, #417690) !important;
+    }
+    .sescco-section-active {
+      width: auto;
+      transform: scale(1.05);
+    }
+    #result_list .field-content_editor_action {
+      white-space: nowrap;
+      width: 130px;
+    }
+  </style>
+  <script>
+    (function () {
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return '';
+      }
+
+      function clearDropMarkers(rows) {
+        rows.forEach(function (row) {
+          row.classList.remove('sescco-drop-before', 'sescco-drop-after');
+        });
+      }
+
+      function refreshOrderNumbers(tbody) {
+        Array.from(tbody.querySelectorAll('tr')).forEach(function (row, index) {
+          const badge = row.querySelector('.sescco-order-number');
+          if (badge) badge.textContent = String(index + 1);
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const table = document.getElementById('result_list');
+        const saveButton = document.getElementById('sescco-save-section-order');
+        const status = document.getElementById('sescco-order-status');
+        if (!table || !saveButton) return;
+
+        const tbody = table.querySelector('tbody');
+        if (!tbody) return;
+
+        let draggingRow = null;
+
+        Array.from(tbody.querySelectorAll('tr')).forEach(function (row) {
+          if (!row.querySelector('.sescco-drag-handle')) return;
+          row.classList.add('sescco-draggable-row');
+          row.setAttribute('draggable', 'true');
+
+          row.addEventListener('dragstart', function (event) {
+            draggingRow = row;
+            row.classList.add('sescco-dragging');
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('text/plain', 'section-row');
+          });
+
+          row.addEventListener('dragend', function () {
+            row.classList.remove('sescco-dragging');
+            clearDropMarkers(Array.from(tbody.querySelectorAll('tr')));
+            draggingRow = null;
+            refreshOrderNumbers(tbody);
+          });
+        });
+
+        tbody.addEventListener('dragover', function (event) {
+          if (!draggingRow) return;
+          event.preventDefault();
+          const rows = Array.from(tbody.querySelectorAll('tr.sescco-draggable-row:not(.sescco-dragging)'));
+          clearDropMarkers(rows);
+          const closest = rows.reduce(function (closestMatch, row) {
+            const box = row.getBoundingClientRect();
+            const offset = event.clientY - box.top - box.height / 2;
+            if (offset < 0 && offset > closestMatch.offset) {
+              return { offset: offset, element: row };
+            }
+            return closestMatch;
+          }, { offset: Number.NEGATIVE_INFINITY, element: null }).element;
+
+          if (closest) {
+            closest.classList.add('sescco-drop-before');
+            tbody.insertBefore(draggingRow, closest);
+          } else {
+            const last = rows[rows.length - 1];
+            if (last) last.classList.add('sescco-drop-after');
+            tbody.appendChild(draggingRow);
+          }
+          refreshOrderNumbers(tbody);
+        });
+
+        saveButton.addEventListener('click', function () {
+          const rows = Array.from(tbody.querySelectorAll('tr.sescco-draggable-row'));
+          const order = [];
+          const active = {};
+          rows.forEach(function (row) {
+            const handle = row.querySelector('.sescco-drag-handle');
+            if (!handle) return;
+            const objectId = handle.dataset.objectId;
+            order.push(objectId);
+            const activeInput = row.querySelector('.sescco-section-active');
+            active[objectId] = activeInput ? activeInput.checked : true;
+          });
+
+          saveButton.disabled = true;
+          if (status) {
+            status.className = 'sescco-order-status';
+            status.textContent = 'Saving section order...';
+          }
+
+          fetch(saveButton.dataset.reorderUrl, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ order: order, active: active })
+          }).then(function (response) {
+            if (!response.ok) throw new Error('Save failed');
+            return response.json();
+          }).then(function () {
+            if (status) {
+              status.className = 'sescco-order-status is-ok';
+              status.textContent = 'Saved. Frontend section order is updated.';
+            }
+          }).catch(function () {
+            if (status) {
+              status.className = 'sescco-order-status is-error';
+              status.textContent = 'Could not save. Refresh and try again.';
+            }
+          }).finally(function () {
+            saveButton.disabled = false;
+          });
+        });
+      });
+    })();
+  </script>
+{% endblock %}
+
+{% block result_list %}
+  <div class="sescco-section-order-panel">
+    <strong>Drag and drop section order for {{ section_order_page_label|default:"this page" }}.</strong>
+    <span class="help">Top row shows first on the frontend. Drag rows up or down, uncheck Active to hide a section, then save. Click any section name or Open editor to edit the real content for that frontend section.</span>
+    <div class="sescco-section-order-actions">
+      <button type="button" class="button default" id="sescco-save-section-order" data-reorder-url="{{ section_order_reorder_url|default:'reorder/' }}">Save section order</button>
+      <span id="sescco-order-status" class="sescco-order-status" aria-live="polite"></span>
+    </div>
+  </div>
+  {{ block.super }}
+{% endblock %}

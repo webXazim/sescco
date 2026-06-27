@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="1120" viewBox="0 0 860 1120">
+<rect width="860" height="1120" fill="#ffffff"/>
+<rect x="0" y="0" width="130" height="1120" fill="#123b87"/>
+<text x="152" y="118" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="800" fill="#111">bsi.</text>
+<text x="152" y="176" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#111">Certificate of Registration</text>
+<text x="152" y="238" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#444">QUALITY MANAGEMENT SYSTEM</text>
+<text x="152" y="318" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#666">This is to certify that:</text>
+<text x="152" y="378" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#111">Summit Engineering Solutions</text>
+<text x="152" y="416" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#111">Contracting Co.</text>
+<text x="152" y="846" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#3d5a80">ISO 9001:2015</text>
+<circle cx="176" cy="924" r="28" fill="#fff" stroke="#5a78b4" stroke-width="3"/>
+<text x="176" y="934" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#31558d">IAF</text>
+<circle cx="248" cy="924" r="28" fill="#fff" stroke="#5a78b4" stroke-width="3"/>
+<text x="248" y="934" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#31558d">ANAB</text>
+<path d="M492 888 C550 898 576 908 640 888" stroke="#717171" stroke-width="3" fill="none"/>
+<text x="492" y="932" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#555">For and on behalf of BSI:</text>
+<text x="492" y="965" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#555">Michael Lam - Managing Director Assurance, APAC</text>
+<text x="430" y="1060" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="800" text-anchor="middle" fill="#0d2f67">ISO 9001</text>
+</svg>

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load localization static %}
+{% load i18n %}
+{% load page_sections %}
+{% block title %}{% trans "Downloads" %} | {{ company.short_name }}{% endblock %}
+{% block content %}
+<main class="cms-section-sort cms-page-downloads">
+  <section class="hero dark page-photo-hero" {% section_attrs "downloads" "hero" 10 %} {% if download_settings.hero_image %}style="--page-hero-bg:url('{{ download_settings.hero_image.url }}')"{% endif %}>
+    <div class="container hero-content">
+      <span class="eyebrow">{% localized_plain download_settings 'eyebrow' %}</span>
+      <h1>{% localized_plain download_settings 'hero_title' %}</h1>
+      <p>{% localized download_settings 'hero_subtitle' %}</p>
+    </div>
+  </section>
+
+  <section class="section-sm" {% section_attrs "downloads" "intro" 20 %}>
+    <div class="container">
+      <span class="eyebrow">{% static_text "Document Center" %}</span>
+      <h2>{% localized_plain download_settings 'intro_title' %}</h2>
+      {% if download_settings.intro_text %}<p>{% localized download_settings 'intro_text' %}</p>{% endif %}
+
+      {% if download_settings.show_category_tabs %}
+      <div class="tabs" {% section_attrs "downloads" "categories" 30 %}>
+        <a class="tab {% if not active_category %}active{% endif %}" href="{% url 'downloads' %}">{% static_text "All Documents" %}</a>
+        {% for category in categories %}
+          <a class="tab {% if active_category == category.slug %}active{% endif %}" href="?category={{ category.slug }}">{{ category.icon_text }} {% localized_plain category 'name' %}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if download_settings.show_featured_document and featured_document %}
+      <div class="card document-featured-card" {% section_attrs "downloads" "featured" 40 %}>
+        {% if featured_document.thumbnail %}
+          <img src="{{ featured_document.thumbnail.url }}" alt="{% localized_plain featured_document 'title' %}" loading="lazy" decoding="async" data-fallback="{% static 'img/fallbacks/industrial-fallback.svg' %}" style="height:180px;width:100%;object-fit:cover;border-radius:12px">
+        {% else %}
+          <div class="project-thumb" style="height:180px;border-radius:12px"></div>
+        {% endif %}
+        <div>
+          <span class="eyebrow">{% trans "Featured" %}</span>
+          <h2>{% localized_plain featured_document 'title' %}</h2>
+          <p>{% localized featured_document 'description' %}</p>
+          <p class="text-muted">{{ featured_document.file_type }} · {{ featured_document.file_size }} · {% static_text "Version" %} {{ featured_document.version }}</p>
+        </div>
+        <div class="grid">
+          {% if featured_document.preview_enabled and featured_document.file %}<a class="btn btn-outline" href="{{ featured_document.file.url }}" target="_blank">{% static_text "Preview" %}</a>{% endif %}
+          {% if featured_document.access_level == "public" and not featured_document.requires_request %}
+            <a class="btn btn-primary" href="{% url 'download_file' featured_document.slug %}">Download ↓</a>
+          {% else %}
+            <a class="btn btn-primary" href="{% localized_url '/downloads/request/' %}?document={% localized_plain featured_document 'title' %}">{% static_text "Request" %}</a>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if download_settings.show_search %}
+      <form method="get" class="grid grid-4" {% section_attrs "downloads" "search" 50 %} style="margin-bottom:24px">
+        {% if active_category %}<input type="hidden" name="category" value="{{ active_category }}">{% endif %}
+        <input type="text" name="q" value="{{ query }}" placeholder="{% trans 'Search documents by name or keyword...' %}">
+        <select name="file_type">
+          <option value="">{% trans "All File Types" %}</option>
+          {% for t in file_types %}<option value="{{ t }}" {% if active_file_type == t %}selected{% endif %}>{{ t }}</option>{% endfor %}
+        </select>
+        <select name="sort">
+          <option value="-updated_at" {% if sort == "-updated_at" %}selected{% endif %}>{% static_text "Newest" %}</option>
+          <option value="title" {% if sort == "title" %}selected{% endif %}>{% trans "Name" %}</option>
+          <option value="-download_count" {% if sort == "-download_count" %}selected{% endif %}>{% static_text "Most Downloaded" %}</option>
+        </select>
+        <button class="btn btn-primary" type="submit">{% trans "Filter" %}</button>
+      </form>
+      {% endif %}
+
+      {% if download_settings.show_document_table %}
+      <div class="card table-card" {% section_attrs "downloads" "table" 60 %}>
+        <table>
+          <thead><tr><th>{% trans "Document Name" %}</th><th>{% static_text "Category" %}</th><th>{% static_text "Type" %}</th><th>{% static_text "Size" %}</th><th>{% static_text "Version" %}</th><th>{% static_text "Access" %}</th><th>{% trans "Downloads" %}</th><th>{% static_text "Actions" %}</th></tr></thead>
+          <tbody>
+            {% for doc in documents %}
+            <tr>
+              <td>{% localized_plain doc 'title' %}</td>
+              <td><span class="badge">{{ doc.category }}</span></td>
+              <td>{{ doc.file_type }}</td>
+              <td>{{ doc.file_size }}</td>
+              <td>{{ doc.version }}</td>
+              <td><span class="badge">{{ doc.get_access_level_display }}</span></td>
+              <td>{{ doc.download_count }}</td>
+              <td>
+                {% if doc.preview_enabled and doc.file %}<a class="btn btn-outline" style="min-height:34px;padding:0 12px" href="{{ doc.file.url }}" target="_blank">{% static_text "Preview" %}</a>{% endif %}
+                {% if doc.file and doc.access_level == "public" and not doc.requires_request %}
+                  <a class="btn btn-outline" style="min-height:34px;padding:0 12px" href="{% url 'download_file' doc.slug %}">{% static_text "Download" %}</a>
+                {% else %}
+                  <a class="btn btn-outline" style="min-height:34px;padding:0 12px" href="{% localized_url '/downloads/request/' %}?document={% localized_plain doc 'title' %}">{% static_text "Request" %}</a>
+                {% endif %}
+              </td>
+            </tr>
+            {% empty %}<tr><td colspan="8">{% static_text "No documents found." %}</td></tr>{% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+
+      {% if download_settings.show_request_document %}
+      <div class="card document-request-card" {% section_attrs "downloads" "request" 70 %}>
+        <div>
+          <h3>{% if document_cta %}{% localized_plain document_cta 'title' %}{% else %}Can’t find what you’re looking for?{% endif %}</h3>
+          <p>{% if document_cta %}{% localized document_cta 'subtitle' %}{% else %}Contact our team and we’ll help you with the document you need.{% endif %}</p>
+        </div>
+        <a class="btn btn-outline" href="{% if document_cta %}{{ document_cta.button_url }}{% else %}{% url 'document_request' %}{% endif %}">
+          {% if document_cta %}{% localized_plain document_cta 'button_text' %}{% else %}{% static_text "Request" %} a Document{% endif %} <span class="arrow">→</span>
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+</main>
+{% endblock %}

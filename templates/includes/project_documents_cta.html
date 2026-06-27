@@ -1,0 +1,41 @@
+{% load i18n %}
+{% load localization %}
+{% load page_sections %}
+{% if detail_settings.show_documents or detail_settings.show_cta %}
+<section class="section project-documents-cta-section" {% section_attrs section_page section_key section_default_order %}>
+  <div class="container grid grid-2">
+    {% if detail_settings.show_documents %}
+    <div class="card">
+      <h3>{% static_text "Project Documents" %}</h3>
+      <p>{% static_text "Download project-related files, case studies or capability references." %}</p>
+      <div class="grid">
+        {% if project.project_profile %}
+          <a class="btn btn-outline" href="{{ project.project_profile.url }}">{% static_text "Download Project Profile" %} ↓</a>
+        {% endif %}
+        {% for doc in project.documents.all %}
+          {% if doc.is_active %}
+            <a class="btn btn-outline" href="{{ doc.file.url }}">{% localized_plain doc 'title' %} ↓</a>
+          {% endif %}
+        {% empty %}
+          {% if not project.project_profile %}<a class="btn btn-outline" href="{% url 'contact' %}">{% trans "Contact Us" %}</a>{% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if project.cta and project.cta.is_active %}
+      <div class="card cta-card-contrast project-detail-cta-card">
+        <h3>{% localized_plain project.cta 'title' %}</h3>
+        <p>{% localized project.cta 'subtitle' %}</p>
+        <a class="btn btn-light" href="{{ project.cta.button_url }}">{% localized_plain project.cta 'button_text' %} <span class="arrow">→</span></a>
+      </div>
+    {% else %}
+      <div class="card cta-card-contrast project-detail-cta-card">
+        <h3>{% static_text "Interested in a similar project?" %}</h3>
+        <p>{% static_text "Talk to our team about your project requirements." %}</p>
+        <a class="btn btn-light" href="{% url 'contact' %}">{% static_text "Start a Project" %} <span class="arrow">→</span></a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}

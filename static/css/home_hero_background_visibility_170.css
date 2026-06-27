@@ -1,0 +1,130 @@
+/* Upgrade 170 — home hero background visibility
+   Makes the home hero photo read closer to the other page heroes while keeping
+   the landing-page split layout and sphere visual. Loaded after earlier hero CSS. */
+
+.hero-home {
+  background:
+    linear-gradient(90deg,
+      #ffffff 0%,
+      #ffffff 38%,
+      #e7f1fb 52%,
+      #b9d2eb 100%) !important;
+}
+
+.hero-home::before {
+  background:
+    radial-gradient(circle at 76% 48%, rgba(11, 70, 143, .22), transparent 34%),
+    linear-gradient(90deg,
+      rgba(255,255,255,.12) 0%,
+      rgba(255,255,255,.06) 36%,
+      rgba(12, 51, 95, .16) 62%,
+      rgba(7, 31, 63, .30) 100%) !important;
+  opacity: 1 !important;
+}
+
+.hero-home .hero-visual-layer {
+  opacity: 1 !important;
+}
+
+.hero-home .hero-visual-photo {
+  width: 63% !important;
+  filter: saturate(1.08) contrast(1.08) brightness(.94) !important;
+  background-position: center right !important;
+}
+
+.hero-home .hero-visual-photo::before {
+  background:
+    linear-gradient(90deg,
+      rgba(255,255,255,1) 0%,
+      rgba(255,255,255,.94) 16%,
+      rgba(239,247,255,.74) 31%,
+      rgba(204,225,244,.36) 48%,
+      rgba(34, 82, 132, .22) 68%,
+      rgba(5, 31, 66, .36) 100%),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(5,31,66,.16)) !important;
+}
+
+.hero-home .hero-visual-photo::after {
+  background:
+    radial-gradient(circle at 72% 52%, rgba(255,255,255,.16), transparent 22%),
+    linear-gradient(90deg,
+      rgba(255,255,255,.08) 0%,
+      rgba(29, 82, 142, .18) 54%,
+      rgba(5, 31, 66, .42) 100%) !important;
+}
+
+.hero-home .hero-side-grid {
+  opacity: .34 !important;
+}
+
+.hero-home .hero-side-glow {
+  opacity: .62 !important;
+}
+
+.hero-home .hero-trust-sphere-exact {
+  filter: saturate(1.03) contrast(1.02) !important;
+}
+
+/* RTL home keeps the same visual balance with the photo/sphere on the opposite side. */
+html[dir="rtl"] .hero-home,
+html[lang="ar"] .hero-home {
+  background:
+    linear-gradient(270deg,
+      #ffffff 0%,
+      #ffffff 38%,
+      #e7f1fb 52%,
+      #b9d2eb 100%) !important;
+}
+
+html[dir="rtl"] .hero-home::before,
+html[lang="ar"] .hero-home::before {
+  background:
+    radial-gradient(circle at 24% 48%, rgba(11, 70, 143, .22), transparent 34%),
+    linear-gradient(270deg,
+      rgba(255,255,255,.12) 0%,
+      rgba(255,255,255,.06) 36%,
+      rgba(12, 51, 95, .16) 62%,
+      rgba(7, 31, 63, .30) 100%) !important;
+}
+
+html[dir="rtl"] .hero-home .hero-visual-photo,
+html[lang="ar"] .hero-home .hero-visual-photo {
+  left: 0 !important;
+  right: auto !important;
+  background-position: center left !important;
+}
+
+html[dir="rtl"] .hero-home .hero-visual-photo::before,
+html[lang="ar"] .hero-home .hero-visual-photo::before {
+  background:
+    linear-gradient(270deg,
+      rgba(255,255,255,1) 0%,
+      rgba(255,255,255,.94) 16%,
+      rgba(239,247,255,.74) 31%,
+      rgba(204,225,244,.36) 48%,
+      rgba(34, 82, 132, .22) 68%,
+      rgba(5, 31, 66, .36) 100%),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(5,31,66,.16)) !important;
+}
+
+html[dir="rtl"] .hero-home .hero-visual-photo::after,
+html[lang="ar"] .hero-home .hero-visual-photo::after {
+  background:
+    radial-gradient(circle at 28% 52%, rgba(255,255,255,.16), transparent 22%),
+    linear-gradient(270deg,
+      rgba(255,255,255,.08) 0%,
+      rgba(29, 82, 142, .18) 54%,
+      rgba(5, 31, 66, .42) 100%) !important;
+}
+
+@media (max-width: 980px) {
+  .hero-home .hero-visual-photo {
+    width: 100% !important;
+    opacity: .24 !important;
+  }
+
+  .hero-home .hero-visual-photo::before,
+  .hero-home .hero-visual-photo::after {
+    opacity: .78 !important;
+  }
+}

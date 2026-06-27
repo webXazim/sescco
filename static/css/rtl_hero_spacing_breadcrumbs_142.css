@@ -1,0 +1,63 @@
+/* Upgrade 142 — Home hero spacing + global breadcrumb removal
+   Loaded last so it only corrects the final visual issues after RTL stabilization.
+   - Keeps the approved Arabic home hero structure.
+   - Moves the Arabic hero copy a little closer to the sphere/visual.
+   - Removes breadcrumb trails site-wide from public templates without leaving gaps. */
+
+/* Remove all visible breadcrumb trails across the public site. */
+.breadcrumb,
+.project-detail-breadcrumb,
+.hero .breadcrumb,
+.career-hero-copy .breadcrumb,
+.career-detail-copy .breadcrumb,
+.career-form-copy .breadcrumb,
+[class*="breadcrumb"]:not(.admin-breadcrumbs):not(.breadcrumbs) {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Pull the Arabic home hero copy closer to the sphere on desktop only.
+   The sphere sits on the left in Arabic, so the copy moves slightly left. */
+@media (min-width: 1101px) {
+  html[dir="rtl"] .hero-home .hero-inner,
+  html[lang="ar"] .hero-home .hero-inner {
+    gap: clamp(12px, 2.2vw, 42px) !important;
+  }
+
+  html[dir="rtl"] .hero-home .hero-content,
+  html[lang="ar"] .hero-home .hero-content {
+    transform: translateX(clamp(-86px, -4.2vw, -34px)) !important;
+    max-width: 620px !important;
+  }
+
+  html[dir="rtl"] .hero-home h1,
+  html[lang="ar"] .hero-home h1 {
+    max-width: 11.8ch !important;
+  }
+
+  html[dir="rtl"] .hero-home p,
+  html[lang="ar"] .hero-home p {
+    max-width: 600px !important;
+  }
+}
+
+@media (min-width: 981px) and (max-width: 1100px) {
+  html[dir="rtl"] .hero-home .hero-content,
+  html[lang="ar"] .hero-home .hero-content {
+    transform: translateX(-26px) !important;
+  }
+}
+
+/* Keep mobile untouched; stacked layout is safer there. */
+@media (max-width: 980px) {
+  html[dir="rtl"] .hero-home .hero-content,
+  html[lang="ar"] .hero-home .hero-content {
+    transform: none !important;
+  }
+}

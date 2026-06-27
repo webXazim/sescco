@@ -1,0 +1,27 @@
+{% load localization %}
+{% load page_sections %}
+<section class="section" {% section_attrs "home" "about" 50 %}>
+  <div class="container split">
+    {% if home_about and home_about.image %}
+      <img src="{{ home_about.image.url }}" alt="{% localized_plain home_about 'title' %}" class="placeholder-img" style="object-fit:cover;width:100%">
+    {% else %}
+      <div class="placeholder-img"></div>
+    {% endif %}
+    <div>
+      <span class="eyebrow">{% if home_about %}{% localized_plain home_about 'eyebrow' %}{% else %}About {{ company.short_name }}{% endif %}</span>
+      <h2>{% if home_about %}{% localized_plain home_about 'title' %}{% else %}Engineering Solutions. Built on Trust.{% endif %}</h2>
+      {% if home_about and home_about.body %}
+        {% localized home_about 'body' %}
+      {% elif page.body %}
+        {{ page.body|safe }}
+      {% else %}
+        <p>{{ company.description|safe|default:"Established in 2015, this company provides end-to-end engineering, construction and support services to government and private sector clients." }}</p>
+      {% endif %}
+      {% if home_about and home_about.button_text %}
+        <a href="{% localized_url home_about.button_url %}" class="btn btn-primary">{% localized_plain home_about 'button_text' %} <span class="arrow">→</span></a>
+      {% else %}
+        <a href="{% localized_url '/about/' %}" class="btn btn-primary">{% static_text "Learn More About Us" %} <span class="arrow">→</span></a>
+      {% endif %}
+    </div>
+  </div>
+</section>

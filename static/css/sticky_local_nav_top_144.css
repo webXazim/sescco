@@ -1,0 +1,48 @@
+/* Upgrade 144: keep page-level sticky nav at the very top when the main header hides. */
+
+/* Career detail local section navigation should not reserve the old header height.
+   The global header hides on scroll, so local nav must pin to viewport top. */
+.job-detail-page .job-section-nav {
+  top: 0 !important;
+  z-index: 39 !important;
+  margin-top: 0 !important;
+  border-radius: 0 0 18px 18px;
+  border-top-color: transparent;
+}
+
+/* When the main header is visible it stays above the local nav; when it hides,
+   the local nav occupies the top-most visible row. */
+.site-header:not(.nav-hidden) ~ main .job-detail-page .job-section-nav,
+.site-header:not(.nav-hidden) + main .job-detail-page .job-section-nav {
+  z-index: 39 !important;
+}
+
+/* Make in-page anchor jumps land below the sticky local nav, not underneath it. */
+.job-detail-page .job-content-block {
+  scroll-margin-top: 78px !important;
+}
+
+/* Keep tabs compact and stable across English, Arabic and Chinese. */
+.job-detail-page .job-section-nav a {
+  white-space: nowrap;
+}
+
+html[dir="rtl"] .job-detail-page .job-section-nav {
+  direction: rtl;
+  justify-content: flex-start;
+}
+
+html[dir="rtl"] .job-detail-page .job-section-nav a {
+  text-align: center;
+}
+
+@media (max-width: 980px) {
+  .job-detail-page .job-section-nav {
+    position: static !important;
+    border-radius: 18px;
+    border-top-color: var(--line);
+  }
+  .job-detail-page .job-content-block {
+    scroll-margin-top: 24px !important;
+  }
+}

@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load localization %}
+{% load i18n %}
+{% load page_sections %}
+{% block title %}{% trans "Projects" %} | {{ company.short_name }}{% endblock %}
+{% block content %}
+<main class="cms-section-sort cms-page-projects-list">
+  <section class="hero dark page-photo-hero" {% section_attrs "projects_list" "hero" 10 %} {% if project_page_settings.hero_image %}style="--page-hero-bg:url('{{ project_page_settings.hero_image.url }}')"{% endif %}>
+    <div class="container hero-content">
+      <span class="eyebrow">{% localized_plain project_page_settings 'eyebrow' %}</span>
+      <h1>{% localized_plain project_page_settings 'hero_title' %}</h1>
+      <p>{% localized project_page_settings 'hero_subtitle' %}</p>
+    </div>
+  </section>
+
+  {% include "includes/project_stats.html" with section_page="projects_list" section_key="stats" section_default_order=20 %}
+
+  <section class="section-sm" {% section_attrs "projects_list" "portfolio" 30 %}>
+    <div class="container">
+      <span class="eyebrow">{% static_text "Portfolio" %}</span>
+      <h2>{% localized_plain project_page_settings 'intro_title' %}</h2>
+      {% if project_page_settings.intro_text %}{% localized project_page_settings 'intro_text' %}{% endif %}
+
+      {% include "includes/project_filters.html" %}
+      {% include "includes/project_featured.html" %}
+
+      <div class="project-results-grid" data-project-results>
+        {% for project in projects %}{% include "includes/project_card.html" %}{% endfor %}
+      </div>
+      <div class="project-empty-state" data-project-empty {% if projects %}hidden{% endif %}>
+        <strong>{% static_text "No projects found." %}</strong>
+        <p>{% static_text "Try another keyword, status, year or category." %}</p>
+      </div>
+    </div>
+  </section>
+
+  {% if project_page_settings.show_client_strip %}
+  <section class="section-sm project-client-proof" {% section_attrs "projects_list" "client_strip" 40 %}>
+    <div class="container">
+      <div class="project-client-proof-head">
+        <span class="eyebrow">{% static_text "Trusted Delivery" %}</span>
+        <h2>{% static_text "Built for leading companies and organizations." %}</h2>
+        <p>{% static_text "Our project experience is supported by long-term relationships with respected clients and industrial organizations." %}</p>
+      </div>
+      {% if featured_clients %}
+      <div class="project-client-logo-slider" aria-label="{% static_text 'Trusted client logos slideshow' %}">
+        <div class="project-client-logo-track">
+          <div class="project-client-logo-group">
+            {% for client in featured_clients %}
+              {% proper_name client 'name' as client_name %}
+              <a class="project-client-logo-card" href="{% url 'clients_certifications' %}#clients" aria-label="{% static_text 'View client' %}: {{ client_name }}">
+                <span class="project-client-logo-media">
+                  {% if client.logo %}
+                    <img src="{{ client.logo.url }}" alt="{{ client_name }}" loading="lazy">
+                  {% else %}
+                    <span class="project-client-logo-fallback">{{ client.name|slice:":2" }}</span>
+                  {% endif %}
+                </span>
+                <strong>{{ client_name }}</strong>
+              </a>
+            {% endfor %}
+          </div>
+          <div class="project-client-logo-group" aria-hidden="true">
+            {% for client in featured_clients %}
+              {% proper_name client 'name' as client_name %}
+              <a class="project-client-logo-card" href="{% url 'clients_certifications' %}#clients" tabindex="-1">
+                <span class="project-client-logo-media">
+                  {% if client.logo %}
+                    <img src="{{ client.logo.url }}" alt="" loading="lazy">
+                  {% else %}
+                    <span class="project-client-logo-fallback">{{ client.name|slice:":2" }}</span>
+                  {% endif %}
+                </span>
+                <strong>{{ client_name }}</strong>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <p class="project-client-empty">{% static_text "No clients added yet." %}</p>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+
+  {% if project_page_settings.show_cta %}
+  <section class="section-sm" {% section_attrs "projects_list" "cta" 50 %}>
+    <div class="container project-partner-cta">
+      <div class="project-partner-main">
+        <span class="project-partner-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </span>
+        <div>
+          <span class="eyebrow">{% static_text "Project Delivery" %}</span>
+          <h2>{% static_text "Looking for dependable project execution?" %}</h2>
+          <p>{% static_text "SESCCO supports project owners and contractors with organized engineering, safe site execution and reliable handover support." %}</p>
+          <a class="btn btn-light" href="{% url 'contact' %}">{% static_text "Discuss Your Project" %} <span class="arrow">→</span></a>
+        </div>
+      </div>
+      <div class="project-partner-features" aria-label="Project support highlights">
+        <div class="project-partner-feature">
+          <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6l7-3Z"/><path d="m9.5 12 1.8 1.8 3.2-3.6"/></svg></span>
+          <div><strong>{% static_text "Proven Delivery" %}</strong><small>{% static_text "Project experience across industrial, utility and commercial sites." %}</small></div>
+        </div>
+        <div class="project-partner-feature">
+          <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M22 20v-2a4 4 0 0 0-3-3.87"/></svg></span>
+          <div><strong>{% static_text "Client Coordination" %}</strong><small>{% static_text "Clear communication from requirement review to close-out." %}</small></div>
+        </div>
+        <div class="project-partner-feature">
+          <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.04.04a2 2 0 0 1-2.83 2.83l-.04-.04a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 0 1-4 0v-.08a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.88.34l-.04.04a2 2 0 0 1-2.83-2.83l.04-.04A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 0 1 0-4h.08a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.88l-.04-.04a2 2 0 0 1 2.83-2.83l.04.04A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.08a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.88-.34l.04-.04a2 2 0 0 1 2.83 2.83l-.04.04A1.7 1.7 0 0 0 19.4 9c.23.61.81 1 1.46 1H21a2 2 0 0 1 0 4h-.08a1.7 1.7 0 0 0-1.52 1Z"/></svg></span>
+          <div><strong>{% static_text "Execution Support" %}</strong><small>{% static_text "Manpower, technical coordination and site follow-up." %}</small></div>
+        </div>
+        <div class="project-partner-feature">
+          <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+          <div><strong>{% static_text "Safety & Quality" %}</strong><small>{% static_text "Work delivered with controlled processes and responsible supervision." %}</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+</main>
+{% endblock %}

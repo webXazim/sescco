@@ -1,0 +1,113 @@
+/* Upgrade 194 -- mobile-only hero clarity and first-card breathing room.
+   Desktop hero and sphere rendering are intentionally untouched. */
+
+@media (max-width: 780px) {
+  .hero-home .hero-visual-photo,
+  .page-photo-hero,
+  .service-detail-hero.has-parallax-hero,
+  .services-modern-hero.has-parallax-hero,
+  .contact-hero.has-contact-hero-image,
+  .contact-hero.contact-hero-parallax {
+    image-rendering: auto;
+    background-repeat: no-repeat !important;
+  }
+
+  .hero-home {
+    min-height: auto !important;
+    align-items: stretch !important;
+    overflow: hidden !important;
+    background: #03162f !important;
+  }
+
+  .hero-home .hero-visual-photo {
+    position: absolute !important;
+    inset: 0 !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+    background-color: #03162f !important;
+    background-image:
+      linear-gradient(180deg, rgba(3, 14, 31, .72), rgba(3, 14, 31, .78)),
+      linear-gradient(90deg, rgba(3, 14, 31, .88) 0%, rgba(4, 18, 38, .68) 52%, rgba(4, 18, 38, .42) 100%),
+      url("/media/services/list-page/services-hero.webp") !important;
+    background-blend-mode: normal !important;
+    background-size: cover !important;
+    background-position: center center, center center, 74% 50% !important;
+    filter: saturate(1.08) contrast(1.08) brightness(.86) !important;
+    opacity: 1 !important;
+  }
+
+  .hero-home .hero-visual-photo::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: rgba(3, 14, 31, .22) !important;
+    opacity: 1 !important;
+  }
+
+  .hero-home .hero-visual-photo::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: transparent !important;
+    opacity: 0 !important;
+  }
+
+  .hero-home::before {
+    opacity: 0 !important;
+  }
+
+  .hero-home .hero-inner {
+    padding-block: clamp(70px, 18vw, 108px) clamp(58px, 14vw, 88px) !important;
+  }
+
+  .cms-page-home .hero-home + .home-trust-strip,
+  .cms-page-home .hero-home + .info-strip,
+  .home-highlights-section {
+    margin-top: 22px !important;
+  }
+
+  .hero.dark.page-photo-hero + .section-sm,
+  .hero.dark.page-photo-hero + .section,
+  .services-modern-hero + .section-sm,
+  .services-modern-hero + .section,
+  .service-detail-hero + .section-sm,
+  .service-detail-hero + .section,
+  .project-detail-hero + .section-sm,
+  .project-detail-hero + .section,
+  .contact-hero + .section-sm,
+  .contact-hero + .section,
+  .career-hero + .section-sm,
+  .career-hero + .section {
+    padding-top: 52px !important;
+  }
+
+  .project-detail-hero + .project-stats-strip,
+  .hero.dark.page-photo-hero + .info-strip,
+  .hero.dark.page-photo-hero + .home-trust-strip {
+    margin-top: 24px !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-home .hero-visual-photo {
+    background-size: cover !important;
+    background-position: center center, center center, 78% 50% !important;
+    filter: saturate(1.08) contrast(1.08) brightness(.82) !important;
+  }
+
+  .hero-home .hero-inner {
+    width: min(100% - 46px, var(--max)) !important;
+    padding-block: 66px 58px !important;
+  }
+
+  .cms-page-home .hero-home + .home-trust-strip,
+  .cms-page-home .hero-home + .info-strip {
+    width: calc(100% - 48px) !important;
+    margin-top: 24px !important;
+  }
+}

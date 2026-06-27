@@ -1,0 +1,119 @@
+[
+  {
+    "project_folder": "Asphalting",
+    "hero_source": "Asphalting/WhatsApp Image 2025-02-13 at 09.33.11_81a64ca0.jpg",
+    "hero_output": "hero/asphalting.webp",
+    "hero_width": 1600,
+    "hero_height": 900,
+    "slideshow_count": 4,
+    "slideshow_folder": "slideshow/asphalting"
+  },
+  {
+    "project_folder": "CIVIL/Havelock 1",
+    "hero_source": "CIVIL/Havelock 1/Screed 1.jpeg",
+    "hero_output": "hero/civil__havelock-1.webp",
+    "hero_width": 1600,
+    "hero_height": 900,
+    "slideshow_count": 8,
+    "slideshow_folder": "slideshow/civil/havelock-1"
+  },
+  {
+    "project_folder": "CIVIL/SEPCO",
+    "hero_source": "CIVIL/SEPCO/Paint 4.jpeg",
+    "hero_output": "hero/civil__sepco.webp",
+    "hero_width": 1600,
+    "hero_height": 900,
+    "slideshow_count": 4,
+    "slideshow_folder": "slideshow/civil/sepco"
+  },
+  {
+    "project_folder": "CIVIL/SINOMA/Civil foundation work",
+    "hero_source": "CIVIL/SINOMA/Civil foundation work/c.jpg",
+    "hero_output": "hero/civil__sinoma__civil-foundation-work.webp",
+    "hero_width": 1600,
+    "hero_height": 900,
+    "slideshow_count": 8,
+    "slideshow_folder": "slideshow/civil/sinoma/civil-foundation-work"
+  },
+  {
+    "project_folder": "CIVIL/SINOMA/Finishing work",
+    "hero_source": "CIVIL/SINOMA/Finishing work/plaster.jpg",
+    "hero_output": "hero/civil__sinoma__finishing-work.webp",
+    "hero_width": 1600,
+    "hero_height": 900,
+    "slideshow_count": 6,
+    "slideshow_folder": "slideshow/civil/sinoma/finishing-work"
+  },
+  {
+    "project_folder": "CIVIL/TR",
+    "hero_source": "CIVIL/TR/tr2.jpeg",
+    "hero_output": "hero/civil__tr.webp",
+    "hero_width": 1600,
+    "hero_height": 900,
+    "slideshow_count": 4,
+    "slideshow_folder": "slideshow/civil/tr"
+  },
+  {
+    "project_folder": "Electrical/Substation",
+    "hero_source": "Electrical/Substation/Panel 04.jpeg",
+    "hero_output": "hero/electrical__substation.webp",
+    "hero_width": 1600,
+    "hero_height": 900,
+    "slideshow_count": 10,
+    "slideshow_folder": "slideshow/electrical/substation"
+  },
+  {
+    "project_folder": "Ethernet Cable",
+    "hero_source": "Ethernet Cable/WhatsApp Image 2025-07-08 at 5.18.09 PM.jpeg",
+    "hero_output": "hero/ethernet-cable.webp",
+    "hero_width": 1600,
+    "hero_height": 900,
+    "slideshow_count": 4,
+    "slideshow_folder": "slideshow/ethernet-cable"
+  },
+  {
+    "project_folder": "Fire-Fighting System/Sprinkler",
+    "hero_source": "Fire-Fighting System/Sprinkler/01.jpg",
+    "hero_output": "hero/fire-fighting-system__sprinkler.webp",
+    "hero_width": 1600,
+    "hero_height": 900,
+    "slideshow_count": 10,
+    "slideshow_folder": "slideshow/fire-fighting-system/sprinkler"
+  },
+  {
+    "project_folder": "MV Cable Pictures/MV Cable Splicing,",
+    "hero_source": "MV Cable Pictures/MV Cable Splicing,/MV Cable Splicing 01.jpeg",
+    "hero_output": "hero/mv-cable-pictures__mv-cable-splicing.webp",
+    "hero_width": 1600,
+    "hero_height": 900,
+    "slideshow_count": 6,
+    "slideshow_folder": "slideshow/mv-cable-pictures/mv-cable-splicing"
+  },
+  {
+    "project_folder": "Telecommunication/OLD",
+    "hero_source": "Telecommunication/OLD/WhatsApp Image 2025-02-13 at 09.35.13_efafa2ad.jpg",
+    "hero_output": "hero/telecommunication__old.webp",
+    "hero_width": 1600,
+    "hero_height": 900,
+    "slideshow_count": 9,
+    "slideshow_folder": "slideshow/telecommunication/old"
+  },
+  {
+    "project_folder": "Telecommunication/SEPCO",
+    "hero_source": "Telecommunication/SEPCO/WhatsApp Image 2025-07-08 at 4.16.28 PM.jpg",
+    "hero_output": "hero/telecommunication__sepco.webp",
+    "hero_width": 1600,
+    "hero_height": 900,
+    "slideshow_count": 4,
+    "slideshow_folder": "slideshow/telecommunication/sepco"
+  },
+  {
+    "project_folder": "Telecommunication/SEPCO/OPGW",
+    "hero_source": "Telecommunication/SEPCO/OPGW/OPGW2.jpg",
+    "hero_output": "hero/telecommunication__sepco__opgw.webp",
+    "hero_width": 1600,
+    "hero_height": 900,
+    "slideshow_count": 4,
+    "slideshow_folder": "slideshow/telecommunication/sepco/opgw"
+  }
+]

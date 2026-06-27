@@ -1,0 +1,332 @@
+/* Upgrade 141 — Arabic RTL hero/layout restoration
+   Loaded after the previous RTL stabilization layer.  It keeps the original
+   home hero composition, then makes inner-page Arabic heroes readable instead
+   of oversized or clipped. */
+
+html[dir="rtl"] *,
+html[lang="ar"] * {
+  box-sizing: border-box;
+}
+
+/* 1) Home hero must keep the approved visual composition: copy on the left,
+   sphere/visual on the right.  Only the text itself is RTL. */
+html[dir="rtl"] .hero-home,
+html[lang="ar"] .hero-home {
+  direction: ltr !important;
+  text-align: initial !important;
+  overflow: hidden !important;
+}
+
+html[dir="rtl"] .hero-home .hero-inner,
+html[lang="ar"] .hero-home .hero-inner {
+  direction: ltr !important;
+}
+
+html[dir="rtl"] .hero-home .hero-content,
+html[lang="ar"] .hero-home .hero-content {
+  direction: rtl !important;
+  text-align: right !important;
+  margin-inline: 0 !important;
+  transform: none !important;
+}
+
+html[dir="rtl"] .hero-home .hero-kicker,
+html[dir="rtl"] .hero-home h1,
+html[dir="rtl"] .hero-home p,
+html[lang="ar"] .hero-home .hero-kicker,
+html[lang="ar"] .hero-home h1,
+html[lang="ar"] .hero-home p {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+html[dir="rtl"] .hero-home h1,
+html[lang="ar"] .hero-home h1 {
+  font-size: clamp(42px, 4.15vw, 70px) !important;
+  line-height: 1.12 !important;
+  max-width: 640px !important;
+  letter-spacing: 0 !important;
+  text-wrap: balance;
+}
+
+html[dir="rtl"] .hero-home p,
+html[lang="ar"] .hero-home p {
+  max-width: 610px !important;
+  line-height: 1.9 !important;
+}
+
+html[dir="rtl"] .hero-home .hero-actions,
+html[lang="ar"] .hero-home .hero-actions {
+  direction: rtl !important;
+  justify-content: flex-start !important;
+  flex-direction: row !important;
+}
+
+html[dir="rtl"] .hero-home .hero-side-panel,
+html[lang="ar"] .hero-home .hero-side-panel,
+html[dir="rtl"] .hero-home .hero-trust-sphere-exact,
+html[lang="ar"] .hero-home .hero-trust-sphere-exact {
+  direction: ltr !important;
+}
+
+/* 2) Generic inner-page heroes: use safe centered container + Arabic-sized title. */
+html[dir="rtl"] .hero:not(.hero-home),
+html[lang="ar"] .hero:not(.hero-home) {
+  min-height: clamp(390px, 42vw, 560px) !important;
+  padding-block: clamp(54px, 7vw, 96px) !important;
+  overflow: hidden !important;
+}
+
+html[dir="rtl"] .hero:not(.hero-home) .hero-content,
+html[lang="ar"] .hero:not(.hero-home) .hero-content {
+  width: min(1120px, calc(100% - 64px)) !important;
+  max-width: 1120px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+html[dir="rtl"] .hero:not(.hero-home) h1,
+html[lang="ar"] .hero:not(.hero-home) h1 {
+  max-width: min(900px, 100%) !important;
+  width: auto !important;
+  margin: 0 0 22px auto !important;
+  font-size: clamp(2.65rem, 4.35vw, 5rem) !important;
+  line-height: 1.18 !important;
+  letter-spacing: 0 !important;
+  text-align: right !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  text-wrap: balance;
+}
+
+html[dir="rtl"] .hero:not(.hero-home) p,
+html[lang="ar"] .hero:not(.hero-home) p {
+  max-width: min(820px, 100%) !important;
+  margin: 0 0 0 auto !important;
+  line-height: 1.9 !important;
+  text-align: right !important;
+}
+
+html[dir="rtl"] .hero:not(.hero-home) .eyebrow,
+html[lang="ar"] .hero:not(.hero-home) .eyebrow {
+  display: block !important;
+  text-align: right !important;
+}
+
+/* 3) Project/service/client/trust heroes: smaller titles and no edge clipping. */
+html[dir="rtl"] .cms-page-projects-list .hero h1,
+html[dir="rtl"] .cms-page-services-list .hero h1,
+html[dir="rtl"] .cms-page-clients-certifications .hero h1,
+html[lang="ar"] .cms-page-projects-list .hero h1,
+html[lang="ar"] .cms-page-services-list .hero h1,
+html[lang="ar"] .cms-page-clients-certifications .hero h1 {
+  font-size: clamp(2.55rem, 4.2vw, 4.8rem) !important;
+  max-width: min(920px, 100%) !important;
+  line-height: 1.2 !important;
+}
+
+html[dir="rtl"] .service-detail-hero,
+html[lang="ar"] .service-detail-hero {
+  min-height: clamp(440px, 44vw, 620px) !important;
+  padding-block: clamp(58px, 7vw, 104px) !important;
+}
+
+html[dir="rtl"] .service-detail-hero .hero-content,
+html[lang="ar"] .service-detail-hero .hero-content {
+  width: min(1080px, calc(100% - 64px)) !important;
+  max-width: 1080px !important;
+  margin: 0 auto !important;
+}
+
+html[dir="rtl"] .service-detail-hero h1,
+html[lang="ar"] .service-detail-hero h1 {
+  font-size: clamp(2.7rem, 4.25vw, 4.9rem) !important;
+  max-width: min(820px, 100%) !important;
+  line-height: 1.22 !important;
+}
+
+html[dir="rtl"] .service-detail-hero .hero-actions,
+html[lang="ar"] .service-detail-hero .hero-actions,
+html[dir="rtl"] .hero:not(.hero-home) .hero-actions,
+html[lang="ar"] .hero:not(.hero-home) .hero-actions {
+  justify-content: flex-start !important;
+  align-items: center !important;
+  flex-direction: row !important;
+  direction: rtl !important;
+}
+
+/* 4) Large stats strip labels should not stay visually LTR. */
+html[dir="rtl"] .info-strip,
+html[lang="ar"] .info-strip,
+html[dir="rtl"] .hero .info-strip,
+html[lang="ar"] .hero .info-strip {
+  direction: rtl !important;
+}
+
+html[dir="rtl"] .info-item,
+html[lang="ar"] .info-item {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+html[dir="rtl"] .info-item small,
+html[dir="rtl"] .info-item strong,
+html[lang="ar"] .info-item small,
+html[lang="ar"] .info-item strong {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* 5) Leadership card: remove narrow side-column behavior in Arabic. */
+html[dir="rtl"] .home-leadership-quote-card,
+html[lang="ar"] .home-leadership-quote-card {
+  position: relative !important;
+  display: block !important;
+  width: min(1120px, calc(100% - 48px)) !important;
+  max-width: 1120px !important;
+  min-height: auto !important;
+  padding: clamp(34px, 4vw, 64px) clamp(34px, 5vw, 76px) !important;
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+html[dir="rtl"] .home-leadership-quote-card__body,
+html[lang="ar"] .home-leadership-quote-card__body {
+  display: block !important;
+  width: min(860px, calc(100% - 110px)) !important;
+  max-width: 860px !important;
+  margin-right: 0 !important;
+  margin-left: auto !important;
+  text-align: right !important;
+}
+
+html[dir="rtl"] .home-leadership-quote-card__accent,
+html[lang="ar"] .home-leadership-quote-card__accent {
+  position: absolute !important;
+  top: clamp(28px, 4vw, 54px) !important;
+  right: auto !important;
+  left: clamp(30px, 4vw, 62px) !important;
+  width: 74px !important;
+  height: 100px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+}
+
+html[dir="rtl"] .home-leadership-quote-card__accent::after,
+html[lang="ar"] .home-leadership-quote-card__accent::after {
+  right: 50% !important;
+  left: auto !important;
+  height: clamp(120px, 18vw, 260px) !important;
+}
+
+html[dir="rtl"] .home-leadership-quote-card h2,
+html[lang="ar"] .home-leadership-quote-card h2,
+html[dir="rtl"] .home-leadership-quote-card__message,
+html[lang="ar"] .home-leadership-quote-card__message,
+html[dir="rtl"] .home-leadership-quote-card__message p,
+html[lang="ar"] .home-leadership-quote-card__message p {
+  width: 100% !important;
+  max-width: 860px !important;
+  text-align: right !important;
+}
+
+html[dir="rtl"] .home-leadership-quote-card h2,
+html[lang="ar"] .home-leadership-quote-card h2 {
+  font-size: clamp(2.1rem, 3.4vw, 3.9rem) !important;
+  line-height: 1.22 !important;
+}
+
+/* 6) Keep CTA/dark card contrast readable. */
+html[dir="rtl"] .cta h1,
+html[dir="rtl"] .cta h2,
+html[dir="rtl"] .cta h3,
+html[dir="rtl"] .cta p,
+html[dir="rtl"] .card[style*="062452"] h1,
+html[dir="rtl"] .card[style*="062452"] h2,
+html[dir="rtl"] .card[style*="062452"] h3,
+html[dir="rtl"] .card[style*="062452"] p,
+html[dir="rtl"] .card[style*="074cb9"] h1,
+html[dir="rtl"] .card[style*="074cb9"] h2,
+html[dir="rtl"] .card[style*="074cb9"] h3,
+html[dir="rtl"] .card[style*="074cb9"] p,
+html[lang="ar"] .cta h1,
+html[lang="ar"] .cta h2,
+html[lang="ar"] .cta h3,
+html[lang="ar"] .cta p,
+html[lang="ar"] .card[style*="062452"] h1,
+html[lang="ar"] .card[style*="062452"] h2,
+html[lang="ar"] .card[style*="062452"] h3,
+html[lang="ar"] .card[style*="062452"] p,
+html[lang="ar"] .card[style*="074cb9"] h1,
+html[lang="ar"] .card[style*="074cb9"] h2,
+html[lang="ar"] .card[style*="074cb9"] h3,
+html[lang="ar"] .card[style*="074cb9"] p {
+  color: #fff !important;
+}
+
+@media (max-width: 1180px) {
+  html[dir="rtl"] .hero:not(.hero-home) h1,
+  html[lang="ar"] .hero:not(.hero-home) h1,
+  html[dir="rtl"] .service-detail-hero h1,
+  html[lang="ar"] .service-detail-hero h1 {
+    font-size: clamp(2.35rem, 5vw, 4.1rem) !important;
+    max-width: min(760px, 100%) !important;
+  }
+}
+
+@media (max-width: 980px) {
+  html[dir="rtl"] .hero:not(.hero-home),
+  html[lang="ar"] .hero:not(.hero-home) {
+    min-height: auto !important;
+    padding-block: 52px !important;
+  }
+
+  html[dir="rtl"] .hero:not(.hero-home) .hero-content,
+  html[lang="ar"] .hero:not(.hero-home) .hero-content,
+  html[dir="rtl"] .service-detail-hero .hero-content,
+  html[lang="ar"] .service-detail-hero .hero-content {
+    width: min(100% - 36px, 720px) !important;
+  }
+
+  html[dir="rtl"] .hero:not(.hero-home) h1,
+  html[lang="ar"] .hero:not(.hero-home) h1,
+  html[dir="rtl"] .service-detail-hero h1,
+  html[lang="ar"] .service-detail-hero h1 {
+    font-size: clamp(2rem, 7.4vw, 3.4rem) !important;
+    max-width: 100% !important;
+  }
+
+  html[dir="rtl"] .home-leadership-quote-card__body,
+  html[lang="ar"] .home-leadership-quote-card__body {
+    width: 100% !important;
+    margin-inline: 0 !important;
+  }
+
+  html[dir="rtl"] .home-leadership-quote-card__accent,
+  html[lang="ar"] .home-leadership-quote-card__accent {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    margin-bottom: 18px !important;
+    justify-content: flex-start !important;
+  }
+}
+
+@media (max-width: 640px) {
+  html[dir="rtl"] .hero-home h1,
+  html[lang="ar"] .hero-home h1 {
+    font-size: clamp(2.15rem, 10vw, 3.35rem) !important;
+    max-width: 100% !important;
+  }
+
+  html[dir="rtl"] .hero-home .hero-actions,
+  html[lang="ar"] .hero-home .hero-actions,
+  html[dir="rtl"] .hero:not(.hero-home) .hero-actions,
+  html[lang="ar"] .hero:not(.hero-home) .hero-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+}

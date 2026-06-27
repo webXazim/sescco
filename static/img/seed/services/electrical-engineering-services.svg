@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320">
+<defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#d9ecff"/><stop offset="1" stop-color="#ffffff"/></linearGradient><filter id="s" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#062452" flood-opacity=".12"/></filter></defs>
+<rect width="720" height="320" fill="url(#g)"/>
+<path d="M0 262C110 198 174 230 270 196c92-32 154-108 262-86 86 18 119 75 188 43v167H0z" fill="#0758d8" opacity=".08"/>
+<g fill="none" stroke="#0758d8" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity=".78" filter="url(#s)"><path d="M90 210h520 M150 210V86h120v124 M310 210V58h90v152 M455 210V96h105v114 M140 86h145 M132 122h108 M294 58h142 M314 104h92 M444 96h122 M472 138h84"/></g>
+<circle cx="610" cy="70" r="70" fill="#0758d8" opacity=".08"/>
+<circle cx="92" cy="66" r="44" fill="#fff" opacity=".62"/>
+<text x="44" y="286" font-family="Arial, sans-serif" font-size="28" font-weight="800" fill="#061a34" opacity=".22">Electrical</text>
+</svg>

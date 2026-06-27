@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% load localization %}
+{% load i18n %}
+{% load page_sections %}
+{% block title %}{% localized_meta project 'seo_title' project.title %}{% endblock %}
+{% block meta_description %}{% localized_meta project 'seo_description' project.short_description %}{% endblock %}
+{% block content %}
+<main class="project-detail-page cms-section-sort cms-page-project-detail">
+  <section class="project-detail-hero" {% section_attrs "project_detail" "hero" 10 %} {% if project.cover_image %}style="--project-hero-bg:url('{{ project.cover_image.url }}')"{% endif %}>
+    <div class="container">
+      <div class="breadcrumb project-detail-breadcrumb">
+        <a href="{% localized_url '/' %}">{% static_text "Home" %}</a>
+        <span>›</span>
+        <a href="{% localized_url '/projects/' %}">{% static_text "Projects" %}</a>
+        <span>›</span>
+        <span>{% localized_plain project 'title' %}</span>
+      </div>
+
+      <div class="project-detail-hero-copy">
+        <h1>{% localized_plain project 'title' %}</h1>
+        {% if project.short_description %}<p>{% localized project 'short_description' %}</p>{% endif %}
+      </div>
+
+      <div class="project-detail-meta">
+        {% if project.location %}<span><i aria-hidden="true">⌖</i> {% static_text project.location %}</span>{% endif %}
+        {% if project.duration %}<span><i aria-hidden="true">▣</i> {% static_text "Duration" %}: {% static_text project.duration %}</span>{% endif %}
+        {% if project.year %}<span><i aria-hidden="true">▣</i> {% static_text "Year" %}: {{ project.year }}</span>{% endif %}
+        {% if project.category %}<span><i aria-hidden="true">◇</i> {% static_text "Category" %}: {% localized_plain project.category "name" as project_category_name %}{% static_text project_category_name %}</span>{% endif %}
+      </div>
+    </div>
+  </section>
+
+  {% if detail_settings.show_gallery %}
+  <section class="project-gallery-showcase-section" {% section_attrs "project_detail" "gallery" 20 %}>
+    <div class="container">
+      {% include "includes/project_gallery.html" %}
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="section-sm project-overview-section" {% section_attrs "project_detail" "overview" 30 %}>
+    <div class="container">
+      <div class="project-overview-intro">
+        <span class="eyebrow">{% static_text "Project Overview" %}</span>
+        <h2>{% localized_plain project 'title' %}</h2>
+        {% if project.short_description %}
+        <p>{% localized project 'short_description' %}</p>
+        {% else %}
+        <p>{% static_text "Key information and delivery details for this project." %}</p>
+        {% endif %}
+      </div>
+
+      <div class="project-overview-layout">
+        <article class="project-overview-card project-description-panel">
+          <div class="project-overview-card-head">
+            <span class="project-overview-icon">▤</span>
+            <div>
+              <h3>{% static_text "Project Description" %}</h3>
+              <span></span>
+            </div>
+          </div>
+          <div class="project-overview-description project-detail-rich-text">
+            {% if project.summary %}
+              {% localized project 'summary' %}
+            {% elif project.short_description %}
+              <p>{% localized project 'short_description' %}</p>
+            {% else %}
+              <p>{% static_text "Project description will be added from admin." %}</p>
+            {% endif %}
+          </div>
+        </article>
+
+        <article class="project-overview-card project-glance-panel">
+          <div class="project-overview-card-head">
+            <span class="project-overview-icon">▥</span>
+            <div>
+              <h3>{% static_text "Project at a Glance" %}</h3>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="project-stakeholder-grid">
+            <div class="project-stakeholder-card client-card">
+              <div class="project-stakeholder-logo">
+                {% if project_client_logo_url %}
+                  <img src="{{ project_client_logo_url }}" alt="{% if project.client %}{% proper_name project.client 'name' %}{% elif project.client_name %}{% proper_name project.client_name %}{% else %}{% static_text 'Client' %}{% endif %} logo" loading="lazy">
+                {% else %}
+                  <span aria-hidden="true">◔</span>
+                {% endif %}
+              </div>
+              <div>
+                <small>{% static_text "Client" %}</small>
+                <strong>{% if project.client %}{% proper_name project.client 'name' %}{% elif project.client_name %}{% proper_name project.client_name %}{% else %}N/A{% endif %}</strong>
+              </div>
+            </div>
+
+            <div class="project-stakeholder-card contractor-card">
+              <div class="project-stakeholder-logo">
+                {% if project_contractor_logo_url %}
+                  <img src="{{ project_contractor_logo_url }}" alt="{% if project.contractor %}{% proper_name project.contractor 'name' %}{% elif project.contractor_name %}{% proper_name project.contractor_name %}{% else %}{% static_text 'Contractor' %}{% endif %} logo" loading="lazy">
+                {% else %}
+                  <span aria-hidden="true">ϟ</span>
+                {% endif %}
+              </div>
+              <div>
+                <small>{% static_text "Contractor" %}</small>
+                <strong>{% if project.contractor %}{% proper_name project.contractor 'name' %}{% elif project.contractor_name %}{% proper_name project.contractor_name %}{% else %}N/A{% endif %}</strong>
+              </div>
+            </div>
+          </div>
+
+          <dl class="project-glance-grid">
+            {% if project.location %}
+            <div>
+              <span class="project-glance-icon">⌖</span>
+              <dt>{% static_text "Location" %}</dt>
+              <dd>{% static_text project.location %}</dd>
+            </div>
+            {% endif %}
+            <div>
+              <span class="project-glance-icon status">✓</span>
+              <dt>{% static_text "Status" %}</dt>
+              <dd class="project-status-pill">{% with project_status=project.get_status_display %}{% static_text project_status %}{% endwith %}</dd>
+            </div>
+            {% if project.duration %}
+            <div>
+              <span class="project-glance-icon">▣</span>
+              <dt>{% static_text "Duration" %}</dt>
+              <dd>{% static_text project.duration %}</dd>
+            </div>
+            {% endif %}
+            {% if project.year %}
+            <div>
+              <span class="project-glance-icon">▣</span>
+              <dt>{% static_text "Year" %}</dt>
+              <dd>{{ project.year }}</dd>
+            </div>
+            {% endif %}
+            {% if project.category %}
+            <div>
+              <span class="project-glance-icon">◇</span>
+              <dt>{% static_text "Category" %}</dt>
+              <dd>{% localized_plain project.category "name" as project_category_name %}{% static_text project_category_name %}</dd>
+            </div>
+            {% endif %}
+          </dl>
+        </article>
+      </div>
+
+      <div class="project-quality-strip">
+        <div>
+          <span class="project-quality-icon">♢</span>
+          <strong>{% static_text "Safety First" %}</strong>
+          <small>{% static_text "Strict adherence to HSE standards with zero compromise." %}</small>
+        </div>
+        <div>
+          <span class="project-quality-icon">◉</span>
+          <strong>{% static_text "Quality Assured" %}</strong>
+          <small>{% static_text "Delivered to the highest engineering and quality standards." %}</small>
+        </div>
+        <div>
+          <span class="project-quality-icon">◷</span>
+          <strong>{% static_text "Delivered on Time" %}</strong>
+          <small>{% static_text "Completed within the planned schedule." %}</small>
+        </div>
+        <div>
+          <span class="project-quality-icon">♙</span>
+          <strong>{% static_text "Expert Team" %}</strong>
+          <small>{% static_text "Experienced professionals ensuring reliable project delivery." %}</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  {% if project.outcomes or project.metrics.all or request.user.is_staff %}
+  <section class="section-sm project-deliverables-section" {% section_attrs "project_detail" "deliverables" 40 %}>
+    <div class="container">
+      <div class="project-deliverables-strip">
+        <div class="project-deliverables-head">
+          <span class="project-detail-card-icon">☑</span>
+          <div>
+            <span class="eyebrow">{% static_text "Key Deliverables" %}</span>
+            <h2>{% static_text "Key Deliverables" %}</h2>
+          </div>
+        </div>
+        <div class="project-deliverables-items">
+          {% for metric in project.metrics.all|active_items %}
+            <div class="project-deliverable-item">
+              <span>{{ metric.icon_text|default:"◌" }}</span>
+              <strong>{% localized_plain metric 'label' as deliverable_label %}{% static_text deliverable_label %}</strong>
+              <small>{% localized_plain metric 'value' as deliverable_value %}{% static_text deliverable_value %}</small>
+            </div>
+          {% empty %}
+            {% if project.outcomes %}
+              <div class="project-detail-rich-text">{% localized project 'outcomes' %}</div>
+            {% else %}
+              {% include "includes/admin_empty_section.html" with section_title="Project deliverables" section_hint="Add Project metrics/outcomes in admin, or disable Key deliverables in Project detail section order." %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% include "includes/project_case_study_blocks.html" with section_page="project_detail" section_key="case_study" section_default_order=50 %}
+  {% include "includes/project_metrics.html" with section_page="project_detail" section_key="metrics" section_default_order=70 %}
+
+  {% include "includes/project_documents_cta.html" with section_page="project_detail" section_key="documents_cta" section_default_order=80 %}
+
+  {% if detail_settings.show_related_projects %}
+  <section class="section project-related-section" {% section_attrs "project_detail" "related_projects" 90 %}>
+    <div class="container">
+      <span class="eyebrow">{% static_text "Related Projects" %}</span>
+      <h2>{% static_text "Explore similar work." %}</h2>
+      <div class="grid grid-3">{% for project in related_projects %}{% include "includes/project_card.html" %}{% empty %}<p>{% static_text "No related projects yet." %}</p>{% endfor %}</div>
+    </div>
+  </section>
+  {% endif %}
+</main>
+{% endblock %}

@@ -1,0 +1,526 @@
+/* Upgrade 140 — Arabic RTL layout stabilization
+   This file is intentionally loaded last. It fixes visual RTL issues without
+   changing CMS data: wide Arabic text blocks, safe hero widths, mirrored strips,
+   readable CTA cards, and service/project/trust/career layout stability. */
+
+html[dir="rtl"],
+html[lang="ar"] {
+  text-rendering: optimizeLegibility;
+}
+
+html[dir="rtl"] body,
+html[lang="ar"] body {
+  direction: rtl;
+  text-align: right;
+  overflow-x: hidden;
+  font-family: "Tajawal", "Cairo", "Noto Kufi Arabic", "Noto Sans Arabic", system-ui, sans-serif;
+}
+
+html[dir="rtl"] .container,
+html[lang="ar"] .container {
+  direction: rtl;
+}
+
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4,
+html[dir="rtl"] p,
+html[dir="rtl"] li,
+html[dir="rtl"] small,
+html[dir="rtl"] .eyebrow,
+html[dir="rtl"] .card,
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] p,
+html[lang="ar"] li,
+html[lang="ar"] small,
+html[lang="ar"] .eyebrow,
+html[lang="ar"] .card {
+  letter-spacing: 0 !important;
+  word-spacing: normal;
+}
+
+html[dir="rtl"] p,
+html[dir="rtl"] li,
+html[lang="ar"] p,
+html[lang="ar"] li {
+  line-height: 1.85;
+}
+
+/* Generic Arabic hero stabilization */
+html[dir="rtl"] .hero:not(.hero-home),
+html[lang="ar"] .hero:not(.hero-home) {
+  min-height: clamp(430px, 46vw, 620px) !important;
+  overflow: hidden !important;
+  isolation: isolate;
+}
+
+html[dir="rtl"] .hero:not(.hero-home)::before,
+html[lang="ar"] .hero:not(.hero-home)::before {
+  pointer-events: none;
+}
+
+html[dir="rtl"] .hero:not(.hero-home) .hero-content,
+html[lang="ar"] .hero:not(.hero-home) .hero-content,
+html[dir="rtl"] .career-hero-copy,
+html[dir="rtl"] .career-detail-copy,
+html[dir="rtl"] .career-form-hero .hero-content,
+html[lang="ar"] .career-hero-copy,
+html[lang="ar"] .career-detail-copy,
+html[lang="ar"] .career-form-hero .hero-content {
+  width: min(100%, 860px) !important;
+  max-width: 860px !important;
+  margin-right: 0 !important;
+  margin-left: auto !important;
+  padding-inline: 0 !important;
+  text-align: right !important;
+  direction: rtl !important;
+  position: relative;
+  z-index: 2;
+}
+
+html[dir="rtl"] .hero:not(.hero-home) h1,
+html[lang="ar"] .hero:not(.hero-home) h1 {
+  max-width: 12.8ch !important;
+  font-size: clamp(3rem, 6.2vw, 6.6rem) !important;
+  line-height: 1.16 !important;
+  letter-spacing: 0 !important;
+  margin-inline: 0 auto !important;
+  overflow-wrap: normal;
+  text-wrap: balance;
+}
+
+html[dir="rtl"] .hero:not(.hero-home) p,
+html[lang="ar"] .hero:not(.hero-home) p {
+  max-width: 780px !important;
+  font-size: clamp(1rem, 1.2vw, 1.22rem) !important;
+  line-height: 1.9 !important;
+  margin-right: 0 !important;
+  margin-left: auto !important;
+}
+
+html[dir="rtl"] .hero.dark:not(.hero-home),
+html[lang="ar"] .hero.dark:not(.hero-home) {
+  background-position: center left !important;
+}
+
+/* Page list heroes with pale backgrounds need the copy safely inside the viewport. */
+html[dir="rtl"] .cms-page-projects-list .hero,
+html[dir="rtl"] .cms-page-services-list .hero,
+html[lang="ar"] .cms-page-projects-list .hero,
+html[lang="ar"] .cms-page-services-list .hero {
+  background-position: center left !important;
+}
+
+html[dir="rtl"] .cms-page-projects-list .hero .hero-content,
+html[dir="rtl"] .cms-page-services-list .hero .hero-content,
+html[lang="ar"] .cms-page-projects-list .hero .hero-content,
+html[lang="ar"] .cms-page-services-list .hero .hero-content {
+  max-width: 760px !important;
+  padding-top: clamp(42px, 5vw, 76px) !important;
+  padding-bottom: clamp(88px, 8vw, 140px) !important;
+}
+
+html[dir="rtl"] .cms-page-projects-list .hero h1,
+html[dir="rtl"] .cms-page-services-list .hero h1,
+html[lang="ar"] .cms-page-projects-list .hero h1,
+html[lang="ar"] .cms-page-services-list .hero h1 {
+  max-width: 11.6ch !important;
+  font-size: clamp(3.1rem, 6.1vw, 6.4rem) !important;
+}
+
+/* Service detail hero: stop giant Arabic title clipping and mirror controls. */
+html[dir="rtl"] .service-detail-hero,
+html[lang="ar"] .service-detail-hero {
+  min-height: clamp(500px, 54vw, 720px) !important;
+  background-position: center left !important;
+}
+
+html[dir="rtl"] .service-detail-hero .hero-content,
+html[lang="ar"] .service-detail-hero .hero-content {
+  max-width: 760px !important;
+}
+
+html[dir="rtl"] .service-detail-hero h1,
+html[lang="ar"] .service-detail-hero h1 {
+  max-width: 10.8ch !important;
+  font-size: clamp(3.4rem, 6vw, 6.4rem) !important;
+  line-height: 1.17 !important;
+}
+
+html[dir="rtl"] .breadcrumb,
+html[lang="ar"] .breadcrumb {
+  direction: rtl !important;
+  text-align: right !important;
+  unicode-bidi: isolate;
+}
+
+html[dir="rtl"] .hero-actions,
+html[lang="ar"] .hero-actions,
+html[dir="rtl"] .career-card-actions,
+html[lang="ar"] .career-card-actions {
+  direction: rtl !important;
+  flex-direction: row !important;
+  justify-content: flex-start !important;
+}
+
+html[dir="rtl"] .btn .arrow,
+html[dir="rtl"] .arrow,
+html[lang="ar"] .btn .arrow,
+html[lang="ar"] .arrow {
+  display: inline-block;
+  transform: scaleX(-1) !important;
+}
+
+/* Info/stat strips should read naturally in Arabic and not squeeze labels. */
+html[dir="rtl"] .info-strip,
+html[lang="ar"] .info-strip {
+  direction: rtl !important;
+  grid-auto-flow: row !important;
+  align-items: stretch !important;
+}
+
+html[dir="rtl"] .info-item,
+html[lang="ar"] .info-item {
+  direction: rtl !important;
+  text-align: right !important;
+  justify-content: flex-start !important;
+  min-width: 0 !important;
+  gap: 14px !important;
+}
+
+html[dir="rtl"] .info-item > div,
+html[lang="ar"] .info-item > div {
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+
+html[dir="rtl"] .info-item small,
+html[dir="rtl"] .info-item strong,
+html[lang="ar"] .info-item small,
+html[lang="ar"] .info-item strong {
+  display: block !important;
+  text-align: right !important;
+  direction: rtl !important;
+  line-height: 1.45 !important;
+  white-space: normal !important;
+}
+
+html[dir="rtl"] .info-icon,
+html[lang="ar"] .info-icon {
+  flex: 0 0 auto !important;
+}
+
+/* Leadership / committee message: prevent the narrow vertical text column. */
+html[dir="rtl"] .home-leadership-parallax,
+html[lang="ar"] .home-leadership-parallax {
+  min-height: auto !important;
+  margin-block: clamp(44px, 6vw, 82px) !important;
+}
+
+html[dir="rtl"] .home-leadership-parallax__inner,
+html[lang="ar"] .home-leadership-parallax__inner {
+  width: min(1240px, calc(100% - 48px)) !important;
+  padding-block: clamp(54px, 6vw, 84px) !important;
+}
+
+html[dir="rtl"] .home-leadership-quote-card,
+html[lang="ar"] .home-leadership-quote-card {
+  direction: rtl !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 72px !important;
+  width: min(1120px, 100%) !important;
+  max-width: 1120px !important;
+  min-height: unset !important;
+  padding: clamp(30px, 3vw, 48px) clamp(32px, 4vw, 64px) !important;
+  align-items: start !important;
+}
+
+html[dir="rtl"] .home-leadership-quote-card__body,
+html[lang="ar"] .home-leadership-quote-card__body {
+  grid-column: 1 !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  text-align: right !important;
+}
+
+html[dir="rtl"] .home-leadership-quote-card__accent,
+html[lang="ar"] .home-leadership-quote-card__accent {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  justify-content: center !important;
+  align-items: start !important;
+}
+
+html[dir="rtl"] .home-leadership-quote-card h2,
+html[lang="ar"] .home-leadership-quote-card h2 {
+  width: 100% !important;
+  max-width: 760px !important;
+  font-size: clamp(2rem, 3vw, 3.4rem) !important;
+  line-height: 1.22 !important;
+  text-align: right !important;
+}
+
+html[dir="rtl"] .home-leadership-quote-card__message,
+html[lang="ar"] .home-leadership-quote-card__message {
+  width: 100% !important;
+  max-width: 900px !important;
+  min-width: 0 !important;
+  text-align: right !important;
+  column-count: 1 !important;
+}
+
+html[dir="rtl"] .home-leadership-quote-card__message p,
+html[lang="ar"] .home-leadership-quote-card__message p {
+  max-width: 900px !important;
+  width: auto !important;
+  font-size: clamp(.98rem, 1.05vw, 1.14rem) !important;
+  line-height: 2.05 !important;
+  text-align: right !important;
+  margin: 0 0 14px !important;
+}
+
+html[dir="rtl"] .about-leadership-card,
+html[lang="ar"] .about-leadership-card {
+  direction: rtl !important;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 320px) !important;
+  text-align: right !important;
+}
+
+html[dir="rtl"] .about-leadership-card__content,
+html[lang="ar"] .about-leadership-card__content {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+html[dir="rtl"] .about-leadership-card__content h2,
+html[lang="ar"] .about-leadership-card__content h2 {
+  max-width: 760px !important;
+  font-size: clamp(2rem, 3vw, 3.4rem) !important;
+  line-height: 1.22 !important;
+}
+
+html[dir="rtl"] .about-leadership-card__message,
+html[lang="ar"] .about-leadership-card__message {
+  max-width: 900px !important;
+}
+
+html[dir="rtl"] .about-leadership-card__message p,
+html[lang="ar"] .about-leadership-card__message p {
+  line-height: 2 !important;
+}
+
+/* Arabic cards, grids, process steps and FAQs. */
+html[dir="rtl"] .grid,
+html[dir="rtl"] .grid-2,
+html[dir="rtl"] .grid-3,
+html[dir="rtl"] .grid-4,
+html[dir="rtl"] .grid-5,
+html[dir="rtl"] .grid-6,
+html[lang="ar"] .grid,
+html[lang="ar"] .grid-2,
+html[lang="ar"] .grid-3,
+html[lang="ar"] .grid-4,
+html[lang="ar"] .grid-5,
+html[lang="ar"] .grid-6 {
+  direction: rtl !important;
+}
+
+html[dir="rtl"] .card,
+html[dir="rtl"] .icon-card,
+html[dir="rtl"] .project-card,
+html[dir="rtl"] .trust-standard-card,
+html[dir="rtl"] .career-job-card,
+html[dir="rtl"] .job-content-block,
+html[lang="ar"] .card,
+html[lang="ar"] .icon-card,
+html[lang="ar"] .project-card,
+html[lang="ar"] .trust-standard-card,
+html[lang="ar"] .career-job-card,
+html[lang="ar"] .job-content-block {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+html[dir="rtl"] .icon-card,
+html[lang="ar"] .icon-card {
+  align-items: center !important;
+  text-align: center !important;
+}
+
+html[dir="rtl"] .icon-card h3,
+html[dir="rtl"] .icon-card p,
+html[lang="ar"] .icon-card h3,
+html[lang="ar"] .icon-card p {
+  text-align: center !important;
+}
+
+html[dir="rtl"] details.card summary,
+html[lang="ar"] details.card summary {
+  direction: rtl !important;
+  text-align: right !important;
+  unicode-bidi: plaintext !important;
+  display: block !important;
+}
+
+html[dir="rtl"] details.card,
+html[lang="ar"] details.card {
+  overflow-wrap: anywhere;
+}
+
+/* Dark CTA and dark cards: force readable contrast. */
+html[dir="rtl"] .cta,
+html[dir="rtl"] .cta *,
+html[dir="rtl"] .card[style*="062452"],
+html[dir="rtl"] .card[style*="062452"] *,
+html[dir="rtl"] .card[style*="074cb9"],
+html[dir="rtl"] .card[style*="074cb9"] *,
+html[dir="rtl"] .about-strengths-panel,
+html[dir="rtl"] .about-strengths-panel *,
+html[lang="ar"] .cta,
+html[lang="ar"] .cta *,
+html[lang="ar"] .card[style*="062452"],
+html[lang="ar"] .card[style*="062452"] *,
+html[lang="ar"] .card[style*="074cb9"],
+html[lang="ar"] .card[style*="074cb9"] *,
+html[lang="ar"] .about-strengths-panel,
+html[lang="ar"] .about-strengths-panel * {
+  color: #fff !important;
+}
+
+html[dir="rtl"] .cta .btn,
+html[dir="rtl"] .card[style*="062452"] .btn,
+html[dir="rtl"] .card[style*="074cb9"] .btn,
+html[lang="ar"] .cta .btn,
+html[lang="ar"] .card[style*="062452"] .btn,
+html[lang="ar"] .card[style*="074cb9"] .btn {
+  color: #0758d8 !important;
+}
+
+/* Careers: labels and job detail lists should not remain LTR-looking. */
+html[dir="rtl"] .career-detail-layout,
+html[dir="rtl"] .career-detail-main,
+html[dir="rtl"] .job-summary-card,
+html[dir="rtl"] .career-detail-sidebar,
+html[lang="ar"] .career-detail-layout,
+html[lang="ar"] .career-detail-main,
+html[lang="ar"] .job-summary-card,
+html[lang="ar"] .career-detail-sidebar {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+html[dir="rtl"] .job-content-block li,
+html[lang="ar"] .job-content-block li {
+  text-align: right !important;
+  direction: rtl !important;
+  line-height: 1.9 !important;
+}
+
+html[dir="rtl"] .job-content-block ul,
+html[lang="ar"] .job-content-block ul {
+  padding-right: 0 !important;
+  list-style-position: inside !important;
+}
+
+html[dir="rtl"] .job-summary-card strong,
+html[dir="rtl"] .job-summary-card span,
+html[lang="ar"] .job-summary-card strong,
+html[lang="ar"] .job-summary-card span {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Keep large desktop header stable in Arabic. */
+html[dir="rtl"] .navbar,
+html[lang="ar"] .navbar {
+  direction: rtl !important;
+}
+
+html[dir="rtl"] .nav-links,
+html[lang="ar"] .nav-links {
+  direction: rtl !important;
+}
+
+html[dir="rtl"] .language-links,
+html[lang="ar"] .language-links {
+  direction: ltr !important;
+}
+
+@media (max-width: 1180px) {
+  html[dir="rtl"] .hero:not(.hero-home) h1,
+  html[lang="ar"] .hero:not(.hero-home) h1 {
+    font-size: clamp(2.7rem, 7vw, 5.2rem) !important;
+    max-width: 12ch !important;
+  }
+}
+
+@media (max-width: 980px) {
+  html[dir="rtl"] .hero:not(.hero-home),
+  html[lang="ar"] .hero:not(.hero-home) {
+    min-height: auto !important;
+  }
+
+  html[dir="rtl"] .hero:not(.hero-home) .hero-content,
+  html[lang="ar"] .hero:not(.hero-home) .hero-content {
+    width: min(100%, 720px) !important;
+    padding-block: clamp(46px, 8vw, 76px) !important;
+  }
+
+  html[dir="rtl"] .hero:not(.hero-home) h1,
+  html[lang="ar"] .hero:not(.hero-home) h1 {
+    max-width: 13ch !important;
+    font-size: clamp(2.35rem, 8vw, 4.4rem) !important;
+  }
+
+  html[dir="rtl"] .about-leadership-card,
+  html[lang="ar"] .about-leadership-card,
+  html[dir="rtl"] .home-leadership-quote-card,
+  html[lang="ar"] .home-leadership-quote-card {
+    grid-template-columns: 1fr !important;
+  }
+
+  html[dir="rtl"] .home-leadership-quote-card__accent,
+  html[lang="ar"] .home-leadership-quote-card__accent {
+    grid-column: 1 !important;
+  }
+
+  html[dir="rtl"] .about-leadership-card__visual,
+  html[lang="ar"] .about-leadership-card__visual {
+    min-height: 180px !important;
+  }
+
+  html[dir="rtl"] .hero-actions,
+  html[lang="ar"] .hero-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  html[dir="rtl"] .hero-actions .btn,
+  html[lang="ar"] .hero-actions .btn {
+    justify-content: center !important;
+  }
+}
+
+@media (max-width: 640px) {
+  html[dir="rtl"] .hero:not(.hero-home) h1,
+  html[lang="ar"] .hero:not(.hero-home) h1 {
+    max-width: 100% !important;
+    font-size: clamp(2rem, 11vw, 3.35rem) !important;
+    line-height: 1.22 !important;
+  }
+
+  html[dir="rtl"] .home-leadership-parallax__inner,
+  html[lang="ar"] .home-leadership-parallax__inner {
+    width: min(100%, calc(100% - 28px)) !important;
+  }
+
+  html[dir="rtl"] .home-leadership-quote-card,
+  html[lang="ar"] .home-leadership-quote-card {
+    padding: 24px 20px !important;
+  }
+}

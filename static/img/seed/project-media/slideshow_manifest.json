@@ -1,0 +1,650 @@
+[
+  {
+    "type": "slideshow",
+    "project_folder": "Asphalting",
+    "source": "Asphalting/WhatsApp Image 2025-02-13 at 09.33.09_4836dd36.jpg",
+    "output": "slideshow/asphalting/whatsapp-image-2025-02-13-at-09-33-09-4836dd36.webp",
+    "width": 960,
+    "height": 1280
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Asphalting",
+    "source": "Asphalting/WhatsApp Image 2025-02-13 at 09.33.10_c046010b.jpg",
+    "output": "slideshow/asphalting/whatsapp-image-2025-02-13-at-09-33-10-c046010b.webp",
+    "width": 960,
+    "height": 1280
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Asphalting",
+    "source": "Asphalting/WhatsApp Image 2025-02-13 at 09.33.11_81a64ca0.jpg",
+    "output": "slideshow/asphalting/whatsapp-image-2025-02-13-at-09-33-11-81a64ca0.webp",
+    "width": 1280,
+    "height": 622
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Asphalting",
+    "source": "Asphalting/WhatsApp Image 2025-02-13 at 09.33.21_27b12d28.jpg",
+    "output": "slideshow/asphalting/whatsapp-image-2025-02-13-at-09-33-21-27b12d28.webp",
+    "width": 960,
+    "height": 1280
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/Havelock 1",
+    "source": "CIVIL/Havelock 1/Plaster 1.jpeg",
+    "output": "slideshow/civil/havelock-1/plaster-1.webp",
+    "width": 1400,
+    "height": 1050
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/Havelock 1",
+    "source": "CIVIL/Havelock 1/Plaster 2.jpeg",
+    "output": "slideshow/civil/havelock-1/plaster-2.webp",
+    "width": 1400,
+    "height": 1050
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/Havelock 1",
+    "source": "CIVIL/Havelock 1/Plaster 3.jpeg",
+    "output": "slideshow/civil/havelock-1/plaster-3.webp",
+    "width": 1400,
+    "height": 1050
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/Havelock 1",
+    "source": "CIVIL/Havelock 1/Plaster 4.jpeg",
+    "output": "slideshow/civil/havelock-1/plaster-4.webp",
+    "width": 1400,
+    "height": 1050
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/Havelock 1",
+    "source": "CIVIL/Havelock 1/Screed 1.jpeg",
+    "output": "slideshow/civil/havelock-1/screed-1.webp",
+    "width": 1400,
+    "height": 1050
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/Havelock 1",
+    "source": "CIVIL/Havelock 1/screed 2.jpeg",
+    "output": "slideshow/civil/havelock-1/screed-2.webp",
+    "width": 776,
+    "height": 1400
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/Havelock 1",
+    "source": "CIVIL/Havelock 1/screed 3.jpeg",
+    "output": "slideshow/civil/havelock-1/screed-3.webp",
+    "width": 1050,
+    "height": 1400
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/Havelock 1",
+    "source": "CIVIL/Havelock 1/screed 4.jpeg",
+    "output": "slideshow/civil/havelock-1/screed-4.webp",
+    "width": 1050,
+    "height": 1400
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SEPCO",
+    "source": "CIVIL/SEPCO/Paint 1.jpeg",
+    "output": "slideshow/civil/sepco/paint-1.webp",
+    "width": 963,
+    "height": 1280
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SEPCO",
+    "source": "CIVIL/SEPCO/Paint 2.jpeg",
+    "output": "slideshow/civil/sepco/paint-2.webp",
+    "width": 1053,
+    "height": 1400
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SEPCO",
+    "source": "CIVIL/SEPCO/Paint 3.jpeg",
+    "output": "slideshow/civil/sepco/paint-3.webp",
+    "width": 963,
+    "height": 1280
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SEPCO",
+    "source": "CIVIL/SEPCO/Paint 4.jpeg",
+    "output": "slideshow/civil/sepco/paint-4.webp",
+    "width": 1053,
+    "height": 1400
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SINOMA/Civil foundation work",
+    "source": "CIVIL/SINOMA/Civil foundation work/01.jpg",
+    "output": "slideshow/civil/sinoma/civil-foundation-work/01.webp",
+    "width": 1280,
+    "height": 960
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SINOMA/Civil foundation work",
+    "source": "CIVIL/SINOMA/Civil foundation work/02.jpg",
+    "output": "slideshow/civil/sinoma/civil-foundation-work/02.webp",
+    "width": 960,
+    "height": 1280
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SINOMA/Civil foundation work",
+    "source": "CIVIL/SINOMA/Civil foundation work/03.jpg",
+    "output": "slideshow/civil/sinoma/civil-foundation-work/03.webp",
+    "width": 960,
+    "height": 1280
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SINOMA/Civil foundation work",
+    "source": "CIVIL/SINOMA/Civil foundation work/WhatsApp Image 2025-09-15 at 13.46.36_025cbce1.jpg",
+    "output": "slideshow/civil/sinoma/civil-foundation-work/whatsapp-image-2025-09-15-at-13-46-36-025cbce1.webp",
+    "width": 1280,
+    "height": 960
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SINOMA/Civil foundation work",
+    "source": "CIVIL/SINOMA/Civil foundation work/a.jpg",
+    "output": "slideshow/civil/sinoma/civil-foundation-work/a.webp",
+    "width": 960,
+    "height": 1280
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SINOMA/Civil foundation work",
+    "source": "CIVIL/SINOMA/Civil foundation work/b.jpg",
+    "output": "slideshow/civil/sinoma/civil-foundation-work/b.webp",
+    "width": 960,
+    "height": 1280
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SINOMA/Civil foundation work",
+    "source": "CIVIL/SINOMA/Civil foundation work/c.jpg",
+    "output": "slideshow/civil/sinoma/civil-foundation-work/c.webp",
+    "width": 1280,
+    "height": 960
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SINOMA/Civil foundation work",
+    "source": "CIVIL/SINOMA/Civil foundation work/d.jpg",
+    "output": "slideshow/civil/sinoma/civil-foundation-work/d.webp",
+    "width": 960,
+    "height": 1280
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SINOMA/Finishing work",
+    "source": "CIVIL/SINOMA/Finishing work/WhatsApp Image 2025-07-08 at 18.01.09_53f5f542.jpg",
+    "output": "slideshow/civil/sinoma/finishing-work/whatsapp-image-2025-07-08-at-18-01-09-53f5f542.webp",
+    "width": 800,
+    "height": 600
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SINOMA/Finishing work",
+    "source": "CIVIL/SINOMA/Finishing work/WhatsApp Image 2025-07-08 at 18.01.09_75b7d247.jpg",
+    "output": "slideshow/civil/sinoma/finishing-work/whatsapp-image-2025-07-08-at-18-01-09-75b7d247.webp",
+    "width": 800,
+    "height": 600
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SINOMA/Finishing work",
+    "source": "CIVIL/SINOMA/Finishing work/WhatsApp Image 2025-07-08 at 18.01.10_2ae773b0.jpg",
+    "output": "slideshow/civil/sinoma/finishing-work/whatsapp-image-2025-07-08-at-18-01-10-2ae773b0.webp",
+    "width": 800,
+    "height": 600
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SINOMA/Finishing work",
+    "source": "CIVIL/SINOMA/Finishing work/WhatsApp Image 2025-07-08 at 18.01.10_b15f070d.jpg",
+    "output": "slideshow/civil/sinoma/finishing-work/whatsapp-image-2025-07-08-at-18-01-10-b15f070d.webp",
+    "width": 800,
+    "height": 600
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SINOMA/Finishing work",
+    "source": "CIVIL/SINOMA/Finishing work/painting.jpg",
+    "output": "slideshow/civil/sinoma/finishing-work/painting.webp",
+    "width": 1400,
+    "height": 1050
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/SINOMA/Finishing work",
+    "source": "CIVIL/SINOMA/Finishing work/plaster.jpg",
+    "output": "slideshow/civil/sinoma/finishing-work/plaster.webp",
+    "width": 1400,
+    "height": 1050
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/TR",
+    "source": "CIVIL/TR/tr1.jpeg",
+    "output": "slideshow/civil/tr/tr1.webp",
+    "width": 1400,
+    "height": 1050
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/TR",
+    "source": "CIVIL/TR/tr2.jpeg",
+    "output": "slideshow/civil/tr/tr2.webp",
+    "width": 1400,
+    "height": 1050
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/TR",
+    "source": "CIVIL/TR/tr3.jpeg",
+    "output": "slideshow/civil/tr/tr3.webp",
+    "width": 1156,
+    "height": 867
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "CIVIL/TR",
+    "source": "CIVIL/TR/tr4.jpeg",
+    "output": "slideshow/civil/tr/tr4.webp",
+    "width": 1280,
+    "height": 963
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Electrical/Substation",
+    "source": "Electrical/Substation/Cable tray 01.jpeg",
+    "output": "slideshow/electrical/substation/cable-tray-01.webp",
+    "width": 932,
+    "height": 711
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Electrical/Substation",
+    "source": "Electrical/Substation/Cable tray 02.jpeg",
+    "output": "slideshow/electrical/substation/cable-tray-02.webp",
+    "width": 1136,
+    "height": 712
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Electrical/Substation",
+    "source": "Electrical/Substation/Cable tray 03.jpeg",
+    "output": "slideshow/electrical/substation/cable-tray-03.webp",
+    "width": 932,
+    "height": 712
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Electrical/Substation",
+    "source": "Electrical/Substation/GIS 01.jpeg",
+    "output": "slideshow/electrical/substation/gis-01.webp",
+    "width": 820,
+    "height": 712
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Electrical/Substation",
+    "source": "Electrical/Substation/Panel 01.jpeg",
+    "output": "slideshow/electrical/substation/panel-01.webp",
+    "width": 905,
+    "height": 753
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Electrical/Substation",
+    "source": "Electrical/Substation/Panel 02.jpeg",
+    "output": "slideshow/electrical/substation/panel-02.webp",
+    "width": 957,
+    "height": 532
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Electrical/Substation",
+    "source": "Electrical/Substation/Panel 03.jpeg",
+    "output": "slideshow/electrical/substation/panel-03.webp",
+    "width": 967,
+    "height": 533
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Electrical/Substation",
+    "source": "Electrical/Substation/Panel 04.jpeg",
+    "output": "slideshow/electrical/substation/panel-04.webp",
+    "width": 1060,
+    "height": 712
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Electrical/Substation",
+    "source": "Electrical/Substation/SAS01.jpeg",
+    "output": "slideshow/electrical/substation/sas01.webp",
+    "width": 970,
+    "height": 551
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Electrical/Substation",
+    "source": "Electrical/Substation/Termination 01.jpeg",
+    "output": "slideshow/electrical/substation/termination-01.webp",
+    "width": 960,
+    "height": 547
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Ethernet Cable",
+    "source": "Ethernet Cable/WhatsApp Image 2025-07-08 at 5.17.54 PM.jpeg",
+    "output": "slideshow/ethernet-cable/whatsapp-image-2025-07-08-at-5-17-54-pm.webp",
+    "width": 480,
+    "height": 640
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Ethernet Cable",
+    "source": "Ethernet Cable/WhatsApp Image 2025-07-08 at 5.18.09 PM.jpeg",
+    "output": "slideshow/ethernet-cable/whatsapp-image-2025-07-08-at-5-18-09-pm.webp",
+    "width": 480,
+    "height": 640
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Ethernet Cable",
+    "source": "Ethernet Cable/WhatsApp Image 2025-07-08 at 5.19.12 PM.jpeg",
+    "output": "slideshow/ethernet-cable/whatsapp-image-2025-07-08-at-5-19-12-pm.webp",
+    "width": 384,
+    "height": 512
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Ethernet Cable",
+    "source": "Ethernet Cable/WhatsApp Image 2025-07-08 at 5.19.50 PM.jpeg",
+    "output": "slideshow/ethernet-cable/whatsapp-image-2025-07-08-at-5-19-50-pm.webp",
+    "width": 384,
+    "height": 512
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Fire-Fighting System/Sprinkler",
+    "source": "Fire-Fighting System/Sprinkler/01.jpg",
+    "output": "slideshow/fire-fighting-system/sprinkler/01.webp",
+    "width": 1400,
+    "height": 1050
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Fire-Fighting System/Sprinkler",
+    "source": "Fire-Fighting System/Sprinkler/02.jpg",
+    "output": "slideshow/fire-fighting-system/sprinkler/02.webp",
+    "width": 1280,
+    "height": 720
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Fire-Fighting System/Sprinkler",
+    "source": "Fire-Fighting System/Sprinkler/03.png",
+    "output": "slideshow/fire-fighting-system/sprinkler/03.webp",
+    "width": 577,
+    "height": 394
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Fire-Fighting System/Sprinkler",
+    "source": "Fire-Fighting System/Sprinkler/04.png",
+    "output": "slideshow/fire-fighting-system/sprinkler/04.webp",
+    "width": 600,
+    "height": 843
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Fire-Fighting System/Sprinkler",
+    "source": "Fire-Fighting System/Sprinkler/05.jpg",
+    "output": "slideshow/fire-fighting-system/sprinkler/05.webp",
+    "width": 1024,
+    "height": 705
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Fire-Fighting System/Sprinkler",
+    "source": "Fire-Fighting System/Sprinkler/06.png",
+    "output": "slideshow/fire-fighting-system/sprinkler/06.webp",
+    "width": 460,
+    "height": 540
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Fire-Fighting System/Sprinkler",
+    "source": "Fire-Fighting System/Sprinkler/2a.png",
+    "output": "slideshow/fire-fighting-system/sprinkler/2a.webp",
+    "width": 546,
+    "height": 679
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Fire-Fighting System/Sprinkler",
+    "source": "Fire-Fighting System/Sprinkler/2b.png",
+    "output": "slideshow/fire-fighting-system/sprinkler/2b.webp",
+    "width": 337,
+    "height": 444
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Fire-Fighting System/Sprinkler",
+    "source": "Fire-Fighting System/Sprinkler/2c.png",
+    "output": "slideshow/fire-fighting-system/sprinkler/2c.webp",
+    "width": 394,
+    "height": 498
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Fire-Fighting System/Sprinkler",
+    "source": "Fire-Fighting System/Sprinkler/2d.png",
+    "output": "slideshow/fire-fighting-system/sprinkler/2d.webp",
+    "width": 420,
+    "height": 499
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "MV Cable Pictures/MV Cable Splicing,",
+    "source": "MV Cable Pictures/MV Cable Splicing,/MV Cable Splicing 00.jpeg",
+    "output": "slideshow/mv-cable-pictures/mv-cable-splicing/mv-cable-splicing-00.webp",
+    "width": 720,
+    "height": 1280
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "MV Cable Pictures/MV Cable Splicing,",
+    "source": "MV Cable Pictures/MV Cable Splicing,/MV Cable Splicing 01.jpeg",
+    "output": "slideshow/mv-cable-pictures/mv-cable-splicing/mv-cable-splicing-01.webp",
+    "width": 720,
+    "height": 1280
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "MV Cable Pictures/MV Cable Splicing,",
+    "source": "MV Cable Pictures/MV Cable Splicing,/WhatsApp Image 2025-07-08 at 5.25.31 PM.jpeg",
+    "output": "slideshow/mv-cable-pictures/mv-cable-splicing/whatsapp-image-2025-07-08-at-5-25-31-pm.webp",
+    "width": 529,
+    "height": 705
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "MV Cable Pictures/MV Cable Splicing,",
+    "source": "MV Cable Pictures/MV Cable Splicing,/WhatsApp Image 2025-07-08 at 5.25.46 PM.jpeg",
+    "output": "slideshow/mv-cable-pictures/mv-cable-splicing/whatsapp-image-2025-07-08-at-5-25-46-pm.webp",
+    "width": 432,
+    "height": 768
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "MV Cable Pictures/MV Cable Splicing,",
+    "source": "MV Cable Pictures/MV Cable Splicing,/WhatsApp Image 2025-07-08 at 5.29.16 PM.jpeg",
+    "output": "slideshow/mv-cable-pictures/mv-cable-splicing/whatsapp-image-2025-07-08-at-5-29-16-pm.webp",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "MV Cable Pictures/MV Cable Splicing,",
+    "source": "MV Cable Pictures/MV Cable Splicing,/WhatsApp Image 2025-07-08 at 5.29.57 PM.jpeg",
+    "output": "slideshow/mv-cable-pictures/mv-cable-splicing/whatsapp-image-2025-07-08-at-5-29-57-pm.webp",
+    "width": 600,
+    "height": 1066
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/OLD",
+    "source": "Telecommunication/OLD/FOC splicing box.jpg",
+    "output": "slideshow/telecommunication/old/foc-splicing-box.webp",
+    "width": 800,
+    "height": 377
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/OLD",
+    "source": "Telecommunication/OLD/OIP.jpg",
+    "output": "slideshow/telecommunication/old/oip.webp",
+    "width": 474,
+    "height": 631
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/OLD",
+    "source": "Telecommunication/OLD/R.jpg",
+    "output": "slideshow/telecommunication/old/r.webp",
+    "width": 1200,
+    "height": 1361
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/OLD",
+    "source": "Telecommunication/OLD/WhatsApp Image 2025-02-13 at 09.35.13_0480de8c.jpg",
+    "output": "slideshow/telecommunication/old/whatsapp-image-2025-02-13-at-09-35-13-0480de8c.webp",
+    "width": 1152,
+    "height": 864
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/OLD",
+    "source": "Telecommunication/OLD/WhatsApp Image 2025-02-13 at 09.35.13_efafa2ad.jpg",
+    "output": "slideshow/telecommunication/old/whatsapp-image-2025-02-13-at-09-35-13-efafa2ad.webp",
+    "width": 1152,
+    "height": 864
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/OLD",
+    "source": "Telecommunication/OLD/cable laid.jpg",
+    "output": "slideshow/telecommunication/old/cable-laid.webp",
+    "width": 938,
+    "height": 1024
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/OLD",
+    "source": "Telecommunication/OLD/fi382d-1.png",
+    "output": "slideshow/telecommunication/old/fi382d-1.webp",
+    "width": 1024,
+    "height": 768
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/OLD",
+    "source": "Telecommunication/OLD/wmremove-transforme.jpeg",
+    "output": "slideshow/telecommunication/old/wmremove-transforme.webp",
+    "width": 500,
+    "height": 500
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/OLD",
+    "source": "Telecommunication/OLD/wmremove-transformed.jpeg",
+    "output": "slideshow/telecommunication/old/wmremove-transformed.webp",
+    "width": 500,
+    "height": 375
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/SEPCO",
+    "source": "Telecommunication/SEPCO/WhatsApp Image 2025-07-08 at 4.15.47 PM.jpg",
+    "output": "slideshow/telecommunication/sepco/whatsapp-image-2025-07-08-at-4-15-47-pm.webp",
+    "width": 960,
+    "height": 1280
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/SEPCO",
+    "source": "Telecommunication/SEPCO/WhatsApp Image 2025-07-08 at 4.16.28 PM.jpg",
+    "output": "slideshow/telecommunication/sepco/whatsapp-image-2025-07-08-at-4-16-28-pm.webp",
+    "width": 1280,
+    "height": 960
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/SEPCO",
+    "source": "Telecommunication/SEPCO/WhatsApp Image 2025-07-08 at 4.23.24 PM.jpeg",
+    "output": "slideshow/telecommunication/sepco/whatsapp-image-2025-07-08-at-4-23-24-pm.webp",
+    "width": 960,
+    "height": 1280
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/SEPCO",
+    "source": "Telecommunication/SEPCO/a.jpg",
+    "output": "slideshow/telecommunication/sepco/a.webp",
+    "width": 960,
+    "height": 1280
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/SEPCO/OPGW",
+    "source": "Telecommunication/SEPCO/OPGW/OPGW1.jpg",
+    "output": "slideshow/telecommunication/sepco/opgw/opgw1.webp",
+    "width": 821,
+    "height": 877
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/SEPCO/OPGW",
+    "source": "Telecommunication/SEPCO/OPGW/OPGW2.jpg",
+    "output": "slideshow/telecommunication/sepco/opgw/opgw2.webp",
+    "width": 1400,
+    "height": 858
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/SEPCO/OPGW",
+    "source": "Telecommunication/SEPCO/OPGW/OPGW3.jpg",
+    "output": "slideshow/telecommunication/sepco/opgw/opgw3.webp",
+    "width": 331,
+    "height": 589
+  },
+  {
+    "type": "slideshow",
+    "project_folder": "Telecommunication/SEPCO/OPGW",
+    "source": "Telecommunication/SEPCO/OPGW/OPGW4.jpg",
+    "output": "slideshow/telecommunication/sepco/opgw/opgw4.webp",
+    "width": 684,
+    "height": 920
+  }
+]

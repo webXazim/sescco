@@ -1,0 +1,131 @@
+/* Upgrade 169 — final hero centering and RTL-safe proper-name rendering. */
+
+/* The older RTL restoration files intentionally right-align page heroes.
+   This final override is loaded last so non-home page photo heroes stay centered. */
+.hero.page-photo-hero,
+.page-photo-hero,
+.cms-page-clients-certifications .page-photo-hero,
+.cms-page-projects-list .page-photo-hero,
+.cms-page-services-list .page-photo-hero,
+.cms-page-downloads .page-photo-hero,
+.cms-page-careers .page-photo-hero,
+.service-detail-hero.has-parallax-hero,
+.services-modern-hero.has-parallax-hero,
+.project-detail-hero {
+  display: grid !important;
+  place-items: center !important;
+  text-align: center !important;
+}
+
+.hero.page-photo-hero > .container.hero-content,
+.page-photo-hero > .container.hero-content,
+.cms-page-clients-certifications .page-photo-hero > .container.hero-content,
+.cms-page-projects-list .page-photo-hero > .container.hero-content,
+.cms-page-services-list .page-photo-hero > .container.hero-content,
+.cms-page-downloads .page-photo-hero > .container.hero-content,
+.cms-page-careers .page-photo-hero > .container.hero-content,
+.service-detail-hero.has-parallax-hero .hero-content,
+.services-modern-hero.has-parallax-hero > .container,
+.project-detail-hero > .container {
+  width: min(980px, calc(100% - 48px)) !important;
+  max-width: 980px !important;
+  justify-self: center !important;
+  align-self: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-inline: auto !important;
+  text-align: center !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.hero.page-photo-hero .eyebrow,
+.hero.page-photo-hero h1,
+.hero.page-photo-hero p,
+.page-photo-hero .eyebrow,
+.page-photo-hero h1,
+.page-photo-hero p,
+.service-detail-hero.has-parallax-hero .eyebrow,
+.service-detail-hero.has-parallax-hero h1,
+.service-detail-hero.has-parallax-hero p,
+.services-modern-hero.has-parallax-hero .eyebrow,
+.services-modern-hero.has-parallax-hero h1,
+.services-modern-hero.has-parallax-hero p,
+.project-detail-hero .eyebrow,
+.project-detail-hero h1,
+.project-detail-hero p {
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-inline: auto !important;
+}
+
+html[dir="rtl"] .hero.page-photo-hero,
+html[dir="rtl"] .page-photo-hero,
+html[dir="rtl"] .service-detail-hero.has-parallax-hero,
+html[dir="rtl"] .services-modern-hero.has-parallax-hero,
+html[dir="rtl"] .project-detail-hero,
+html[lang="ar"] .hero.page-photo-hero,
+html[lang="ar"] .page-photo-hero,
+html[lang="ar"] .service-detail-hero.has-parallax-hero,
+html[lang="ar"] .services-modern-hero.has-parallax-hero,
+html[lang="ar"] .project-detail-hero {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+html[dir="rtl"] .hero.page-photo-hero > .container.hero-content,
+html[dir="rtl"] .page-photo-hero > .container.hero-content,
+html[dir="rtl"] .service-detail-hero.has-parallax-hero .hero-content,
+html[dir="rtl"] .services-modern-hero.has-parallax-hero > .container,
+html[dir="rtl"] .project-detail-hero > .container,
+html[lang="ar"] .hero.page-photo-hero > .container.hero-content,
+html[lang="ar"] .page-photo-hero > .container.hero-content,
+html[lang="ar"] .service-detail-hero.has-parallax-hero .hero-content,
+html[lang="ar"] .services-modern-hero.has-parallax-hero > .container,
+html[lang="ar"] .project-detail-hero > .container {
+  width: min(980px, calc(100% - 48px)) !important;
+  max-width: 980px !important;
+  justify-self: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-inline: auto !important;
+  text-align: center !important;
+}
+
+html[dir="rtl"] .hero.page-photo-hero .eyebrow,
+html[dir="rtl"] .hero.page-photo-hero h1,
+html[dir="rtl"] .hero.page-photo-hero p,
+html[dir="rtl"] .page-photo-hero .eyebrow,
+html[dir="rtl"] .page-photo-hero h1,
+html[dir="rtl"] .page-photo-hero p,
+html[dir="rtl"] .service-detail-hero.has-parallax-hero .eyebrow,
+html[dir="rtl"] .service-detail-hero.has-parallax-hero h1,
+html[dir="rtl"] .service-detail-hero.has-parallax-hero p,
+html[dir="rtl"] .services-modern-hero.has-parallax-hero .eyebrow,
+html[dir="rtl"] .services-modern-hero.has-parallax-hero h1,
+html[dir="rtl"] .services-modern-hero.has-parallax-hero p,
+html[dir="rtl"] .project-detail-hero .eyebrow,
+html[dir="rtl"] .project-detail-hero h1,
+html[dir="rtl"] .project-detail-hero p,
+html[lang="ar"] .hero.page-photo-hero .eyebrow,
+html[lang="ar"] .hero.page-photo-hero h1,
+html[lang="ar"] .hero.page-photo-hero p,
+html[lang="ar"] .page-photo-hero .eyebrow,
+html[lang="ar"] .page-photo-hero h1,
+html[lang="ar"] .page-photo-hero p {
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-inline: auto !important;
+}
+
+html[dir="rtl"] .trust-logo-card h3,
+html[dir="rtl"] .project-client-logo-card strong,
+html[dir="rtl"] .home-proof-simple-logo-card strong,
+html[lang="ar"] .trust-logo-card h3,
+html[lang="ar"] .project-client-logo-card strong,
+html[lang="ar"] .home-proof-simple-logo-card strong {
+  direction: rtl;
+  unicode-bidi: plaintext;
+}

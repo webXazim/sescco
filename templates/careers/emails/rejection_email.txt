@@ -1,0 +1,16 @@
+Dear {{ application.full_name }},
+
+Thank you for applying for the {{ job.title }} position at SESCCO.
+
+After carefully reviewing your application, we are unable to move forward with your profile for this role at this time.
+
+Application reference: {{ application.application_reference }}
+
+{% if rejection_reason %}
+Note from HR:
+{{ rejection_reason }}
+{% endif %}
+We appreciate your interest in SESCCO and encourage you to apply again when a suitable opportunity is available.
+
+Regards,
+SESCCO HR Team

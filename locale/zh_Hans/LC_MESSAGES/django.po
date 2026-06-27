@@ -1,0 +1,114 @@
+# Chinese translations
+msgid ""
+msgstr ""
+"Project-Id-Version: standard-company-profile\n"
+"Language: zh_Hans\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Home"
+msgstr "首页"
+
+msgid "About Us"
+msgstr "关于我们"
+
+msgid "Services"
+msgstr "服务"
+
+msgid "Projects"
+msgstr "项目"
+
+msgid "Clients"
+msgstr "客户"
+
+msgid "Downloads"
+msgstr "下载"
+
+msgid "Contact"
+msgstr "联系"
+
+msgid "Contact Us"
+msgstr "联系我们"
+
+msgid "View Website"
+msgstr "查看网站"
+
+msgid "Dashboard"
+msgstr "仪表盘"
+
+msgid "Translations"
+msgstr "翻译"
+
+msgid "Translation Center"
+msgstr "翻译中心"
+
+msgid "Add Translation"
+msgstr "添加翻译"
+
+msgid "Open"
+msgstr "打开"
+
+msgid "Download"
+msgstr "下载"
+
+msgid "Preview"
+msgstr "预览"
+
+msgid "Request"
+msgstr "申请"
+
+msgid "Submit Request"
+msgstr "提交申请"
+
+msgid "Send Inquiry"
+msgstr "发送咨询"
+
+msgid "Frequently Asked Questions"
+msgstr "常见问题"
+
+msgid "Related Projects"
+msgstr "相关项目"
+
+msgid "Business Hours"
+msgstr "营业时间"
+
+msgid "Our Office"
+msgstr "我们的办公室"
+
+msgid "Get Directions"
+msgstr "获取路线"
+
+msgid "No services found."
+msgstr "未找到服务。"
+
+msgid "No projects found."
+msgstr "未找到项目。"
+
+msgid "No documents found."
+msgstr "未找到文件。"
+
+msgid "All Services"
+msgstr "所有服务"
+
+msgid "All Projects"
+msgstr "所有项目"
+
+msgid "All Documents"
+msgstr "所有文件"
+
+msgid "Filter"
+msgstr "筛选"
+
+msgid "Newest"
+msgstr "最新"
+
+msgid "Name"
+msgstr "名称"
+
+msgid "Most Downloaded"
+msgstr "下载最多"
+
+msgid "Page Not Found"
+msgstr "页面未找到"
+
+msgid "Back to Home"
+msgstr "返回首页"

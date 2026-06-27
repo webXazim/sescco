@@ -1,0 +1,363 @@
+html[dir="rtl"] body{direction:rtl;text-align:right}
+html[dir="rtl"] .navbar,html[dir="rtl"] .hero-actions,html[dir="rtl"] .info-item,html[dir="rtl"] .cta .container,html[dir="rtl"] .footer-bottom{direction:rtl}
+html[dir="rtl"] .arrow{display:inline-block;transform:rotate(180deg)}
+html[dir="rtl"] input,html[dir="rtl"] textarea,html[dir="rtl"] select{text-align:right}
+html[lang="ar"] body{font-family:"Tajawal","Cairo","Noto Sans Arabic",system-ui,sans-serif}
+.language-switcher select{min-height:42px;border-radius:7px;border:1px solid var(--line);padding:0 10px;font-weight:800;background:white}
+
+
+/* Upgrade 15 RTL and multilingual polish */
+html[dir="rtl"] .container {
+  direction: rtl;
+}
+
+html[dir="rtl"] .hero {
+  background-position: center left;
+}
+
+html[dir="rtl"] .hero-content {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+html[dir="rtl"] .nav-links,
+html[dir="rtl"] .hero-actions,
+html[dir="rtl"] .tabs,
+html[dir="rtl"] .service-meta,
+html[dir="rtl"] .social {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .grid,
+html[dir="rtl"] .grid-2,
+html[dir="rtl"] .grid-3,
+html[dir="rtl"] .grid-4,
+html[dir="rtl"] .grid-5,
+html[dir="rtl"] .grid-6 {
+  direction: rtl;
+}
+
+html[dir="rtl"] .card,
+html[dir="rtl"] .project-body,
+html[dir="rtl"] .footer,
+html[dir="rtl"] .table-card table {
+  text-align: right;
+}
+
+html[dir="rtl"] table th,
+html[dir="rtl"] table td {
+  text-align: right;
+}
+
+html[dir="rtl"] .btn .arrow,
+html[dir="rtl"] .arrow {
+  transform: scaleX(-1);
+}
+
+html[dir="rtl"] .logo {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .footer-grid {
+  text-align: right;
+}
+
+html[dir="rtl"] details summary {
+  text-align: right;
+}
+
+html[dir="rtl"] ul,
+html[dir="rtl"] ol {
+  padding-right: 22px;
+  padding-left: 0;
+}
+
+html[dir="rtl"] .admin-layout {
+  direction: rtl;
+}
+
+html[dir="rtl"] .sidebar {
+  border-left: 1px solid var(--line);
+  border-right: 0;
+}
+
+html[lang="zh-hans"] body {
+  font-family: "Noto Sans SC", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+}
+
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] .btn,
+html[lang="ar"] .nav-links a {
+  letter-spacing: 0;
+}
+
+html[lang="ar"] .eyebrow {
+  letter-spacing: .03em;
+}
+
+@media(max-width: 980px) {
+  html[dir="rtl"] .navbar,
+  html[dir="rtl"] .nav-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  html[dir="rtl"] .hero-content {
+    text-align: right;
+  }
+
+  .language-links {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
+/* Upgrade 26 — Arabic homepage hero fit fix */
+html[dir="rtl"] .hero-home {
+  /* Arabic should feel natural: visual/photo on the left, readable text on the right. */
+  background: linear-gradient(90deg, #b7cde4 0%, #dcebf8 58%, #ffffff 58%, #ffffff 100%);
+}
+
+html[dir="rtl"] .hero-visual-photo {
+  right: auto;
+  left: 0;
+  width: 58.5%;
+  background-position: center left;
+}
+
+html[dir="rtl"] .hero-visual-photo::before {
+  /* Fade the left visual gently into the clean white Arabic text side. */
+  background:
+    linear-gradient(270deg,
+      rgba(255,255,255,1) 0%,
+      rgba(255,255,255,.96) 10%,
+      rgba(232,242,252,.78) 24%,
+      rgba(210,228,245,.52) 42%,
+      rgba(186,209,231,.34) 64%,
+      rgba(169,196,222,.22) 100%),
+    linear-gradient(180deg, rgba(245,250,255,.26), rgba(245,250,255,.05));
+}
+
+html[dir="rtl"] .hero-visual-photo::after {
+  background:
+    radial-gradient(circle at 26% 54%, rgba(7,32,70,.12), transparent 32%),
+    linear-gradient(270deg, rgba(219,233,248,.20), rgba(126,161,196,.22));
+}
+
+html[dir="rtl"] .hero-inner {
+  /* Do not rely on direction auto-placement; explicitly place both columns. */
+  direction: ltr;
+  grid-template-columns: minmax(430px, 1.08fr) minmax(0, .92fr);
+}
+
+html[dir="rtl"] .hero-home .hero-content {
+  grid-column: 2;
+  grid-row: 1;
+  text-align: right;
+  justify-self: end;
+  max-width: 700px;
+  direction: rtl;
+}
+
+html[dir="rtl"] .hero-side-panel {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+html[dir="rtl"] .hero-side-grid {
+  inset: 0 -80px 0 -30px;
+  mask-image: linear-gradient(270deg, transparent, #000 22%, #000 84%, transparent);
+}
+
+html[dir="rtl"] .hero-side-glow {
+  right: auto;
+  left: 2%;
+}
+
+html[dir="rtl"] .hero-actions {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+
+html[dir="rtl"] .hero-kicker {
+  letter-spacing: .08em;
+}
+
+html[dir="rtl"] .hero-home h1 {
+  max-width: 700px;
+  line-height: 1.12;
+  letter-spacing: -.025em;
+}
+
+html[dir="rtl"] .hero-home p {
+  max-width: 660px;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+@media (max-width: 1180px) {
+  html[dir="rtl"] .hero-inner {
+    grid-template-columns: minmax(380px, .92fr) minmax(0, 1fr);
+  }
+
+  html[dir="rtl"] .hero-visual-photo {
+    width: 55%;
+  }
+}
+
+@media (max-width: 980px) {
+  html[dir="rtl"] .hero-home {
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 58%, #dcebf8 58%, #b7cde4 100%);
+  }
+
+  html[dir="rtl"] .hero-visual-photo {
+    position: relative;
+    left: auto;
+    right: auto;
+    width: min(100% - 28px, 920px);
+    height: clamp(250px, 52vw, 380px);
+    margin: 28px auto 0;
+    border-radius: 26px;
+    overflow: hidden;
+    background-position: center center;
+    box-shadow: 0 18px 54px rgba(6, 27, 54, .10);
+  }
+
+  html[dir="rtl"] .hero-visual-photo::before {
+    background:
+      linear-gradient(180deg, rgba(232,243,252,.52), rgba(212,229,245,.32)),
+      linear-gradient(90deg, rgba(255,255,255,.48), rgba(255,255,255,.08));
+  }
+
+  html[dir="rtl"] .hero-inner {
+    direction: rtl;
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-top: 12px;
+    padding-bottom: 48px;
+  }
+
+  html[dir="rtl"] .hero-home .hero-content,
+  html[dir="rtl"] .hero-side-panel {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  html[dir="rtl"] .hero-home .hero-content {
+    text-align: right;
+    justify-self: stretch;
+  }
+
+  html[dir="rtl"] .hero-side-panel {
+    display: none;
+  }
+
+  html[dir="rtl"] .hero-actions {
+    flex-direction: column;
+  }
+}
+
+
+/* Upgrade 19 — RTL parity for zoomed-out home hero */
+html[dir="rtl"] .hero-home {
+  min-height: clamp(560px, 52vw, 640px);
+  background: linear-gradient(90deg, #c2d6ea 0%, #e7f1fa 56%, #ffffff 56%, #ffffff 100%);
+}
+
+html[dir="rtl"] .hero-inner {
+  min-height: clamp(560px, 52vw, 640px);
+  grid-template-columns: minmax(440px, 1.14fr) minmax(0, .86fr);
+  gap: clamp(30px, 5vw, 84px);
+}
+
+html[dir="rtl"] .hero-visual-photo {
+  width: 56%;
+  background-size: auto 100%;
+  background-position: center left;
+}
+
+html[dir="rtl"] .hero-home .hero-content {
+  max-width: 600px;
+  padding: clamp(64px, 7vw, 92px) 0 clamp(92px, 8vw, 122px);
+}
+
+html[dir="rtl"] .hero-home h1 {
+  max-width: 650px;
+  font-size: clamp(34px, 2.9vw, 50px);
+  line-height: 1.18;
+  letter-spacing: -.015em;
+}
+
+html[dir="rtl"] .hero-home p {
+  max-width: 575px;
+  font-size: clamp(15.5px, 1.02vw, 18px);
+}
+
+@media (max-width: 1180px) {
+  html[dir="rtl"] .hero-inner {
+    grid-template-columns: minmax(390px, 1.1fr) minmax(0, .9fr);
+  }
+  html[dir="rtl"] .hero-visual-photo {
+    width: 55%;
+  }
+}
+
+@media (max-width: 980px) {
+  html[dir="rtl"] .hero-home {
+    min-height: auto;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 57%, #e7f1fa 57%, #c2d6ea 100%);
+  }
+
+  html[dir="rtl"] .hero-inner {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding-top: 6px;
+    padding-bottom: 72px;
+  }
+
+  html[dir="rtl"] .hero-home .hero-content {
+    max-width: 680px;
+    padding: 26px 0 0;
+  }
+
+  html[dir="rtl"] .hero-home h1 {
+    font-size: clamp(32px, 5.7vw, 46px);
+    line-height: 1.22;
+  }
+
+  html[dir="rtl"] .hero-home p {
+    max-width: 640px;
+    font-size: 16px;
+  }
+
+  html[dir="rtl"] .hero-visual-photo {
+    width: min(100% - 30px, 900px);
+    height: clamp(245px, 48vw, 370px);
+    background-size: cover;
+  }
+}
+
+@media (max-width: 640px) {
+  html[dir="rtl"] .hero-home h1 {
+    font-size: clamp(30px, 9.5vw, 40px);
+    line-height: 1.25;
+  }
+
+  html[dir="rtl"] .hero-home p {
+    font-size: 15.5px;
+  }
+}
+
+
+/* Upgrade 168 — keep public page heroes visually centered in RTL. */
+html[dir="rtl"] .page-photo-hero .hero-content,
+html[dir="rtl"] .services-modern-hero .container,
+html[dir="rtl"] .project-detail-hero .container {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}

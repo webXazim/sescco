@@ -1,0 +1,192 @@
+html.gsap-preload .site-header,
+html.gsap-preload .hero-home .hero-kicker,
+html.gsap-preload .hero-home h1,
+html.gsap-preload .hero-home p,
+html.gsap-preload .hero-home .hero-actions,
+html.gsap-preload .hero-home .hero-trust-sphere-exact,
+html.gsap-preload .services-modern-hero .breadcrumb,
+html.gsap-preload .services-modern-hero .eyebrow,
+html.gsap-preload .services-modern-hero h1,
+html.gsap-preload .services-modern-hero p,
+html.gsap-preload .services-modern-hero .hero-actions,
+html.gsap-preload .page-photo-hero .breadcrumb,
+html.gsap-preload .page-photo-hero .eyebrow,
+html.gsap-preload .page-photo-hero h1,
+html.gsap-preload .page-photo-hero p,
+html.gsap-preload .page-photo-hero .hero-actions,
+html.gsap-preload .service-detail-hero .breadcrumb,
+html.gsap-preload .service-detail-hero .eyebrow,
+html.gsap-preload .service-detail-hero h1,
+html.gsap-preload .service-detail-hero p,
+html.gsap-preload .service-detail-hero .hero-actions,
+html.gsap-preload .career-hero .breadcrumb,
+html.gsap-preload .career-hero .eyebrow,
+html.gsap-preload .career-hero h1,
+html.gsap-preload .career-hero p,
+html.gsap-preload .career-hero .hero-actions,
+html.gsap-preload .career-detail-hero .breadcrumb,
+html.gsap-preload .career-detail-hero .eyebrow,
+html.gsap-preload .career-detail-hero h1,
+html.gsap-preload .career-detail-hero p,
+html.gsap-preload .career-detail-hero .hero-actions,
+html.gsap-preload .career-form-hero .breadcrumb,
+html.gsap-preload .career-form-hero .eyebrow,
+html.gsap-preload .career-form-hero h1,
+html.gsap-preload .career-form-hero p,
+html.gsap-preload .career-form-hero .hero-actions,
+html.gsap-preload .hero.dark .breadcrumb,
+html.gsap-preload .hero.dark .eyebrow,
+html.gsap-preload .hero.dark h1,
+html.gsap-preload .hero.dark p,
+html.gsap-preload .hero.dark .hero-actions {
+  opacity: 0;
+  visibility: hidden;
+}
+
+html.gsap-preload .site-header,
+html.gsap-preload .site-header * {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+html.gsap-preload .site-header {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+html.gsap-preload .contact-hero .eyebrow,
+html.gsap-preload .contact-hero h1,
+html.gsap-preload .contact-hero p,
+html.gsap-preload .contact-hero .hero-actions,
+html.gsap-preload .project-detail-hero-copy .breadcrumb,
+html.gsap-preload .project-detail-hero-copy .eyebrow,
+html.gsap-preload .project-detail-hero-copy h1,
+html.gsap-preload .project-detail-hero-copy p,
+html.gsap-preload .project-detail-hero-copy .hero-actions {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 26px, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.gsap-preload .contact-hero .eyebrow,
+  html.gsap-preload .contact-hero h1,
+  html.gsap-preload .contact-hero p,
+  html.gsap-preload .contact-hero .hero-actions,
+  html.gsap-preload .project-detail-hero-copy .breadcrumb,
+  html.gsap-preload .project-detail-hero-copy .eyebrow,
+  html.gsap-preload .project-detail-hero-copy h1,
+  html.gsap-preload .project-detail-hero-copy p,
+  html.gsap-preload .project-detail-hero-copy .hero-actions {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+}
+
+html.gsap-preload .site-header,
+html.gsap-preload .site-header * {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+html.gsap-preload .hero-home .hero-kicker,
+html.gsap-preload .hero-home h1,
+html.gsap-preload .hero-home p,
+html.gsap-preload .hero-home .hero-actions,
+html.gsap-preload .services-modern-hero .breadcrumb,
+html.gsap-preload .services-modern-hero .eyebrow,
+html.gsap-preload .services-modern-hero h1,
+html.gsap-preload .services-modern-hero p,
+html.gsap-preload .services-modern-hero .hero-actions,
+html.gsap-preload .page-photo-hero .breadcrumb,
+html.gsap-preload .page-photo-hero .eyebrow,
+html.gsap-preload .page-photo-hero h1,
+html.gsap-preload .page-photo-hero p,
+html.gsap-preload .page-photo-hero .hero-actions,
+html.gsap-preload .service-detail-hero .breadcrumb,
+html.gsap-preload .service-detail-hero .eyebrow,
+html.gsap-preload .service-detail-hero h1,
+html.gsap-preload .service-detail-hero p,
+html.gsap-preload .service-detail-hero .hero-actions,
+html.gsap-preload .career-hero .breadcrumb,
+html.gsap-preload .career-hero .eyebrow,
+html.gsap-preload .career-hero h1,
+html.gsap-preload .career-hero p,
+html.gsap-preload .career-hero .hero-actions,
+html.gsap-preload .career-detail-hero .breadcrumb,
+html.gsap-preload .career-detail-hero .eyebrow,
+html.gsap-preload .career-detail-hero h1,
+html.gsap-preload .career-detail-hero p,
+html.gsap-preload .career-detail-hero .hero-actions,
+html.gsap-preload .career-form-hero .breadcrumb,
+html.gsap-preload .career-form-hero .eyebrow,
+html.gsap-preload .career-form-hero h1,
+html.gsap-preload .career-form-hero p,
+html.gsap-preload .career-form-hero .hero-actions,
+html.gsap-preload .hero.dark .breadcrumb,
+html.gsap-preload .hero.dark .eyebrow,
+html.gsap-preload .hero.dark h1,
+html.gsap-preload .hero.dark p,
+html.gsap-preload .hero.dark .hero-actions {
+  transform: translate3d(0, 26px, 0);
+}
+
+html.gsap-preload .site-header {
+  transform: translate3d(0, -12px, 0);
+}
+
+html.gsap-preload .hero-home .hero-trust-sphere-exact {
+  transform: translate3d(0, 0, 0) scale(.965);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.gsap-preload .site-header,
+  html.gsap-preload .hero-home .hero-kicker,
+  html.gsap-preload .hero-home h1,
+  html.gsap-preload .hero-home p,
+  html.gsap-preload .hero-home .hero-actions,
+  html.gsap-preload .hero-home .hero-trust-sphere-exact,
+  html.gsap-preload .services-modern-hero .breadcrumb,
+  html.gsap-preload .services-modern-hero .eyebrow,
+  html.gsap-preload .services-modern-hero h1,
+  html.gsap-preload .services-modern-hero p,
+  html.gsap-preload .services-modern-hero .hero-actions,
+  html.gsap-preload .page-photo-hero .breadcrumb,
+  html.gsap-preload .page-photo-hero .eyebrow,
+  html.gsap-preload .page-photo-hero h1,
+  html.gsap-preload .page-photo-hero p,
+  html.gsap-preload .page-photo-hero .hero-actions,
+  html.gsap-preload .service-detail-hero .breadcrumb,
+  html.gsap-preload .service-detail-hero .eyebrow,
+  html.gsap-preload .service-detail-hero h1,
+  html.gsap-preload .service-detail-hero p,
+  html.gsap-preload .service-detail-hero .hero-actions,
+  html.gsap-preload .career-hero .breadcrumb,
+  html.gsap-preload .career-hero .eyebrow,
+  html.gsap-preload .career-hero h1,
+  html.gsap-preload .career-hero p,
+  html.gsap-preload .career-hero .hero-actions,
+  html.gsap-preload .career-detail-hero .breadcrumb,
+  html.gsap-preload .career-detail-hero .eyebrow,
+  html.gsap-preload .career-detail-hero h1,
+  html.gsap-preload .career-detail-hero p,
+  html.gsap-preload .career-detail-hero .hero-actions,
+  html.gsap-preload .career-form-hero .breadcrumb,
+  html.gsap-preload .career-form-hero .eyebrow,
+  html.gsap-preload .career-form-hero h1,
+  html.gsap-preload .career-form-hero p,
+  html.gsap-preload .career-form-hero .hero-actions,
+  html.gsap-preload .hero.dark .breadcrumb,
+  html.gsap-preload .hero.dark .eyebrow,
+  html.gsap-preload .hero.dark h1,
+  html.gsap-preload .hero.dark p,
+  html.gsap-preload .hero.dark .hero-actions {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+}

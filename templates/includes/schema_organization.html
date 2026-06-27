@@ -1,0 +1,39 @@
+{% load localization %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{% localized_plain company 'company_name' %}",
+  "alternateName": "{% localized_plain company 'short_name' %}",
+  "url": "{{ request.scheme }}://{{ request.get_host }}",
+  "email": "{{ company.email_primary }}",
+  "telephone": "{{ company.phone_primary }}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{% localized_plain company 'address' %}",
+    "addressLocality": "{% localized_plain company 'city' %}",
+    "addressCountry": "{% localized_plain company 'country' %}"
+  }{% if social_links %},
+  "sameAs": [
+    {% for social in social_links %}"{{ social.url }}"{% if not forloop.last %},{% endif %}{% endfor %}
+  ]{% endif %}
+}
+</script>
+
+{% if site_settings.show_developer_credit and site_settings.developer_name and site_settings.developer_url %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ site_settings.site_name|default:company.short_name }}",
+  "url": "{{ request.scheme }}://{{ request.get_host }}",
+  "description": "{{ site_settings.default_seo_description|default:company.tagline }}",
+  "creator": {
+    "@type": "Organization",
+    "name": "{{ site_settings.developer_name }}",
+    "url": "{{ site_settings.developer_url }}",
+    "description": "{{ site_settings.developer_seo_description }}"
+  }
+}
+</script>
+{% endif %}

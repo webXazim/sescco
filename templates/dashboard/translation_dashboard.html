@@ -1,0 +1,56 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Translation {% trans "Dashboard" %} | {{ company.short_name }}</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar">
+    {% include "includes/site_logo.html" %}
+    <nav class="side-nav">
+      <a href="{% url 'dashboard_home' %}">{% trans "Dashboard" %}</a>
+      <a href="{% url 'career_applications_dashboard' %}">Career Applications</a>
+      <a class="active" href="{% url 'translation_dashboard' %}">{% trans "Translations" %}</a>
+      <a href="/admin/core/localizedcontent/">Localized Content</a>
+      <a href="/admin/">Django {% trans "Admin" %}</a>
+    </nav>
+  </aside>
+  <main class="admin-main">
+    <div class="admin-top">
+      <h2>Translation {% trans "Dashboard" %}</h2>
+      <div>
+        <a class="btn btn-outline" href="?language=ar">Arabic</a>
+        <a class="btn btn-outline" href="?language=zh-hans">Chinese</a>
+        <a class="btn btn-primary" href="/admin/core/localizedcontent/add/">{% trans "Add Translation" %}</a>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:24px">
+      <h3>{% trans "Current language" %}: {{ language }}</h3>
+      <p class="text-muted">This view shows translation records created for each registered content type. It helps you see which modules have translations.</p>
+    </div>
+    <div class="card table-card">
+      <table>
+        <thead>
+          <tr><th>{% trans "Module" %}</th><th>{% trans "Content Type" %}</th><th>{% trans "Registered Fields" %}</th><th>{% trans "Translations" %} Created</th><th>{% trans "Admin" %}</th></tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+          <tr>
+            <td>{{ row.model_label }}</td>
+            <td><code>{{ row.content_type }}</code></td>
+            <td>{{ row.fields }}</td>
+            <td><span class="badge">{{ row.translation_count }}</span></td>
+            <td><a class="btn btn-outline" style="min-height:34px;padding:0 12px" href="/admin/core/localizedcontent/?content_type__exact={{ row.content_type }}&language_code__exact={{ language }}">{% trans "Open" %}</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+</body>
+</html>
