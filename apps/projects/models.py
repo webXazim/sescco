@@ -27,7 +27,7 @@ class Project(OrderedActiveModel, TimeStampedModel):
     category = models.ForeignKey(ProjectCategory, on_delete=models.SET_NULL, related_name="projects", blank=True, null=True)
     services = models.ManyToManyField("services.Service", related_name="projects", blank=True)
     title = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=255, unique=True)
     client = models.ForeignKey("clients.Client", on_delete=models.SET_NULL, related_name="project_client_entries", blank=True, null=True)
     contractor = models.ForeignKey("clients.Client", on_delete=models.SET_NULL, related_name="project_contractor_entries", blank=True, null=True)
     client_name = models.CharField(max_length=255, blank=True)
