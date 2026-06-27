@@ -1,0 +1,29 @@
+{
+    email {$ACME_EMAIL:admin@example.com}
+}
+
+{$SITE_DOMAIN:http://localhost} {
+    encode gzip zstd
+    request_body {
+        max_size 16MB
+    }
+
+    handle_path /static/* {
+        root * /srv/static
+        file_server
+        header Cache-Control "public, max-age=2592000"
+    }
+
+    handle_path /media/* {
+        root * /srv/media
+        file_server
+        header Cache-Control "public, max-age=604800"
+    }
+
+    reverse_proxy web:8000 {
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+    }
+}

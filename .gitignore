@@ -38,6 +38,7 @@ db.sqlite3-journal
 .env
 .env.*
 !.env.example
+!.env.production.example
 
 # Build and package output
 build/
@@ -57,6 +58,7 @@ pnpm-debug.log*
 *.seed
 *.dump
 *.bak
+/backups/
 
 # IDEs and editors
 .idea/
