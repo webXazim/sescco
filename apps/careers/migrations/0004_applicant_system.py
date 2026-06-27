@@ -74,7 +74,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="jobapplication",
             name="application_reference",
-            field=models.CharField(blank=True, db_index=True, editable=False, max_length=40),
+            field=models.CharField(blank=True, editable=False, max_length=40),
         ),
         migrations.AddField(
             model_name="jobapplication",
@@ -145,7 +145,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="jobapplication",
             name="application_reference",
-            field=models.CharField(blank=True, db_index=True, editable=False, max_length=40, unique=True),
+            field=models.CharField(blank=True, editable=False, max_length=40, unique=True),
         ),
         migrations.AlterField(
             model_name="jobapplication",

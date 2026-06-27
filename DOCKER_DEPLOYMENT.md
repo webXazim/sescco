@@ -34,7 +34,7 @@ cp .env.production.example .env
 Edit `.env` and set real values:
 
 ```env
-SITE_DOMAIN=example.com,www.example.com
+SITE_DOMAIN=example.com, www.example.com
 ACME_EMAIL=admin@example.com
 SECRET_KEY=replace-with-a-long-random-secret
 ALLOWED_HOSTS=example.com,www.example.com
