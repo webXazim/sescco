@@ -690,6 +690,9 @@ document.addEventListener("DOMContentLoaded", function () {
     moved: false,
     lastX: 0,
     lastY: 0,
+    pointerClientX: 0,
+    pointerClientY: 0,
+    hasPointerPosition: false,
     radius: 265,
     autoSpeed: 0.04,
     manualUntil: 0
@@ -718,9 +721,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function pointerVectorFromEvent(event) {
     const rect = wrap.getBoundingClientRect();
+    const clientX = Number.isFinite(event.clientX) && event.clientX !== 0
+      ? event.clientX
+      : (state.hasPointerPosition ? state.pointerClientX : rect.left + rect.width / 2);
+    const clientY = Number.isFinite(event.clientY) && event.clientY !== 0
+      ? event.clientY
+      : (state.hasPointerPosition ? state.pointerClientY : rect.top + rect.height / 2);
     return {
-      x: clamp(((event.clientX - rect.left) / rect.width - 0.5) * 2, -1, 1),
-      y: clamp(((event.clientY - rect.top) / rect.height - 0.5) * 2, -1, 1)
+      x: clamp(((clientX - rect.left) / rect.width - 0.5) * 2, -1, 1),
+      y: clamp(((clientY - rect.top) / rect.height - 0.5) * 2, -1, 1)
     };
   }
 
@@ -901,6 +910,9 @@ document.addEventListener("DOMContentLoaded", function () {
     state.moved = false;
     state.lastX = event.clientX;
     state.lastY = event.clientY;
+    state.pointerClientX = event.clientX;
+    state.pointerClientY = event.clientY;
+    state.hasPointerPosition = true;
     holdManualControl(1200);
     wrap.setPointerCapture(event.pointerId);
   });
@@ -909,6 +921,9 @@ document.addEventListener("DOMContentLoaded", function () {
     state.hovering = true;
     wrap.classList.add('is-hovered');
     holdManualControl(500);
+    state.pointerClientX = event.clientX;
+    state.pointerClientY = event.clientY;
+    state.hasPointerPosition = true;
     const pointerVector = pointerVectorFromEvent(event);
     syncPointerIntent(pointerVector.x, pointerVector.y);
 
@@ -944,26 +959,39 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
     clearFocus();
     holdManualControl(1300);
-    const primaryDelta = Math.abs(event.deltaY) >= Math.abs(event.deltaX)
-      ? event.deltaY
-      : event.deltaX;
-    const manualTurn = clamp(primaryDelta * 0.22, -42, 42);
+    state.pointerClientX = Number.isFinite(event.clientX) && event.clientX !== 0 ? event.clientX : state.pointerClientX;
+    state.pointerClientY = Number.isFinite(event.clientY) && event.clientY !== 0 ? event.clientY : state.pointerClientY;
+    state.hasPointerPosition = true;
     const pointerVector = pointerVectorFromEvent(event);
     syncPointerIntent(pointerVector.x, pointerVector.y);
     const absX = Math.abs(pointerVector.x);
     const absY = Math.abs(pointerVector.y);
-    const totalIntent = Math.max(0.001, absX + absY);
-    const horizontalWeight = absY > absX ? absX / totalIntent : Math.max(0.25, absX / totalIntent);
-    const verticalWeight = absY >= absX ? Math.max(0.45, absY / totalIntent) : absY / totalIntent;
-    const horizontalDirection = Math.sign(pointerVector.x || 1);
-    const verticalDirection = Math.sign(-pointerVector.y || 1);
-    const yTurn = manualTurn * horizontalWeight * horizontalDirection;
-    const xTurn = manualTurn * verticalWeight * verticalDirection;
+    const verticalScroll = clamp(-event.deltaY * 0.34, -58, 58);
+    const horizontalScroll = clamp(event.deltaX * 0.34, -58, 58);
+    const dominantVerticalZone = absY > absX + 0.08;
+    const dominantHorizontalZone = absX > absY + 0.08;
+    const xDirection = Math.sign(-pointerVector.y || 1);
+    const yDirection = Math.sign(pointerVector.x || 1);
+    let xTurn = verticalScroll * xDirection;
+    let yTurn = verticalScroll * yDirection;
 
-    state.wheelTargetY += yTurn;
-    state.wheelCurrentY += yTurn * 0.4;
-    state.wheelTargetX += xTurn;
-    state.wheelCurrentX += xTurn * 0.5;
+    if (dominantVerticalZone) {
+      yTurn *= 0.12;
+    } else if (dominantHorizontalZone) {
+      xTurn *= 0.12;
+    } else {
+      xTurn *= 0.55;
+      yTurn *= 0.55;
+    }
+
+    yTurn += horizontalScroll;
+
+    state.autoRotationX += xTurn;
+    state.autoRotationY += yTurn;
+    state.wheelTargetX = 0;
+    state.wheelTargetY = 0;
+    state.wheelCurrentX = 0;
+    state.wheelCurrentY = 0;
   }, { passive: false });
 
   const enterManualSphere = () => {
@@ -981,6 +1009,7 @@ document.addEventListener("DOMContentLoaded", function () {
     state.pointerSpinTargetY = 0;
     state.pointerRelX = 0;
     state.pointerRelY = 0;
+    state.hasPointerPosition = false;
     wrap.classList.remove('is-hovered');
   };
 
