@@ -663,6 +663,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const state = {
     rotationX: -8,
     rotationY: 0,
+    autoRotationX: 0,
     autoRotationY: 0,
     baseTiltX: -8,
     pointerTargetX: 0,
@@ -673,6 +674,8 @@ document.addEventListener("DOMContentLoaded", function () {
     pointerSpinTargetY: 0,
     pointerSpinCurrentX: 0,
     pointerSpinCurrentY: 0,
+    pointerRelX: 0,
+    pointerRelY: 0,
     wheelTargetX: 0,
     wheelTargetY: 0,
     wheelCurrentX: 0,
@@ -711,6 +714,23 @@ document.addEventListener("DOMContentLoaded", function () {
     if (magnitude < deadZone) return 0;
     const normalized = (magnitude - deadZone) / (1 - deadZone);
     return Math.sign(value) * Math.min(maxSpeed, normalized * maxSpeed);
+  }
+
+  function pointerVectorFromEvent(event) {
+    const rect = wrap.getBoundingClientRect();
+    return {
+      x: clamp(((event.clientX - rect.left) / rect.width - 0.5) * 2, -1, 1),
+      y: clamp(((event.clientY - rect.top) / rect.height - 0.5) * 2, -1, 1)
+    };
+  }
+
+  function syncPointerIntent(relX, relY) {
+    state.pointerRelX = relX;
+    state.pointerRelY = relY;
+    state.pointerTargetY = clamp(relX * 5, -5, 5);
+    state.pointerTargetX = clamp(-relY * 4, -4, 4);
+    state.pointerSpinTargetY = directionalSpin(relX, 0.18);
+    state.pointerSpinTargetX = directionalSpin(-relY, 0.13);
   }
 
   function holdManualControl(duration = 900) {
@@ -889,14 +909,8 @@ document.addEventListener("DOMContentLoaded", function () {
     state.hovering = true;
     wrap.classList.add('is-hovered');
     holdManualControl(500);
-    const rect = wrap.getBoundingClientRect();
-    const relX = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
-    const relY = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
-
-    state.pointerTargetY = clamp(relX * 5, -5, 5);
-    state.pointerTargetX = clamp(-relY * 4, -4, 4);
-    state.pointerSpinTargetY = directionalSpin(relX, 0.18);
-    state.pointerSpinTargetX = directionalSpin(-relY, 0.13);
+    const pointerVector = pointerVectorFromEvent(event);
+    syncPointerIntent(pointerVector.x, pointerVector.y);
 
     if (!state.dragging) return;
 
@@ -934,9 +948,17 @@ document.addEventListener("DOMContentLoaded", function () {
       ? event.deltaY
       : event.deltaX;
     const manualTurn = clamp(primaryDelta * 0.22, -42, 42);
-    state.wheelTargetY += manualTurn;
-    state.wheelCurrentY += manualTurn * 0.34;
-    state.wheelTargetX = clamp(state.wheelTargetX - event.deltaX * 0.028, -14, 14);
+    const pointerVector = pointerVectorFromEvent(event);
+    syncPointerIntent(pointerVector.x, pointerVector.y);
+    const horizontalWeight = Math.max(0.18, Math.abs(pointerVector.x));
+    const verticalWeight = Math.max(0.18, Math.abs(pointerVector.y));
+    const horizontalDirection = pointerVector.x || 1;
+    const verticalDirection = -pointerVector.y || 1;
+
+    state.wheelTargetY += manualTurn * horizontalWeight * Math.sign(horizontalDirection);
+    state.wheelCurrentY += manualTurn * horizontalWeight * Math.sign(horizontalDirection) * 0.34;
+    state.wheelTargetX += manualTurn * verticalWeight * Math.sign(verticalDirection);
+    state.wheelCurrentX += manualTurn * verticalWeight * Math.sign(verticalDirection) * 0.28;
   }, { passive: false });
 
   const enterManualSphere = () => {
@@ -952,6 +974,8 @@ document.addEventListener("DOMContentLoaded", function () {
     state.pointerTargetY = 0;
     state.pointerSpinTargetX = 0;
     state.pointerSpinTargetY = 0;
+    state.pointerRelX = 0;
+    state.pointerRelY = 0;
     wrap.classList.remove('is-hovered');
   };
 
