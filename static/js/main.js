@@ -696,7 +696,7 @@ document.addEventListener("DOMContentLoaded", function () {
     pointerClientY: 0,
     hasPointerPosition: false,
     radius: 265,
-    autoSpeed: 0.085,
+    autoSpeed: 0.14,
     manualUntil: 0
   };
 
@@ -740,8 +740,8 @@ document.addEventListener("DOMContentLoaded", function () {
     state.pointerRelY = relY;
     state.pointerTargetY = clamp(relX * 5, -5, 5);
     state.pointerTargetX = clamp(-relY * 4, -4, 4);
-    state.pointerSpinTargetY = directionalSpin(relX, 0.18);
-    state.pointerSpinTargetX = directionalSpin(-relY, 0.13);
+    state.pointerSpinTargetY = 0;
+    state.pointerSpinTargetX = 0;
   }
 
   function holdManualControl(duration = 900) {
@@ -873,11 +873,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function animate() {
     const pointerOverSphere = state.hovering || wrap.matches(':hover');
     const manualActive = pointerOverSphere || state.dragging || performance.now() < state.manualUntil;
-    if (pointerOverSphere && !state.dragging) {
-      state.autoRotationX += state.pointerSpinCurrentX;
-      state.autoRotationY += state.pointerSpinCurrentY;
-    } else if (!manualActive) {
-      state.autoRotationX = lerp(state.autoRotationX, 0, 0.018);
+    if (!manualActive) {
       state.autoRotationY += state.autoSpeed;
     }
 
@@ -972,25 +968,28 @@ document.addEventListener("DOMContentLoaded", function () {
     syncPointerIntent(pointerVector.x, pointerVector.y);
     const absX = Math.abs(pointerVector.x);
     const absY = Math.abs(pointerVector.y);
-    const verticalScroll = clamp(-event.deltaY * 0.018, -4.8, 4.8);
-    const horizontalScroll = clamp(event.deltaX * 0.018, -4.8, 4.8);
-    const dominantVerticalZone = absY > absX + 0.08;
-    const dominantHorizontalZone = absX > absY + 0.08;
-    const xDirection = Math.sign(-pointerVector.y || 1);
-    const yDirection = Math.sign(pointerVector.x || 1);
-    let xTurn = verticalScroll * xDirection;
-    let yTurn = verticalScroll * yDirection;
+    const wheelTurn = clamp(-event.deltaY * 0.02, -5.8, 5.8);
+    const sideTurn = clamp(event.deltaX * 0.02, -5.8, 5.8);
+    const totalIntent = Math.max(0.001, absX + absY);
+    let xWeight = absY / totalIntent;
+    let yWeight = absX / totalIntent;
 
-    if (dominantVerticalZone) {
-      yTurn *= 0.12;
-    } else if (dominantHorizontalZone) {
-      xTurn *= 0.12;
-    } else {
-      xTurn *= 0.55;
-      yTurn *= 0.55;
+    if (absY > absX + 0.08) {
+      xWeight = 1;
+      yWeight = 0;
+    } else if (absX > absY + 0.08) {
+      xWeight = 0;
+      yWeight = 1;
     }
 
-    yTurn += horizontalScroll;
+    const centerBlend = Math.max(absX, absY);
+    if (centerBlend < 0.16) {
+      xWeight = 0;
+      yWeight = 1;
+    }
+
+    const xTurn = wheelTurn * xWeight;
+    const yTurn = (wheelTurn * yWeight) + sideTurn;
 
     state.wheelVelocityX += xTurn;
     state.wheelVelocityY += yTurn;
