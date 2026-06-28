@@ -144,7 +144,7 @@ class CareerPageSettings(TimeStampedModel):
     hero_primary_button_text = models.CharField(max_length=120, default="View Open Jobs")
     hero_primary_button_url = models.CharField(max_length=255, default="#open-roles")
     hero_secondary_button_text = models.CharField(max_length=120, default="Contact HR")
-    hero_secondary_button_url = models.CharField(max_length=255, default="/contact/")
+    hero_secondary_button_url = models.CharField(max_length=255, default="/contact/?type=career")
 
     meta_title = models.CharField(max_length=255, blank=True, default="Careers | SESCCO")
     meta_description = models.CharField(
@@ -218,7 +218,7 @@ class CareerPageSettings(TimeStampedModel):
     cta_title = models.CharField(max_length=255, default="Didn’t find the exact role?")
     cta_text = models.TextField(blank=True, default="Check this page again soon or contact our HR team for future opportunities.")
     cta_button_text = models.CharField(max_length=120, default="Contact HR")
-    cta_button_url = models.CharField(max_length=255, default="/contact/")
+    cta_button_url = models.CharField(max_length=255, default="/contact/?type=career")
     recruitment_email = models.EmailField(blank=True, default="hr@sescco.com")
     email_from_name = models.CharField(max_length=140, blank=True, default="SESCCO HR Team")
     email_verification_subject = models.CharField(max_length=255, default=DEFAULT_EMAIL_VERIFICATION_SUBJECT)
@@ -793,4 +793,3 @@ class JobApplicationEmailLog(TimeStampedModel):
 
     def __str__(self):
         return f"{self.get_email_type_display()} — {self.recipient}"
-

@@ -7,7 +7,75 @@ from django.shortcuts import redirect, render
 from apps.core.models import BusinessHour, CompanyProfile, ContactMethod, OfficeLocation
 from apps.pages.models import FAQ
 from .forms import ContactInquiryForm
-from .models import ContactPageSettings
+from .models import ContactPageSettings, InquirySubject
+
+
+CONTACT_CONTEXT_TEXT = {
+    "career": {
+        "en": {
+            "page_title": "Contact HR | SESCCO",
+            "meta_description": "Contact SESCCO HR for career questions, job applications and recruitment communication.",
+            "side_eyebrow": "Career inquiry",
+            "side_title": "Talk to SESCCO HR.",
+            "side_text": "For job-related questions, application updates or future opportunities, share your details and HR will respond through the official email channel.",
+            "form_eyebrow": "HR inquiry",
+            "form_title": "Contact HR",
+            "form_text": "Share your career question and our HR team will contact you.",
+            "success": "Your HR inquiry has been received. Our team will contact you soon.",
+        },
+        "ar": {
+            "page_title": "تواصل مع الموارد البشرية | SESCCO",
+            "meta_description": "تواصل مع الموارد البشرية في SESCCO بخصوص الوظائف وطلبات التوظيف.",
+            "side_eyebrow": "استفسار وظيفي",
+            "side_title": "تواصل مع الموارد البشرية.",
+            "side_text": "للاستفسارات الوظيفية أو تحديثات الطلبات أو الفرص المستقبلية، شارك بياناتك وسيتواصل معك فريق الموارد البشرية عبر البريد الرسمي.",
+            "form_eyebrow": "استفسار موارد بشرية",
+            "form_title": "تواصل مع الموارد البشرية",
+            "form_text": "شارك استفسارك الوظيفي وسيتواصل معك فريق الموارد البشرية.",
+            "success": "تم استلام استفسارك الوظيفي. سيتواصل معك فريقنا قريباً.",
+        },
+        "zh-hans": {
+            "page_title": "联系人力资源 | SESCCO",
+            "meta_description": "联系 SESCCO 人力资源团队，咨询职位、申请和招聘沟通。",
+            "side_eyebrow": "招聘咨询",
+            "side_title": "联系 SESCCO 人力资源。",
+            "side_text": "如有职位咨询、申请更新或未来机会问题，请提交信息，人力资源团队将通过官方邮箱联系您。",
+            "form_eyebrow": "人力资源咨询",
+            "form_title": "联系人力资源",
+            "form_text": "请说明您的招聘问题，我们的人力资源团队会与您联系。",
+            "success": "您的招聘咨询已收到。我们的团队会尽快联系您。",
+        },
+    },
+    "default": {
+        "en": {
+            "page_title": "Contact SESCCO",
+            "meta_description": "Contact Summit Engineering Solutions Contracting Co. for electrical, civil, fitout and contract support inquiries in Saudi Arabia.",
+            "side_eyebrow": "Project inquiry",
+            "form_eyebrow": "New inquiry",
+            "form_title": "Send Us an Inquiry",
+            "form_text": "Share your requirement and our team will contact you.",
+            "success": "Your inquiry has been received. Our team will contact you soon.",
+        },
+        "ar": {
+            "page_title": "اتصل بنا | SESCCO",
+            "meta_description": "تواصل مع SESCCO لاستفسارات الهندسة والمشاريع والدعم في السعودية.",
+            "side_eyebrow": "استفسار مشروع",
+            "form_eyebrow": "استفسار جديد",
+            "form_title": "أرسل استفسارك",
+            "form_text": "املأ النموذج وسيقوم فريقنا بالتواصل معك.",
+            "success": "تم استلام استفسارك. سيتواصل معك فريقنا قريباً.",
+        },
+        "zh-hans": {
+            "page_title": "联系 SESCCO",
+            "meta_description": "联系 SESCCO 咨询沙特阿拉伯的工程、项目和支持服务。",
+            "side_eyebrow": "项目咨询",
+            "form_eyebrow": "新的咨询",
+            "form_title": "发送咨询",
+            "form_text": "请填写下面的表格，我们的团队会尽快与您联系。",
+            "success": "您的咨询已收到。我们的团队会尽快联系您。",
+        },
+    },
+}
 
 
 def _contact_settings_value(contact_settings, field_name, default=""):
@@ -80,11 +148,33 @@ def _send_contact_notification(request, inquiry, contact_settings):
     )
 
 
+def _contact_context(request):
+    raw_context = (request.GET.get("type") or request.GET.get("context") or "").strip().lower()
+    context_type = "career" if raw_context in {"career", "hr", "job", "jobs", "recruitment"} else "default"
+    lang = getattr(request, "LANGUAGE_CODE", "en") or "en"
+    text_group = CONTACT_CONTEXT_TEXT[context_type]
+    text = text_group.get(lang, text_group["en"])
+    return context_type, text
+
+
+def _career_subject_initial():
+    try:
+        return InquirySubject.objects.filter(title__iexact="Career / HR Inquiry", is_active=True).first()
+    except (OperationalError, ProgrammingError):
+        return None
+
+
 def contact(request):
     settings = ContactPageSettings.objects.defer("notification_email", "email_from_name").first() or ContactPageSettings()
+    context_type, contact_context_text = _contact_context(request)
+    form_kwargs = {"contact_context": context_type}
+    if context_type == "career":
+        career_subject = _career_subject_initial()
+        if career_subject:
+            form_kwargs["initial"] = {"subject": career_subject}
 
     if request.method == "POST":
-        form = ContactInquiryForm(request.POST)
+        form = ContactInquiryForm(request.POST, **form_kwargs)
         if form.is_valid():
             inquiry = form.save(commit=False)
             inquiry.source_page = request.META.get("HTTP_REFERER", "")
@@ -99,10 +189,10 @@ def contact(request):
             except Exception:
                 # Keep the public form reliable even if SMTP is temporarily unavailable.
                 pass
-            messages.success(request, "Your inquiry has been received. Our team will contact you soon.")
-            return redirect("contact")
+            messages.success(request, contact_context_text["success"])
+            return redirect(request.get_full_path())
     else:
-        form = ContactInquiryForm()
+        form = ContactInquiryForm(**form_kwargs)
 
     office_locations = OfficeLocation.objects.filter(is_active=True).order_by("-is_primary", "sort_order", "id")
     primary_office = office_locations.first()
@@ -140,7 +230,9 @@ def contact(request):
             "show_business_hours_section": show_business_hours_section,
             "show_map_section": show_map_section,
             "show_faqs_section": show_faqs_section,
-            "meta_title": "Contact SESCCO",
-            "meta_description": "Contact Summit Engineering Solutions Contracting Co. for electrical, civil, fitout and contract support inquiries in Saudi Arabia.",
+            "contact_context_type": context_type,
+            "contact_context": contact_context_text,
+            "meta_title": contact_context_text["page_title"],
+            "meta_description": contact_context_text["meta_description"],
         },
     )

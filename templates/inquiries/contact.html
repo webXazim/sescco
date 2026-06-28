@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load page_sections %}
 {% get_current_language as LANGUAGE_CODE %}
-{% block title %}Contact | {{ company.short_name }}{% endblock %}
+{% block title %}{{ meta_title|default:"Contact" }}{% endblock %}
 {% block content %}
 <main class="cms-section-sort cms-page-contact contact-page-v2">
   <section class="contact-hero{% if contact_settings.hero_image %} has-contact-hero-image contact-hero-parallax{% endif %}" {% section_attrs "contact" "hero" 10 %} {% if contact_settings.hero_image %}style="--contact-hero-bg:url('{{ contact_settings.hero_image.url }}')"{% endif %}>
@@ -19,9 +19,14 @@
   <section class="section contact-intro-form-section" {% section_attrs "contact" "intro_form" 20 %}>
     <div class="container contact-intro-grid">
       <aside class="contact-intro-card contact-side-panel">
-        <span class="eyebrow">{% static_text "Project inquiry" %}</span>
-        <h2>{% localized_plain contact_settings 'intro_title' %}</h2>
-        {% if contact_settings.intro_text %}<p class="contact-side-copy">{% localized contact_settings 'intro_text' %}</p>{% endif %}
+        <span class="eyebrow">{{ contact_context.side_eyebrow }}</span>
+        {% if contact_context.side_title %}
+          <h2>{{ contact_context.side_title }}</h2>
+          <p class="contact-side-copy">{{ contact_context.side_text }}</p>
+        {% else %}
+          <h2>{% localized_plain contact_settings 'intro_title' %}</h2>
+          {% if contact_settings.intro_text %}<p class="contact-side-copy">{% localized contact_settings 'intro_text' %}</p>{% endif %}
+        {% endif %}
 
         {% if show_contact_methods_section %}
           <div class="contact-side-group">
@@ -61,19 +66,9 @@
       <form class="contact-form-card" method="post">
         {% csrf_token %}
         <div class="contact-form-head">
-          {% if LANGUAGE_CODE == "ar" %}
-            <span class="eyebrow">استفسار جديد</span>
-            <h2>أرسل استفسارك</h2>
-            <p>املأ النموذج وسيقوم فريقنا بالتواصل معك.</p>
-          {% elif LANGUAGE_CODE == "zh-hans" %}
-            <span class="eyebrow">新的咨询</span>
-            <h2>发送咨询</h2>
-            <p>请填写下面的表格，我们的团队会尽快与您联系。</p>
-          {% else %}
-            <span class="eyebrow">{% static_text "New inquiry" %}</span>
-            <h2>{% static_text "Send Us an Inquiry" %}</h2>
-            <p>{% static_text "Share your requirement and our team will contact you." %}</p>
-          {% endif %}
+          <span class="eyebrow">{{ contact_context.form_eyebrow }}</span>
+          <h2>{{ contact_context.form_title }}</h2>
+          <p>{{ contact_context.form_text }}</p>
         </div>
 
         {{ form.non_field_errors }}

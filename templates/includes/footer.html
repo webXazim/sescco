@@ -55,7 +55,7 @@
         {% endfor %}
       {% else %}
         <div><h4>{% static_text "Quick Links" %}</h4><ul><li><a href="{% localized_url '/about/' %}">{% static_text "About Us" %}</a></li><li><a href="{% localized_url '/services/' %}">{% static_text "Services" %}</a></li><li><a href="{% localized_url '/projects/' %}">{% static_text "Projects" %}</a></li><li><a href="{% localized_url '/careers/' %}">{% static_text "Careers" %}</a></li></ul></div>
-        <div><h4>{% static_text "Careers" %}</h4><ul><li><a href="{% localized_url '/careers/' %}">{% static_text "Open Jobs" %}</a></li><li><a href="{% localized_url '/careers/' %}">{% static_text "Apply Online" %}</a></li><li><a href="{% localized_url '/contact/' %}">{% static_text "Contact HR" %}</a></li></ul></div>
+        <div><h4>{% static_text "Careers" %}</h4><ul><li><a href="{% localized_url '/careers/' %}">{% static_text "Open Jobs" %}</a></li><li><a href="{% localized_url '/careers/' %}">{% static_text "Apply Online" %}</a></li><li><a href="{% localized_url '/contact/?type=career' %}">{% static_text "Contact HR" %}</a></li></ul></div>
       {% endif %}
 
       <div>

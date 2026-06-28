@@ -10,6 +10,7 @@ CONTACT_FORM_TEXT = {
         "email": ("Email", "Enter your email address"),
         "subject": ("Subject", ""),
         "message": ("Message", "Tell us about your project or inquiry..."),
+        "career_message": ("Message", "Tell HR about your career question, role interest or application update..."),
         "consent": ("I agree to be contacted.", ""),
     },
     "ar": {
@@ -18,6 +19,7 @@ CONTACT_FORM_TEXT = {
         "email": ("البريد الإلكتروني", "أدخل بريدك الإلكتروني"),
         "subject": ("الموضوع", ""),
         "message": ("الرسالة", "اكتب تفاصيل مشروعك أو استفسارك..."),
+        "career_message": ("الرسالة", "اكتب استفسارك الوظيفي أو الدور المطلوب أو تحديث طلبك..."),
         "consent": ("أوافق على التواصل معي.", ""),
     },
     "zh-hans": {
@@ -26,6 +28,7 @@ CONTACT_FORM_TEXT = {
         "email": ("电子邮箱", "请输入您的电子邮箱"),
         "subject": ("主题", ""),
         "message": ("留言", "请说明您的项目或咨询内容..."),
+        "career_message": ("留言", "请说明您的招聘问题、感兴趣的职位或申请更新..."),
         "consent": ("我同意被联系。", ""),
     },
 }
@@ -54,6 +57,7 @@ def contact_text(key):
 
 class ContactInquiryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        contact_context = kwargs.pop("contact_context", "")
         super().__init__(*args, **kwargs)
         lang = get_language() or "en"
         labels = CONTACT_FORM_TEXT.get(lang, CONTACT_FORM_TEXT["en"])
@@ -66,6 +70,10 @@ class ContactInquiryForm(forms.ModelForm):
                 field.label = label
                 if placeholder:
                     field.widget.attrs["placeholder"] = placeholder
+        if contact_context == "career":
+            label, placeholder = labels.get("career_message", labels["message"])
+            self.fields["message"].label = label
+            self.fields["message"].widget.attrs["placeholder"] = placeholder
 
     class Meta:
         model = ContactInquiry

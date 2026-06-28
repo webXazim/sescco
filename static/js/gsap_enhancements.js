@@ -23,6 +23,65 @@
     const rect = el.getBoundingClientRect();
     return rect.width > 0 && rect.height > 0;
   };
+  const isInViewport = (el) => {
+    const rect = el.getBoundingClientRect();
+    const height = window.innerHeight || document.documentElement.clientHeight;
+    return rect.top < height * 0.98 && rect.bottom > 0;
+  };
+  const revealSelector = [
+    ".service-card",
+    ".trust-logo-card",
+    ".certificate-card",
+    ".service-process-step",
+    ".service-feature-card",
+    ".service-deliverable-card",
+    ".project-detailed-scope-card",
+    ".operational-assurance-item",
+    ".trust-standard-card",
+    ".trust-document-card",
+    ".contact-method-card",
+    ".contact-intro-card",
+    ".contact-form-card",
+    ".contact-side-item",
+    ".contact-map-head",
+    ".contact-map-frame",
+    ".contact-map-side-card",
+    ".contact-office-card",
+    ".office-card",
+    ".career-job-card",
+    ".career-benefit-card",
+    ".career-step",
+    ".career-hero-panel",
+    ".career-detail-quick-card",
+    ".job-summary-card",
+    ".career-application-form",
+    ".faq-accordion-card",
+    ".services-faq-item",
+    ".contact-faq-card",
+    ".why-choose-card",
+    ".info-strip",
+    ".info-item",
+    ".home-trust-strip",
+    ".project-filter-tabs",
+    ".project-live-filter",
+    ".project-stats-strip",
+    ".project-stat-item",
+    ".project-metrics-card",
+    ".project-gallery-card",
+    ".cta",
+    ".cta-card-contrast",
+    ".dynamic-section",
+    ".section .container > .eyebrow",
+    ".section .container > h2",
+    ".section .container > p",
+    ".section-sm .container > .eyebrow",
+    ".section-sm .container > h2",
+    ".section-sm .container > p",
+    ".contact-section-head",
+    ".career-section-head",
+    ".career-form-section-title",
+    ".trust-documents-head"
+  ].join(",");
 
   function getHeroAnimationTargets() {
     const hero = document.querySelector(
@@ -77,62 +136,7 @@
   }
 
   function revealOnScroll() {
-    const selector = [
-      ".service-card",
-      ".trust-logo-card",
-      ".certificate-card",
-      ".service-process-step",
-      ".service-feature-card",
-      ".service-deliverable-card",
-      ".project-detailed-scope-card",
-      ".operational-assurance-item",
-      ".trust-standard-card",
-      ".trust-document-card",
-      ".contact-method-card",
-      ".contact-intro-card",
-      ".contact-form-card",
-      ".contact-side-item",
-      ".contact-map-head",
-      ".contact-map-frame",
-      ".contact-map-side-card",
-      ".contact-office-card",
-      ".office-card",
-      ".career-job-card",
-      ".career-benefit-card",
-      ".career-step",
-      ".career-hero-panel",
-      ".career-detail-quick-card",
-      ".job-summary-card",
-      ".career-application-form",
-      ".faq-accordion-card",
-      ".services-faq-item",
-      ".contact-faq-card",
-      ".why-choose-card",
-      ".info-strip",
-      ".info-item",
-      ".home-trust-strip",
-      ".project-filter-tabs",
-      ".project-live-filter",
-      ".project-stats-strip",
-      ".project-stat-item",
-      ".project-metrics-card",
-      ".project-gallery-card",
-      ".cta",
-      ".cta-card-contrast",
-      ".dynamic-section",
-      ".section .container > .eyebrow",
-      ".section .container > h2",
-      ".section .container > p",
-      ".section-sm .container > .eyebrow",
-      ".section-sm .container > h2",
-      ".section-sm .container > p",
-      ".contact-section-head",
-      ".career-section-head",
-      ".career-form-section-title",
-      ".trust-documents-head"
-    ].join(",");
-
-    const elements = toArray(selector)
+    const elements = toArray(revealSelector)
       .filter(isVisible)
       .filter((el) => !el.closest(".site-header"))
       .filter((el) => !el.closest(".hero-home, .contact-hero, .services-modern-hero, .page-photo-hero, .service-detail-hero, .career-hero, .career-detail-hero, .career-form-hero, .hero.dark"));
@@ -151,7 +155,7 @@
     }
 
     ScrollTrigger.batch(elements, {
-      start: "top 88%",
+      start: "top 94%",
       once: true,
       onEnter: (batch) => {
         gsap.to(batch, {
@@ -164,6 +168,33 @@
         });
       }
     });
+  }
+
+  function releaseVisibleRevealItems() {
+    const elements = toArray(revealSelector)
+      .filter(isVisible)
+      .filter(isInViewport)
+      .filter((el) => !el.closest(".site-header"));
+
+    elements.forEach((el) => {
+      const opacity = parseFloat(window.getComputedStyle(el).opacity || "1");
+      if (opacity < 0.95) {
+        gsap.set(el, { autoAlpha: 1, y: 0, clearProps: "transform,opacity,visibility,filter" });
+      }
+    });
+  }
+
+  function installRevealFailsafes() {
+    const run = () => window.requestAnimationFrame(releaseVisibleRevealItems);
+    window.setTimeout(run, 900);
+    window.setTimeout(run, 1800);
+    window.addEventListener("load", run, { once: true });
+    window.addEventListener("scroll", run, { passive: true });
+    window.addEventListener("resize", run, { passive: true });
+    if (ScrollTrigger) {
+      ScrollTrigger.addEventListener("refresh", run);
+      window.setTimeout(() => ScrollTrigger.refresh(), 250);
+    }
   }
 
   function polishAccordions() {
@@ -253,6 +284,7 @@
     releasePreload();
     revealHero(heroTargets);
     revealOnScroll();
+    installRevealFailsafes();
     polishAccordions();
     polishInteractiveElements();
     polishFormFields();
