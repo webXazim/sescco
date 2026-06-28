@@ -58,6 +58,7 @@ class Command(BaseCommand):
             **nav,
             'Electrical Engineering': ('الهندسة الكهربائية', '电气工程'),
             'Civil & Fitout Works': ('الأعمال المدنية والتشطيبات', '土建与装修工程'),
+            'Telecommunication Services': ('خدمات الاتصالات', '通信服务'),
             'Contract Support': ('الدعم التعاقدي', '合同支持'),
             'Privacy Policy': ('سياسة الخصوصية', '隐私政策'),
             'Terms & Conditions': ('الشروط والأحكام', '条款与条件'),
@@ -98,8 +99,8 @@ class Command(BaseCommand):
                 'zh-hans': ('熟练专业团队', '合格人员能够高效支持复杂项目需求。'),
             },
             'Flexible Contract Support': {
-                'ar': ('دعم تعاقدي مرن', 'دعم قابل للتوسع للكوادر والمعدات وفق احتياجات كل مشروع.'),
-                'zh-hans': ('灵活合同支持', '根据项目需求提供可扩展的人力与设备支持。'),
+                'ar': ('دعم تعاقدي مرن', 'دعم قابل للتوسع لفرق المشروع والمعدات وفق احتياجات كل مشروع.'),
+                'zh-hans': ('灵活合同支持', '根据项目需求提供可扩展的项目团队与设备支持。'),
             },
             'Quality Commitment': {
                 'ar': ('التزام بالجودة', 'عمل منظم يستند إلى الجودة والكفاءة ورضا العملاء.'),
@@ -211,14 +212,14 @@ class Command(BaseCommand):
         if slps:
             many(slps,'ar',{'eyebrow':'نظرة عامة على الخدمات','hero_title':'خدمات هندسية ومقاولات متكاملة','hero_subtitle':'من الأنظمة الكهربائية والأعمال المدنية إلى التشطيبات والدعم التعاقدي، تقدم SESCCO حلول مشاريع موثوقة.','intro_title':'خدمات عملية لتنفيذ موثوق.','intro_text':'<p>تم تصميم نموذج خدماتنا لدعم تنفيذ المشاريع بأمان وكفاءة وجودة عالية.</p>'})
             many(slps,'zh-hans',{'eyebrow':'服务概览','hero_title':'综合工程与承包服务','hero_subtitle':'从电气系统和土建工程到建筑装修和合同支持，SESCCO 提供可靠的项目解决方案。','intro_title':'面向可靠执行的实用服务。','intro_text':'<p>我们的服务模式旨在支持安全、高效和高质量项目交付。</p>'})
-        service_ar={'Electrical Engineering Services':'خدمات الهندسة الكهربائية','Civil, Architectural & Fitout Works':'الأعمال المدنية والمعمارية والتشطيبات','Contract Support Service':'خدمات الدعم التعاقدي','Electromechanical Works':'الأعمال الكهروميكانيكية','Mechanical & Fire-Fighting Systems':'الأنظمة الميكانيكية ومكافحة الحريق'}
-        service_zh={'Electrical Engineering Services':'电气工程服务','Civil, Architectural & Fitout Works':'土建、建筑与装修工程','Contract Support Service':'合同支持服务','Electromechanical Works':'机电工程','Mechanical & Fire-Fighting Systems':'机械与消防系统'}
+        service_ar={'Electrical Engineering Services':'خدمات الهندسة الكهربائية','Civil, Architectural & Fitout Works':'الأعمال المدنية والمعمارية والتشطيبات','Contract Support Service':'خدمات الدعم التعاقدي','Telecommunication Services':'خدمات الاتصالات','Electromechanical Works':'الأعمال الكهروميكانيكية','Mechanical & Fire-Fighting Systems':'الأنظمة الميكانيكية ومكافحة الحريق'}
+        service_zh={'Electrical Engineering Services':'电气工程服务','Civil, Architectural & Fitout Works':'土建、建筑与装修工程','Contract Support Service':'合同支持服务','Telecommunication Services':'通信服务','Electromechanical Works':'机电工程','Mechanical & Fire-Fighting Systems':'机械与消防系统'}
         for s in Service.objects.all():
             ar=service_ar.get(s.title,s.title); zh=service_zh.get(s.title,s.title)
             many(s,'ar',{'title':ar,'short_description':'خدمة موثوقة تدعم تنفيذ المشاريع بأمان وكفاءة وجودة.','body':'<p>تقدم SESCCO هذه الخدمة من خلال كوادر مؤهلة وإجراءات منظمة لضمان جودة التنفيذ وسلامته.</p>','seo_title':f'{ar} | SESCCO','seo_description':'خدمة من SESCCO لدعم المشاريع في المملكة العربية السعودية.'})
             many(s,'zh-hans',{'title':zh,'short_description':'支持项目安全、高效和高质量执行的可靠服务。','body':'<p>SESCCO 通过合格团队和规范流程提供该服务，确保执行质量与安全。</p>','seo_title':f'{zh} | SESCCO','seo_description':'SESCCO 在沙特阿拉伯支持项目的服务。'})
         for cat in ServiceCategory.objects.all():
-            map_ar={'Electrical Engineering':'الهندسة الكهربائية','Civil & Architectural Fitout':'الأعمال المدنية والمعمارية والتشطيبات','Contract Support':'الدعم التعاقدي','Electromechanical Works':'الأعمال الكهروميكانيكية','Mechanical & Fire Fighting':'الميكانيكا ومكافحة الحريق'}; map_zh={'Electrical Engineering':'电气工程','Civil & Architectural Fitout':'土建与建筑装修','Contract Support':'合同支持','Electromechanical Works':'机电工程','Mechanical & Fire Fighting':'机械与消防'}
+            map_ar={'Electrical Engineering':'الهندسة الكهربائية','Civil & Architectural Fitout':'الأعمال المدنية والمعمارية والتشطيبات','Contract Support':'الدعم التعاقدي','Telecommunication Services':'خدمات الاتصالات','Electromechanical Works':'الأعمال الكهروميكانيكية','Mechanical & Fire Fighting':'الميكانيكا ومكافحة الحريق'}; map_zh={'Electrical Engineering':'电气工程','Civil & Architectural Fitout':'土建与建筑装修','Contract Support':'合同支持','Telecommunication Services':'通信服务','Electromechanical Works':'机电工程','Mechanical & Fire Fighting':'机械与消防'}
             many(cat,'ar',{'name':map_ar.get(cat.name,cat.name),'description':'تصنيف لخدمات SESCCO المتخصصة.'}); many(cat,'zh-hans',{'name':map_zh.get(cat.name,cat.name),'description':'SESCCO 专业服务类别。'})
         for qs, ardata, zhdata in [(ServiceKeyPoint.objects.all(), {'title':'نقطة رئيسية','description':'عنصر أساسي ضمن نطاق الخدمة.'},{'title':'关键点','description':'服务范围内的核心内容。'}),(ServiceDeliverable.objects.all(), {'title':'مخرج الخدمة','description':'مخرج واضح يدعم متطلبات المشروع.'},{'title':'服务交付内容','description':'支持项目要求的明确交付内容。'}),(ServiceProcessStep.objects.all(), {'title':'خطوة التنفيذ','description':'مرحلة منظمة ضمن عملية التنفيذ.'},{'title':'执行步骤','description':'执行流程中的有序阶段。'}),(ServiceListProcessStep.objects.all(), {'title':'خطوة تنفيذ','description':'مرحلة منظمة ضمن طريقة عمل SESCCO.'},{'title':'执行步骤','description':'SESCCO 工作方法中的有序阶段。'}),(ServiceFeature.objects.all(), {'title':'ميزة الخدمة','description':'ميزة عملية تدعم السلامة والجودة والتنفيذ.'},{'title':'服务特点','description':'支持安全、质量和执行的实际特点。'}),(ServiceCTA.objects.all(), {'title':'هل تحتاج إلى دعم لهذا العمل؟','subtitle':'تواصل مع SESCCO لمناقشة متطلبات مشروعك.','button_text':'اطلب عرضاً'},{'title':'需要该项支持？','subtitle':'联系 SESCCO 讨论您的项目需求。','button_text':'申请报价'})]:
             for obj in qs: many(obj,'ar',ardata); many(obj,'zh-hans',zhdata)
@@ -298,8 +299,12 @@ class Command(BaseCommand):
             many(cps,'zh-hans',{'eyebrow':'联系我们','hero_title':'放心联系 SESCCO。','hero_subtitle':'通过清晰的联系页面提交需求、查看位置或联系合适团队。','intro_title':'清晰提交您的项目咨询。','intro_text':'使用表单分享您的项目需求。联系方式、地图和办公室信息分开展示，避免访客看到重复内容。','map_eyebrow':'找到我们','map_title':'在 Google 地图中查找 SESCCO。','map_subtitle':'使用大型地图查看办公室位置，并直接在 Google 地图中打开路线。','map_button_text':'在 Google 地图中打开'})
         for office in OfficeLocation.objects.all(): many(office,'ar',{'name':'المكتب الرئيسي','address':'الدمام، المنطقة الشرقية، المملكة العربية السعودية','city':'الدمام','country':'المملكة العربية السعودية'}); many(office,'zh-hans',{'name':'总部办公室','address':'沙特阿拉伯东部省达曼','city':'达曼','country':'沙特阿拉伯'})
         for hour in BusinessHour.objects.all():
-            if 'Friday' in hour.day_label or 'Saturday' in hour.day_label: many(hour,'ar',{'day_label':'الجمعة - السبت','hours':'مغلق'}); many(hour,'zh-hans',{'day_label':'周五 - 周六','hours':'休息'})
-            else: many(hour,'ar',{'day_label':'الأحد - الخميس','hours':'8:00 صباحاً - 5:00 مساءً'}); many(hour,'zh-hans',{'day_label':'周日至周四','hours':'上午 8:00 - 下午 5:00'})
+            if hour.day_label == 'Friday':
+                many(hour,'ar',{'day_label':'الجمعة','hours':'مغلق'}); many(hour,'zh-hans',{'day_label':'周五','hours':'休息'})
+            elif 'Saturday' in hour.day_label:
+                many(hour,'ar',{'day_label':'السبت - الخميس','hours':'8:00 صباحاً - 5:00 مساءً'}); many(hour,'zh-hans',{'day_label':'周六至周四','hours':'上午 8:00 - 下午 5:00'})
+            else:
+                many(hour,'ar',{'day_label':'الأحد - الخميس','hours':'8:00 صباحاً - 5:00 مساءً'}); many(hour,'zh-hans',{'day_label':'周日至周四','hours':'上午 8:00 - 下午 5:00'})
         for subj in InquirySubject.objects.all():
             ar={'General Inquiry':'استفسار عام','Project Quotation':'طلب عرض سعر','Document Request':'طلب مستند','Contract Support':'دعم تعاقدي','Partnership':'شراكة'}.get(subj.title,subj.title); zh={'General Inquiry':'一般咨询','Project Quotation':'项目报价','Document Request':'文件申请','Contract Support':'合同支持','Partnership':'合作'}.get(subj.title,subj.title); set_loc(subj,'ar','title',ar); set_loc(subj,'zh-hans','title',zh)
         for metric in TrustMetric.objects.all():

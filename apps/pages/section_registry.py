@@ -44,11 +44,11 @@ PAGE_SECTION_REGISTRY = {
         "sections": [
             ("hero", "Hero", "Service hero, cover image, CTA buttons"),
             ("key_points", "Key points", "Top service key points"),
+            ("related_projects", "Related projects", "Projects connected to this service"),
             ("body_summary", "Body and summary", "Main service body and summary card"),
             ("deliverables", "Deliverables", "Service deliverables"),
             ("features", "Features", "Service feature cards"),
             ("process", "Process", "Service process steps"),
-            ("related_projects", "Related projects", "Projects connected to this service"),
             ("brochure", "Brochure CTA", "Download/contact service CTA"),
             ("faqs", "FAQs", "Service detail FAQs"),
         ],

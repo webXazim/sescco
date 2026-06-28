@@ -21,6 +21,18 @@
 
   {% include "includes/service_key_points.html" %}
 
+  {% if detail_settings.show_related_projects %}
+  <section class="section-sm" {% section_attrs "service_detail" "related_projects" 25 %}>
+    <div class="container">
+      <span class="eyebrow">{% static_text "Related Projects" %}</span>
+      <h2>{% static_text "See how this service is applied in real work." %}</h2>
+      <div class="grid grid-4">
+        {% for project in related_projects %}{% include "includes/project_card.html" %}{% empty %}<p>{% static_text "No related projects yet." %}</p>{% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
   <section class="section" {% section_attrs "service_detail" "body_summary" 30 %}>
     <div class="container grid grid-2">
       <div>
@@ -42,18 +54,6 @@
   {% include "includes/service_deliverables.html" %}
   {% include "includes/service_features.html" %}
   {% include "includes/service_process.html" %}
-
-  {% if detail_settings.show_related_projects %}
-  <section class="section-sm" {% section_attrs "service_detail" "related_projects" 70 %}>
-    <div class="container">
-      <span class="eyebrow">{% static_text "Related Projects" %}</span>
-      <h2>{% static_text "See how this service is applied in real work." %}</h2>
-      <div class="grid grid-4">
-        {% for project in related_projects %}{% include "includes/project_card.html" %}{% empty %}<p>{% static_text "No related projects yet." %}</p>{% endfor %}
-      </div>
-    </div>
-  </section>
-  {% endif %}
 
   {% include "includes/service_brochure_cta.html" %}
 

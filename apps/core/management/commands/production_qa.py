@@ -26,7 +26,7 @@ class Command(BaseCommand):
             if not company.sec_vendor_code:
                 issues.append("SEC vendor code is missing.")
 
-        expected_nav = ["Home", "About Us", "Services", "Projects", "Certificates", "Careers", "Contact"]
+        expected_nav = ["Home", "About Us", "Services", "Projects", "Careers", "Contact"]
         for item in expected_nav:
             if not NavigationMenu.objects.filter(title=item, is_active=True).exists():
                 issues.append(f"Navigation item missing or inactive: {item}")
@@ -63,5 +63,5 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS("\nProduction readiness checks passed."))
 
         self.stdout.write("\nManual A-Z page checks:")
-        for url in ["/", "/about/", "/services/", "/projects/", "/clients-certifications/", "/careers/", "/contact/", "/ar/", "/zh-hans/"]:
+        for url in ["/", "/about/", "/services/", "/projects/", "/careers/", "/contact/", "/ar/", "/zh-hans/"]:
             self.stdout.write(f"- {url}")

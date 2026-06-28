@@ -7,7 +7,7 @@
   "alternateName": "{% localized_plain company 'short_name' %}",
   "url": "{{ request.scheme }}://{{ request.get_host }}",
   "email": "{{ company.email_primary }}",
-  "telephone": "{{ company.phone_primary }}",
+  {% if company.phone_primary %}"telephone": "{{ company.phone_primary }}",{% endif %}
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "{% localized_plain company 'address' %}",

@@ -169,7 +169,7 @@ class Command(BaseCommand):
             company_name='Summit Engineering Solutions Cont. Co.', short_name='SESCCO',
             tagline='Where Quality Engineering Meets Dependable Service.', established_year=2015,
             aramco_vendor_code='10114560', sec_vendor_code='02013075',
-            phone_primary='+966 50 969 6018', phone_secondary='+966 54 004 8692',
+            phone_primary='', phone_secondary='',
             email_primary='info@sescco.com', email_secondary='imran@sescco.com', email_third='mehrab@sescco.com',
             address='Dammam, Eastern Province, Kingdom of Saudi Arabia', city='Dammam', country='Saudi Arabia', website_url='https://sescco.com',
             description=p('Summit Engineering Solutions Cont. Co. specializes in reliable engineering, construction and contract support services across Saudi Arabia.', 'With years of experience and a commitment to excellence, SESCCO ensures that projects meet high standards of safety, efficiency and quality.', 'Core capabilities include electrical engineering services, civil and architectural fit-out works, contract support services and electromechanical works.'))
@@ -180,16 +180,15 @@ class Command(BaseCommand):
         # Career module replaces the old public Downloads page in the main navigation.
         NavigationMenu.objects.filter(title__iexact='Downloads').update(is_active=False)
         NavigationMenu.objects.filter(url__in=['/downloads/', '/downloads']).update(is_active=False)
-        # The public trust page is now labelled Certificates in navigation.
-        # Update old Clients rows by URL first so reseeding does not create duplicate nav items.
-        NavigationMenu.objects.filter(url__in=['/clients-certifications/', '/clients-certifications']).exclude(title='Certificates').update(title='Certificates')
-        for order, (title, url) in enumerate([('Home','/'),('About Us','/about/'),('Services','/services/'),('Projects','/projects/'),('Certificates','/clients-certifications/'),('Careers','/careers/'),('Contact','/contact/')], 1):
+        # The public certificates page is temporarily hidden from navigation.
+        NavigationMenu.objects.filter(url__in=['/clients-certifications/', '/clients-certifications']).update(is_active=False)
+        for order, (title, url) in enumerate([('Home','/'),('About Us','/about/'),('Services','/services/'),('Projects','/projects/'),('Careers','/careers/'),('Contact','/contact/')], 1):
             up(NavigationMenu, {'title': title}, url=url, sort_order=order, is_active=True)
 
-        FooterLink.objects.filter(url__in=['/clients-certifications/', '/clients-certifications']).exclude(title='Certificates').update(title='Certificates')
+        FooterLink.objects.filter(url__in=['/clients-certifications/', '/clients-certifications']).update(is_active=False)
 
         up(CTASettings, {'id': 1}, header_cta_text='Get in Touch', header_cta_url='/contact/', main_cta_title='Let’s Build Something Great Together', main_cta_subtitle='Reach out to us for project inquiries, collaborations or support. We’ll get back to you promptly.', main_cta_button_text='Contact Our Team', main_cta_button_url='/contact/')
-        cols = {'Company': [('About Us','/about/'),('Projects','/projects/'),('Certificates','/clients-certifications/'),('Careers','/careers/')], 'Services': [('Electrical Engineering','/services/electrical-engineering-services/'),('Civil & Fitout Works','/services/civil-architectural-fitout-works/'),('Contract Support','/services/contract-support-service/')], 'Contact': [('Contact Us','/contact/'),('Open Jobs','/careers/'),('Contact HR','/contact/')]}
+        cols = {'Company': [('About Us','/about/'),('Projects','/projects/'),('Careers','/careers/')], 'Services': [('Electrical Engineering','/services/electrical-engineering-services/'),('Civil & Fitout Works','/services/civil-architectural-fitout-works/'),('Telecommunication Services','/services/telecommunication-services/'),('Contract Support','/services/contract-support-service/')], 'Contact': [('Contact Us','/contact/'),('Open Jobs','/careers/'),('Contact HR','/careers/')]}
         for i,(col,links) in enumerate(cols.items(), 1):
             c=up(FooterColumn, {'title': col}, sort_order=i, is_active=True)
             for j,(t,u) in enumerate(links, 1): up(FooterLink, {'column': c, 'title': t}, url=u, sort_order=j, is_active=True)
@@ -204,7 +203,7 @@ class Command(BaseCommand):
         attach_seed_file(about, 'hero_image', 'static/img/seed/page-heroes/business_collaboration_with_industrial_views.webp', 'about-hero.webp')
         up(HomeHero, {'id':1}, title='Where Quality Engineering Meets Dependable Service.', subtitle='SESCCO delivers integrated engineering, construction and technical solutions across Saudi Arabia with safety, quality and integrity at the core.', primary_button_text='Our Services', primary_button_url='/services/', secondary_button_text='View Our Projects', secondary_button_url='/projects/', is_active=True)
         up(HomeAboutBlock, {'id':1}, eyebrow='About SESCCO', title='Engineering solutions built on trust.', body=p('Summit Engineering Solutions Cont. Co. specializes in providing top-notch services across various domains.', 'With years of experience and a commitment to excellence, we ensure that all projects meet high standards of safety, efficiency and quality.', 'We build relationships with clients, employees and subcontractors on a foundation of trust and respect.'), button_text='Learn More About Us', button_url='/about/', is_active=True)
-        up(HomeSectionSettings, {'id':1}, services_eyebrow='Our Services', services_title='Integrated engineering capabilities for demanding projects.', projects_eyebrow='Project Experience', projects_title='Proven experience across electrical, civil and fit-out works.', clients_eyebrow='Trusted Clients', certificates_eyebrow='Certifications & Compliance', why_choose_eyebrow='Why Choose SESCCO', why_choose_title='A dependable partner for quality, safety and execution.', show_services=True, show_projects=True, show_clients=True, show_certificates=True, show_why_choose=True)
+        up(HomeSectionSettings, {'id':1}, services_eyebrow='Our Services', services_title='Integrated engineering capabilities for demanding projects.', projects_eyebrow='Project Experience', projects_title='Proven experience across electrical, civil and fit-out works.', clients_eyebrow='Trusted Clients', certificates_eyebrow='Certifications & Compliance', why_choose_eyebrow='Why Choose SESCCO', why_choose_title='A dependable partner for quality, safety and execution.', show_services=True, show_projects=True, show_clients=True, show_certificates=False, show_why_choose=True)
         up(AboutPageSettings, {'id':1}, page=about, overview_eyebrow='Company Overview', overview_title='Reliable engineering and contracting partner.', mission_section_title='Mission, Vision and Values', timeline_eyebrow='Our Journey', strengths_eyebrow='Our Strengths', strengths_title='Built for dependable project delivery.', show_trust_strip=True, show_overview=True, show_mission_vision=True, show_timeline=True, show_strengths=True, show_leadership=False, show_stats=True, show_faqs=True)
 
         mission_items = [
@@ -225,7 +224,7 @@ class Command(BaseCommand):
             attach_seed_file(leadership, 'background_image', 'static/img/seed/leadership/managing-committee-bg.svg', 'managing-committee-bg.svg')
         for order,(year,title,desc) in enumerate([('2015','Foundation','SESCCO was established to deliver dependable engineering and contracting services.'),('2021','Major Civil Works','Participation in industrial civil and infrastructure works.'),('2023','Pipeline Experience','Execution support for ROW, trench excavation, backfilling and berming works.'),('2025','Expanded Project Portfolio','Continued delivery across electrical, civil, fit-out and contract support projects.')],1): up(TimelineItem, {'year':year,'title':title}, page=about, description=desc, sort_order=order, is_active=True)
         for order,(label,value) in enumerate([('Years of Trust','10+'),('Vendor Codes','2'),('Core Service Areas','5'),('Project Categories','4')],1): up(StatItem, {'label':label}, page=about, value=value, sort_order=order, is_active=True)
-        for order,(title,desc) in enumerate([('Safety-Focused Execution','We prioritize safe work practices and reliable site execution.'),('Skilled Workforce','Qualified personnel capable of supporting complex requirements.'),('Flexible Contract Support','Scalable manpower and equipment support according to project needs.'),('Quality Commitment','Work guided by quality, efficiency and client satisfaction.')],1): up(WhyChooseItem, {'title':title}, description=desc, icon_text='✓', sort_order=order, is_active=True)
+        for order,(title,desc) in enumerate([('Safety-Focused Execution','We prioritize safe work practices and reliable site execution.'),('Skilled Workforce','Qualified personnel capable of supporting complex requirements.'),('Flexible Contract Support','Scalable project-team and equipment support according to project needs.'),('Quality Commitment','Work guided by quality, efficiency and client satisfaction.')],1): up(WhyChooseItem, {'title':title}, description=desc, icon_text='✓', sort_order=order, is_active=True)
 
         service_page_settings = up(ServiceListPageSettings, {'id':1}, eyebrow='Services', hero_title='Our Services', hero_subtitle='Comprehensive engineering solutions delivered with expertise, quality and a commitment to excellence.', intro_title='Practical services for reliable execution.', intro_text=p('Our service model supports safe, efficient and high-quality project delivery across Saudi Arabia.'), show_category_tabs=False)
         attach_seed_file(service_page_settings, 'hero_image', 'static/img/seed/page-heroes/on_site_engineering_team_discussion.webp', 'services-hero.webp')
@@ -233,7 +232,8 @@ class Command(BaseCommand):
         category_seed=[
             ('Electrical Engineering','Design, installation, maintenance and troubleshooting for electrical systems.','⚡'),
             ('Civil & Architectural Fitout','Civil construction, infrastructure support, architectural and fit-out works.','▥'),
-            ('Contract Support','Qualified workforce, equipment support and flexible manpower solutions.','👥'),
+            ('Contract Support','Qualified workforce, equipment support and flexible project-team solutions.','👥'),
+            ('Telecommunication Services','Network, cabling, cabinet, fiber and communication infrastructure support.','◌'),
             ('Electromechanical Works','HVAC, fire systems, plumbing, lighting, power and related building services.','⚙'),
             ('Mechanical & Fire Fighting','Mechanical installations and fire-fighting system works.','♨'),
         ]
@@ -242,7 +242,8 @@ class Command(BaseCommand):
         service_data=[
             ('Electrical Engineering Services','Electrical Engineering','Comprehensive design, installation, maintenance and troubleshooting for electrical systems.','⚡','static/img/seed/services/electrical-engineering-services.webp',['GIS, transformer and panel installation','MV/LV cable laying and termination','Protection, control and SAS panel works','Lighting and power systems']),
             ('Civil, Architectural & Fitout Works','Civil & Architectural Fitout','Construction, infrastructure development, maintenance, architectural works and professional fit-out delivery.','▥','static/img/seed/services/civil-architectural-fitout-works.webp',['Rebar binding, shuttering and concreting','Plastering, painting, screed and tiles','Office, villa and industrial fit-out','Civil construction and infrastructure works']),
-            ('Contract Support Service','Contract Support','Skilled workforce and equipment support for project execution with flexible resources.','👥','static/img/seed/services/contract-support-service.webp',['Qualified personnel','Flexible manpower support','Motorized vehicles and equipment','Improved project productivity']),
+            ('Contract Support Service','Contract Support','Skilled workforce and equipment support for project execution with flexible resources.','👥','static/img/seed/services/contract-support-service.webp',['Qualified personnel','Flexible project-team support','Motorized vehicles and equipment','Improved project productivity']),
+            ('Telecommunication Services','Telecommunication Services','Network, cabling, cabinet, fiber and communication infrastructure support for project sites and facilities.','◌','static/img/hero_sphere/optimized/batch2_05_telecom_infrastructure.webp',['Fiber and network cable works','Telecommunication cabinet support','OPGW and communication infrastructure','Testing and coordination support']),
             ('Electromechanical Works','Electromechanical Works','Integrated electromechanical works covering HVAC, fire systems, plumbing and building utilities.','⚙','static/img/seed/services/electromechanical-works.webp',['HVAC systems','Fire detection and alarm systems','Plumbing and sanitary works','Fire suppression systems','Building lighting and power systems']),
             ('Mechanical & Fire-Fighting Systems','Mechanical & Fire Fighting','Mechanical and fire-fighting installations for industrial facilities and warehouses.','♨','static/img/seed/services/mechanical-fire-fighting-systems.webp',['Fire-fighting system installation','Mechanical installation support','Testing and commissioning support']),
         ]
@@ -252,7 +253,7 @@ class Command(BaseCommand):
             for j,point in enumerate(points,1):
                 up(ServiceKeyPoint, {'service':svc,'title':point}, description=point, icon_text='✓', sort_order=j, is_active=True)
                 up(ServiceDeliverable, {'service':svc,'title':point}, description=point, icon_text='▣', sort_order=j, is_active=True)
-            for j,(step,sd) in enumerate([('Requirement Review','Review project scope, site needs and technical requirements.'),('Planning & Mobilization','Prepare resources, manpower, equipment and execution planning.'),('Execution & Quality Control','Complete work with safety coordination and quality checks.'),('Handover & Support','Provide project close-out support and documentation where required.')],1): up(ServiceProcessStep, {'service':svc,'title':step}, step_number=j, description=sd, icon_text=str(j), sort_order=j, is_active=True)
+            for j,(step,sd) in enumerate([('Requirement Review','Review project scope, site needs and technical requirements.'),('Planning & Mobilization','Prepare resources, equipment and execution planning.'),('Execution & Quality Control','Complete work with safety coordination and quality checks.'),('Handover & Support','Provide project close-out support and documentation where required.')],1): up(ServiceProcessStep, {'service':svc,'title':step}, step_number=j, description=sd, icon_text=str(j), sort_order=j, is_active=True)
             feature_seed = [
                 ('Safety-led delivery', 'Work is planned and executed with site safety, permit coordination and quality control in mind.', '🛡'),
                 ('Experienced workforce', 'SESCCO mobilizes trained personnel familiar with industrial, utility and commercial project environments.', '👷'),
@@ -262,8 +263,8 @@ class Command(BaseCommand):
                 up(ServiceFeature, {'service':svc,'title':feature_title}, description=feature_desc, icon_text=feature_icon, sort_order=j, is_active=True)
             faq_seed = [
                 ('What does this SESCCO service cover?', f'{title} covers {desc.lower()} SESCCO can align the final scope with the client requirement, site condition and project schedule.'),
-                ('Can SESCCO support projects outside Dammam?', 'Yes. SESCCO can support projects across Saudi Arabia subject to project scope, location, manpower requirement and mobilization plan.'),
-                ('Can manpower and equipment be arranged for this service?', 'Yes. SESCCO can provide qualified personnel and project support resources according to approved requirements and availability.'),
+                ('Can SESCCO support projects outside Dammam?', 'Yes. SESCCO can support projects across Saudi Arabia subject to project scope, location, resource requirements and mobilization plan.'),
+                ('Can personnel and equipment be arranged for this service?', 'Yes. SESCCO can provide qualified personnel and project support resources according to approved requirements and availability.'),
                 ('How can I request a quotation?', 'Use the contact form or request-a-quote button and share the project location, required scope, timeline, drawings or any available technical information.'),
             ]
             for j,(question, answer) in enumerate(faq_seed,1):
@@ -281,7 +282,7 @@ class Command(BaseCommand):
             up(ServiceListFAQ, {'question':question}, answer=p(answer), sort_order=order, is_active=True)
         for order,(title, description, icon) in enumerate([
             ('Requirement review', 'We review scope, drawings, schedule and site needs before execution.', 'review'),
-            ('Resource planning', 'We plan manpower, equipment and coordination requirements.', 'planning'),
+            ('Resource planning', 'We plan project teams, equipment and coordination requirements.', 'planning'),
             ('Safe execution', 'Work is executed with safety, quality and client coordination.', 'execution'),
             ('Close-out support', 'We support handover, records and follow-up where required.', 'closeout'),
         ],1):
@@ -416,7 +417,7 @@ class Command(BaseCommand):
             localize_project_cta(project_cta)
         for order,(label,value) in enumerate([('Electrical Projects','8+'),('Civil Projects','7+'),('Fitout Projects','6+'),('Core Clients','10+')],1): up(ProjectListStat, {'label':label}, value=value, icon_text='▣', sort_order=order, is_active=True)
 
-        trust_page_settings = up(TrustPageSettings, {'id':1}, eyebrow='Certifications & Clients', hero_title='Certifications and clients.', hero_subtitle='Review SESCCO certificates first, then the client organizations connected to our project experience.', clients_eyebrow='Our Key Clients', clients_title='Trusted by respected organizations.', partners_eyebrow='Project Network', partners_title='Project contractors only for project detail records.', certificates_eyebrow='Our Certifications', certificates_title='Certified systems and operational excellence.', standards_eyebrow='Compliance & Standards', standards_title='Standards that guide our work.', testimonials_eyebrow='Client Feedback', testimonials_title='What clients say about SESCCO.', show_clients=True, show_partners=False, show_certificates=True, show_accreditations=True, show_standards=True, show_testimonials=True, show_documents=True)
+        trust_page_settings = up(TrustPageSettings, {'id':1}, eyebrow='Clients', hero_title='Clients and project references.', hero_subtitle='Review the client organizations connected to SESCCO project experience.', clients_eyebrow='Our Key Clients', clients_title='Trusted by respected organizations.', partners_eyebrow='Project Network', partners_title='Project contractors only for project detail records.', certificates_eyebrow='Our Certifications', certificates_title='Certified systems and operational excellence.', standards_eyebrow='Compliance & Standards', standards_title='Standards that guide our work.', testimonials_eyebrow='Client Feedback', testimonials_title='What clients say about SESCCO.', show_clients=True, show_partners=False, show_certificates=False, show_accreditations=True, show_standards=True, show_testimonials=True, show_documents=True)
         attach_seed_file(trust_page_settings, 'hero_image', 'static/img/seed/page-heroes/engineering_collaboration_in_a_high_tech_room.webp', 'clients-hero.webp')
         ind=up(ClientCategory, {'slug':'industrial-clients'}, name='Industrial Clients', description='Major industrial, utility and infrastructure clients.', sort_order=1, is_active=True)
 
@@ -646,46 +647,47 @@ class Command(BaseCommand):
             {'id': 1},
             eyebrow='Contact Us',
             hero_title='Contact SESCCO with confidence.',
-            hero_subtitle='Send your requirement, visit our location or reach the right team through one clean contact page.',
+            hero_subtitle='Send your requirement to the right SESCCO team through one clean contact page.',
             intro_title='Start your project inquiry clearly.',
-            intro_text='Share your requirement with our team. Key contact details and business hours are shown beside the form for quick reference.',
+            intro_text='Share your requirement by email through the form. Our team will review it and respond from the official SESCCO email address.',
             notification_email='info@sescco.com',
             email_from_name='SESCCO Website',
             map_eyebrow='Find Us',
-            map_title='Find SESCCO on Google Maps.',
-            map_subtitle='Use the large map view to locate the office and open directions directly in Google Maps.',
-            google_map_embed_url='https://www.google.com/maps?q=Dammam%2C%20Saudi%20Arabia&output=embed',
-            google_map_url='https://www.google.com/maps/search/?api=1&query=Dammam%2C%20Saudi%20Arabia',
+            map_title='Office location details are available on request.',
+            map_subtitle='Exact map details are temporarily hidden while public contact information is being finalized.',
+            google_map_embed_url='',
+            google_map_url='',
             map_button_text='Open in Google Maps',
             show_contact_methods=True,
             show_offices=True,
             show_business_hours=True,
-            show_map=True,
+            show_map=False,
             show_faqs=True,
             show_whatsapp_cta=False,
         )
         attach_seed_file(contact_page_settings, 'hero_image', 'static/img/seed/page-heroes/industrial_site_inspection_under_clear_sky.webp', 'contact-hero.webp')
-        for order,(title,value,icon,url) in enumerate([('Call Us','+966 50 969 6018','☎','tel:+966509696018'),('WhatsApp','+966 50 969 6018','✣','https://wa.me/966509696018'),('Email Us','info@sescco.com','✉','mailto:info@sescco.com')],1): up(ContactMethod, {'title':title}, value=value, icon_text=icon, url=url, sort_order=order, is_active=True, show_on_contact_page=True, show_in_footer=True)
+        for order,(title,value,icon,url,active) in enumerate([('Call Us','','☎','',False),('WhatsApp','','✣','',False),('Email Us','info@sescco.com','✉','mailto:info@sescco.com',True)],1): up(ContactMethod, {'title':title}, value=value, icon_text=icon, url=url, sort_order=order, is_active=active, show_on_contact_page=active, show_in_footer=active)
         up(
             OfficeLocation,
             {'name': 'Main Office'},
             address='Dammam, Eastern Province, Kingdom of Saudi Arabia',
             city='Dammam',
             country='Saudi Arabia',
-            phone='+966 50 969 6018',
+            phone='',
             email='info@sescco.com',
-            map_embed_url='https://www.google.com/maps?q=Dammam%2C%20Saudi%20Arabia&output=embed',
-            map_url='https://www.google.com/maps/search/?api=1&query=Dammam%2C%20Saudi%20Arabia',
+            map_embed_url='',
+            map_url='',
             is_primary=True,
             sort_order=1,
             is_active=True,
         )
-        for order,(day,hours) in enumerate([('Sunday - Thursday','8:00 AM - 5:00 PM'),('Friday - Saturday','Closed')],1): up(BusinessHour, {'day_label':day}, hours=hours, sort_order=order, is_active=True)
+        BusinessHour.objects.filter(day_label__in=['Sunday - Thursday', 'Friday - Saturday']).update(is_active=False)
+        for order,(day,hours) in enumerate([('Saturday - Thursday','8:00 AM - 5:00 PM'),('Friday','Closed')],1): up(BusinessHour, {'day_label':day}, hours=hours, sort_order=order, is_active=True)
         for order,title in enumerate(['General Inquiry','Project Quotation','Document Request','Contract Support','Partnership'],1): up(InquirySubject, {'title':title}, email_to='info@sescco.com', sort_order=order, is_active=True)
-        for order,(q,a) in enumerate([('What services does SESCCO provide?','SESCCO provides electrical engineering, civil and architectural fit-out works, contract support, electromechanical works and mechanical/fire-fighting services.'),('Do you offer services outside Dammam?','Yes. SESCCO supports projects across Saudi Arabia according to project requirements.'),('How quickly will I receive a response?','Our team aims to respond promptly after receiving your inquiry.'),('Can SESCCO provide manpower and equipment support?','Yes. Our contract support service provides qualified personnel and equipment support according to project needs.')],1): up(FAQ, {'question':q}, answer=p(a), sort_order=order, is_active=True)
+        for order,(q,a) in enumerate([('What services does SESCCO provide?','SESCCO provides electrical engineering, civil and architectural fit-out works, telecommunication services, contract support, electromechanical works and mechanical/fire-fighting services.'),('Do you offer services outside Dammam?','Yes. SESCCO supports projects across Saudi Arabia according to project requirements.'),('How quickly will I receive a response?','Our team aims to respond promptly after receiving your inquiry.'),('Can SESCCO provide personnel and equipment support?','Yes. Our contract support service provides qualified personnel and equipment support according to project needs.')],1): up(FAQ, {'question':q}, answer=p(a), sort_order=order, is_active=True)
 
         RobotsSettings.objects.update_or_create(id=1, defaults={'content':'User-agent: *\nAllow: /\nSitemap: /sitemap.xml\nSitemap: /localized-sitemap.xml'})
-        SchemaMarkup.objects.update_or_create(title='SESCCO Organization', page_path='', defaults={'json_ld':'{"@context":"https://schema.org","@type":"Organization","name":"Summit Engineering Solutions Cont. Co.","alternateName":"SESCCO","url":"https://sescco.com","email":"info@sescco.com","telephone":"+966 50 969 6018"}', 'is_active':True})
+        SchemaMarkup.objects.update_or_create(title='SESCCO Organization', page_path='', defaults={'json_ld':'{"@context":"https://schema.org","@type":"Organization","name":"Summit Engineering Solutions Cont. Co.","alternateName":"SESCCO","url":"https://sescco.com","email":"info@sescco.com"}', 'is_active':True})
         self.stdout.write(self.style.SUCCESS('SESCCO production English CMS content seeded successfully.'))
 
 
@@ -713,7 +715,7 @@ class Command(BaseCommand):
 
         production_highlights = [
             ("Integrated Engineering", "Multi-Discipline Capability", "Electrical, civil, architectural, fit-out and contract support services delivered by one dependable team.", "□", 1),
-            ("Project Execution Support", "Qualified Workforce", "Skilled manpower, equipment support and practical execution for demanding industrial and infrastructure projects.", "⚙", 2),
+            ("Project Execution Support", "Qualified Workforce", "Skilled project teams, equipment support and practical execution for demanding industrial and infrastructure projects.", "⚙", 2),
             ("Safety & Quality Focus", "Reliable Delivery", "Work guided by safety, quality, efficiency and long-term client trust across Saudi Arabia.", "✓", 3),
         ]
         for title, value, description, icon, order in production_highlights:
@@ -800,7 +802,7 @@ class Command(BaseCommand):
                 continue
             scope_seed = [
                 ("Scope review", "Review project requirements, location, drawings and execution constraints before mobilization.", "01"),
-                ("Site execution", "Coordinate manpower, materials and quality checks during the work phase.", "02"),
+                ("Site execution", "Coordinate project teams, materials and quality checks during the work phase.", "02"),
                 ("Handover support", "Support completion records, close-out information and follow-up coordination where required.", "03"),
             ]
             for order, (title, description, icon) in enumerate(scope_seed, 1):
@@ -827,7 +829,6 @@ class Command(BaseCommand):
             ("project_detail", "related_projects", "Related projects", 90),
             ("clients_certifications", "hero", "Certifications and clients hero", 10),
             ("clients_certifications", "metrics", "Trust metrics", 15),
-            ("clients_certifications", "certificates", "Certificates", 20),
             ("clients_certifications", "clients", "Clients", 30),
             ("clients_certifications", "accreditations", "Accreditations", 40),
             ("clients_certifications", "standards", "Compliance standards", 50),
@@ -835,6 +836,7 @@ class Command(BaseCommand):
             ("clients_certifications", "documents", "Documents", 70),
         ]
         PageSectionOrder.objects.filter(page_key="clients_certifications", section_key="partners").update(is_active=False)
+        PageSectionOrder.objects.filter(page_key="clients_certifications", section_key="certificates").update(is_active=False)
         for page_key, section_key, label, order in canonical_section_orders:
             up(
                 PageSectionOrder,
@@ -859,6 +861,7 @@ class Command(BaseCommand):
         civil_service = service_lookup.get("civil-architectural-fitout-works") or Service.objects.filter(title__icontains="Civil").first()
         fitout_service = civil_service
         contract_service = service_lookup.get("contract-support-service") or Service.objects.filter(title__icontains="Contract").first()
+        telecom_service = service_lookup.get("telecommunication-services") or Service.objects.filter(title__icontains="Telecommunication").first()
         mechanical_service = service_lookup.get("mechanical-fire-fighting-systems") or Service.objects.filter(title__icontains="Fire").first()
 
         profile_project_rows = [
@@ -1030,10 +1033,10 @@ class Command(BaseCommand):
             "McDermott Arabia Office Fitout": [fitout_service],
             "Worley Parsons Office Fitout": [fitout_service],
             "Fire-Fighting System Installation for Industrial Facility and Warehouse": [mechanical_service],
-            "Ethernet Cable Installation and Testing Works": [electrical_service],
-            "Telecommunication Cabinet and Network Support Works": [electrical_service],
-            "SEPCO Telecommunication Field Support Works": [electrical_service],
-            "OPGW Fiber Splicing and Testing Works": [electrical_service],
+            "Ethernet Cable Installation and Testing Works": [telecom_service, electrical_service],
+            "Telecommunication Cabinet and Network Support Works": [telecom_service],
+            "SEPCO Telecommunication Field Support Works": [telecom_service],
+            "OPGW Fiber Splicing and Testing Works": [telecom_service],
             "Asphalting and Site Preparation Works": [civil_service],
         }
         for title, related_services in service_project_links.items():

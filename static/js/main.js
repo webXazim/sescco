@@ -669,6 +669,10 @@ document.addEventListener("DOMContentLoaded", function () {
     pointerTargetY: 0,
     pointerCurrentX: 0,
     pointerCurrentY: 0,
+    pointerSpinTargetX: 0,
+    pointerSpinTargetY: 0,
+    pointerSpinCurrentX: 0,
+    pointerSpinCurrentY: 0,
     wheelTargetX: 0,
     wheelTargetY: 0,
     wheelCurrentX: 0,
@@ -684,7 +688,7 @@ document.addEventListener("DOMContentLoaded", function () {
     lastX: 0,
     lastY: 0,
     radius: 265,
-    autoSpeed: 0.052,
+    autoSpeed: 0.04,
     manualUntil: 0
   };
 
@@ -699,6 +703,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function lerp(start, end, alpha) {
     return start + (end - start) * alpha;
+  }
+
+  function directionalSpin(value, maxSpeed) {
+    const deadZone = 0.12;
+    const magnitude = Math.abs(value);
+    if (magnitude < deadZone) return 0;
+    const normalized = (magnitude - deadZone) / (1 - deadZone);
+    return Math.sign(value) * Math.min(maxSpeed, normalized * maxSpeed);
   }
 
   function holdManualControl(duration = 900) {
@@ -830,8 +842,12 @@ document.addEventListener("DOMContentLoaded", function () {
   function animate() {
     const pointerOverSphere = state.hovering || wrap.matches(':hover');
     const manualActive = pointerOverSphere || state.dragging || performance.now() < state.manualUntil;
-    const speed = manualActive ? 0 : state.autoSpeed;
-    state.autoRotationY += speed;
+    if (pointerOverSphere && !state.dragging) {
+      state.autoRotationX += state.pointerSpinCurrentX;
+      state.autoRotationY += state.pointerSpinCurrentY;
+    } else if (!manualActive) {
+      state.autoRotationY += state.autoSpeed;
+    }
 
     // Auto orbit pauses during manual input. Once the pointer leaves or the
     // wheel gesture settles, manual offsets ease out and the ambient orbit resumes.
@@ -842,16 +858,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     state.pointerCurrentX = lerp(state.pointerCurrentX, state.pointerTargetX, 0.1);
     state.pointerCurrentY = lerp(state.pointerCurrentY, state.pointerTargetY, 0.1);
+    state.pointerSpinCurrentX = lerp(state.pointerSpinCurrentX, state.pointerSpinTargetX, 0.08);
+    state.pointerSpinCurrentY = lerp(state.pointerSpinCurrentY, state.pointerSpinTargetY, 0.08);
     state.wheelCurrentX = lerp(state.wheelCurrentX, state.wheelTargetX, 0.08);
     state.wheelCurrentY = lerp(state.wheelCurrentY, state.wheelTargetY, 0.08);
     state.focusCurrentX = lerp(state.focusCurrentX, state.focusTargetX, 0.08);
     state.focusCurrentY = lerp(state.focusCurrentY, state.focusTargetY, 0.08);
 
-    const displayX = clamp(
-      state.baseTiltX + state.focusCurrentX + state.pointerCurrentX + state.wheelCurrentX,
-      -32,
-      32
-    );
+    const displayX = state.baseTiltX + state.autoRotationX + state.focusCurrentX + state.pointerCurrentX + state.wheelCurrentX;
     const displayY = state.autoRotationY + state.focusCurrentY + state.pointerCurrentY + state.wheelCurrentY;
 
     state.rotationX = displayX;
@@ -879,8 +893,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const relX = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
     const relY = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
 
-    state.pointerTargetY = clamp(relX * 3, -3, 3);
-    state.pointerTargetX = clamp(-relY * 2, -2, 2);
+    state.pointerTargetY = clamp(relX * 5, -5, 5);
+    state.pointerTargetX = clamp(-relY * 4, -4, 4);
+    state.pointerSpinTargetY = directionalSpin(relX, 0.18);
+    state.pointerSpinTargetX = directionalSpin(-relY, 0.13);
 
     if (!state.dragging) return;
 
@@ -890,8 +906,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (Math.abs(dx) + Math.abs(dy) > 3) state.moved = true;
     clearFocus();
 
-    state.wheelTargetY += dx * 0.10;
-    state.wheelTargetX = clamp(state.wheelTargetX - dy * 0.04, -10, 10);
+    state.wheelTargetY += dx * 0.18;
+    state.wheelTargetX = clamp(state.wheelTargetX - dy * 0.06, -14, 14);
     state.lastX = event.clientX;
     state.lastY = event.clientY;
   });
@@ -917,10 +933,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const primaryDelta = Math.abs(event.deltaY) >= Math.abs(event.deltaX)
       ? event.deltaY
       : event.deltaX;
-    const manualTurn = clamp(primaryDelta * 0.12, -24, 24);
+    const manualTurn = clamp(primaryDelta * 0.22, -42, 42);
     state.wheelTargetY += manualTurn;
-    state.wheelCurrentY += manualTurn * 0.24;
-    state.wheelTargetX = clamp(state.wheelTargetX - event.deltaX * 0.018, -9, 9);
+    state.wheelCurrentY += manualTurn * 0.34;
+    state.wheelTargetX = clamp(state.wheelTargetX - event.deltaX * 0.028, -14, 14);
   }, { passive: false });
 
   const enterManualSphere = () => {
@@ -934,6 +950,8 @@ document.addEventListener("DOMContentLoaded", function () {
     holdManualControl(450);
     state.pointerTargetX = 0;
     state.pointerTargetY = 0;
+    state.pointerSpinTargetX = 0;
+    state.pointerSpinTargetY = 0;
     wrap.classList.remove('is-hovered');
   };
 
