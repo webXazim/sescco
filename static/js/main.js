@@ -950,15 +950,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const manualTurn = clamp(primaryDelta * 0.22, -42, 42);
     const pointerVector = pointerVectorFromEvent(event);
     syncPointerIntent(pointerVector.x, pointerVector.y);
-    const horizontalWeight = Math.max(0.18, Math.abs(pointerVector.x));
-    const verticalWeight = Math.max(0.18, Math.abs(pointerVector.y));
-    const horizontalDirection = pointerVector.x || 1;
-    const verticalDirection = -pointerVector.y || 1;
+    const absX = Math.abs(pointerVector.x);
+    const absY = Math.abs(pointerVector.y);
+    const totalIntent = Math.max(0.001, absX + absY);
+    const horizontalWeight = absY > absX ? absX / totalIntent : Math.max(0.25, absX / totalIntent);
+    const verticalWeight = absY >= absX ? Math.max(0.45, absY / totalIntent) : absY / totalIntent;
+    const horizontalDirection = Math.sign(pointerVector.x || 1);
+    const verticalDirection = Math.sign(-pointerVector.y || 1);
+    const yTurn = manualTurn * horizontalWeight * horizontalDirection;
+    const xTurn = manualTurn * verticalWeight * verticalDirection;
 
-    state.wheelTargetY += manualTurn * horizontalWeight * Math.sign(horizontalDirection);
-    state.wheelCurrentY += manualTurn * horizontalWeight * Math.sign(horizontalDirection) * 0.34;
-    state.wheelTargetX += manualTurn * verticalWeight * Math.sign(verticalDirection);
-    state.wheelCurrentX += manualTurn * verticalWeight * Math.sign(verticalDirection) * 0.28;
+    state.wheelTargetY += yTurn;
+    state.wheelCurrentY += yTurn * 0.4;
+    state.wheelTargetX += xTurn;
+    state.wheelCurrentX += xTurn * 0.5;
   }, { passive: false });
 
   const enterManualSphere = () => {
