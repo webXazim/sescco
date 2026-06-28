@@ -680,6 +680,8 @@ document.addEventListener("DOMContentLoaded", function () {
     wheelTargetY: 0,
     wheelCurrentX: 0,
     wheelCurrentY: 0,
+    wheelVelocityX: 0,
+    wheelVelocityY: 0,
     focusTargetX: 0,
     focusTargetY: 0,
     focusCurrentX: 0,
@@ -694,7 +696,7 @@ document.addEventListener("DOMContentLoaded", function () {
     pointerClientY: 0,
     hasPointerPosition: false,
     radius: 265,
-    autoSpeed: 0.04,
+    autoSpeed: 0.085,
     manualUntil: 0
   };
 
@@ -875,22 +877,26 @@ document.addEventListener("DOMContentLoaded", function () {
       state.autoRotationX += state.pointerSpinCurrentX;
       state.autoRotationY += state.pointerSpinCurrentY;
     } else if (!manualActive) {
+      state.autoRotationX = lerp(state.autoRotationX, 0, 0.018);
       state.autoRotationY += state.autoSpeed;
     }
 
-    // Auto orbit pauses during manual input. Once the pointer leaves or the
-    // wheel gesture settles, manual offsets ease out and the ambient orbit resumes.
-    if (!manualActive) {
-      state.wheelTargetX = lerp(state.wheelTargetX, 0, 0.018);
-      state.wheelTargetY = lerp(state.wheelTargetY, 0, 0.018);
-    }
+    state.autoRotationX += state.wheelVelocityX;
+    state.autoRotationY += state.wheelVelocityY;
+    state.wheelVelocityX *= manualActive ? 0.88 : 0.92;
+    state.wheelVelocityY *= manualActive ? 0.88 : 0.92;
+    if (Math.abs(state.wheelVelocityX) < 0.004) state.wheelVelocityX = 0;
+    if (Math.abs(state.wheelVelocityY) < 0.004) state.wheelVelocityY = 0;
+
+    state.wheelTargetX = lerp(state.wheelTargetX, 0, 0.06);
+    state.wheelTargetY = lerp(state.wheelTargetY, 0, 0.06);
 
     state.pointerCurrentX = lerp(state.pointerCurrentX, state.pointerTargetX, 0.1);
     state.pointerCurrentY = lerp(state.pointerCurrentY, state.pointerTargetY, 0.1);
     state.pointerSpinCurrentX = lerp(state.pointerSpinCurrentX, state.pointerSpinTargetX, 0.08);
     state.pointerSpinCurrentY = lerp(state.pointerSpinCurrentY, state.pointerSpinTargetY, 0.08);
-    state.wheelCurrentX = lerp(state.wheelCurrentX, state.wheelTargetX, 0.08);
-    state.wheelCurrentY = lerp(state.wheelCurrentY, state.wheelTargetY, 0.08);
+    state.wheelCurrentX = lerp(state.wheelCurrentX, state.wheelTargetX, 0.12);
+    state.wheelCurrentY = lerp(state.wheelCurrentY, state.wheelTargetY, 0.12);
     state.focusCurrentX = lerp(state.focusCurrentX, state.focusTargetX, 0.08);
     state.focusCurrentY = lerp(state.focusCurrentY, state.focusTargetY, 0.08);
 
@@ -935,8 +941,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (Math.abs(dx) + Math.abs(dy) > 3) state.moved = true;
     clearFocus();
 
-    state.wheelTargetY += dx * 0.18;
-    state.wheelTargetX = clamp(state.wheelTargetX - dy * 0.06, -14, 14);
+    state.wheelVelocityY += dx * 0.012;
+    state.wheelVelocityX -= dy * 0.008;
     state.lastX = event.clientX;
     state.lastY = event.clientY;
   });
@@ -966,8 +972,8 @@ document.addEventListener("DOMContentLoaded", function () {
     syncPointerIntent(pointerVector.x, pointerVector.y);
     const absX = Math.abs(pointerVector.x);
     const absY = Math.abs(pointerVector.y);
-    const verticalScroll = clamp(-event.deltaY * 0.34, -58, 58);
-    const horizontalScroll = clamp(event.deltaX * 0.34, -58, 58);
+    const verticalScroll = clamp(-event.deltaY * 0.018, -4.8, 4.8);
+    const horizontalScroll = clamp(event.deltaX * 0.018, -4.8, 4.8);
     const dominantVerticalZone = absY > absX + 0.08;
     const dominantHorizontalZone = absX > absY + 0.08;
     const xDirection = Math.sign(-pointerVector.y || 1);
@@ -986,12 +992,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     yTurn += horizontalScroll;
 
-    state.autoRotationX += xTurn;
-    state.autoRotationY += yTurn;
-    state.wheelTargetX = 0;
-    state.wheelTargetY = 0;
-    state.wheelCurrentX = 0;
-    state.wheelCurrentY = 0;
+    state.wheelVelocityX += xTurn;
+    state.wheelVelocityY += yTurn;
+    state.wheelVelocityX = clamp(state.wheelVelocityX, -5.5, 5.5);
+    state.wheelVelocityY = clamp(state.wheelVelocityY, -5.5, 5.5);
+    state.wheelTargetX = clamp(state.wheelTargetX + xTurn * 0.7, -10, 10);
+    state.wheelTargetY = clamp(state.wheelTargetY + yTurn * 0.7, -10, 10);
   }, { passive: false });
 
   const enterManualSphere = () => {
