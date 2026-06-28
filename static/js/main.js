@@ -696,7 +696,8 @@ document.addEventListener("DOMContentLoaded", function () {
     pointerClientY: 0,
     hasPointerPosition: false,
     radius: 265,
-    autoSpeed: 0.14,
+    autoSpeed: 0.18,
+    autoDirectionY: 1,
     manualUntil: 0
   };
 
@@ -719,6 +720,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (magnitude < deadZone) return 0;
     const normalized = (magnitude - deadZone) / (1 - deadZone);
     return Math.sign(value) * Math.min(maxSpeed, normalized * maxSpeed);
+  }
+
+  function uprightAngleDelta(value) {
+    return ((((0 - value) % 360) + 540) % 360) - 180;
   }
 
   function pointerVectorFromEvent(event) {
@@ -872,9 +877,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function animate() {
     const pointerOverSphere = state.hovering || wrap.matches(':hover');
-    const manualActive = pointerOverSphere || state.dragging || performance.now() < state.manualUntil;
+    const manualActive = state.dragging || performance.now() < state.manualUntil;
     if (!manualActive) {
-      state.autoRotationY += state.autoSpeed;
+      const xSettle = uprightAngleDelta(state.autoRotationX);
+      state.autoRotationX += xSettle * 0.012;
+      state.autoRotationY += state.autoSpeed * state.autoDirectionY;
     }
 
     state.autoRotationX += state.wheelVelocityX;
@@ -939,6 +946,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     state.wheelVelocityY += dx * 0.012;
     state.wheelVelocityX -= dy * 0.008;
+    if (Math.abs(dx) > 2) state.autoDirectionY = Math.sign(dx);
     state.lastX = event.clientX;
     state.lastY = event.clientY;
   });
@@ -993,6 +1001,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     state.wheelVelocityX += xTurn;
     state.wheelVelocityY += yTurn;
+    if (Math.abs(yTurn) > 0.08) state.autoDirectionY = Math.sign(yTurn);
     state.wheelVelocityX = clamp(state.wheelVelocityX, -5.5, 5.5);
     state.wheelVelocityY = clamp(state.wheelVelocityY, -5.5, 5.5);
     state.wheelTargetX = clamp(state.wheelTargetX + xTurn * 0.7, -10, 10);
