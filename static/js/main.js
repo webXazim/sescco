@@ -659,6 +659,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const configuredCards = readConfiguredCards();
   const cards = configuredCards.length ? configuredCards : fallbackCards;
+  const motionConfig = readMotionConfig();
 
   const state = {
     rotationX: -8,
@@ -696,7 +697,12 @@ document.addEventListener("DOMContentLoaded", function () {
     pointerClientY: 0,
     hasPointerPosition: false,
     radius: 265,
-    autoSpeed: 0.18,
+    autoSpeed: motionConfig.autoSpeed,
+    autoSpeedCurrent: motionConfig.autoSpeed * 0.75,
+    autoSpeedBoost: 0,
+    scrollSpeed: motionConfig.scrollSpeed,
+    settleAlpha: motionConfig.settleAlpha,
+    maxBoost: motionConfig.maxBoost,
     autoDirectionY: 1,
     manualUntil: 0
   };
@@ -712,6 +718,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function lerp(start, end, alpha) {
     return start + (end - start) * alpha;
+  }
+
+  function readNumber(value, fallback, min, max) {
+    const parsed = Number.parseFloat(value);
+    if (!Number.isFinite(parsed)) return fallback;
+    return clamp(parsed, min, max);
+  }
+
+  function readMotionConfig() {
+    const settleSeconds = readNumber(wrap.dataset.settleSeconds, 10, 2, 30);
+    return {
+      autoSpeed: readNumber(wrap.dataset.autoSpeed, 0.24, 0.02, 1.2),
+      scrollSpeed: readNumber(wrap.dataset.scrollSpeed, 0.03, 0.004, 0.12),
+      settleAlpha: 1 - Math.exp(-1 / (settleSeconds * 60)),
+      maxBoost: readNumber(wrap.dataset.maxBoost, 0.55, 0, 1.8)
+    };
   }
 
   function directionalSpin(value, maxSpeed) {
@@ -876,18 +898,22 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function animate() {
-    const pointerOverSphere = state.hovering || wrap.matches(':hover');
     const manualActive = state.dragging || performance.now() < state.manualUntil;
-    if (!manualActive) {
+    if (!state.dragging) {
       const xSettle = uprightAngleDelta(state.autoRotationX);
-      state.autoRotationX += xSettle * 0.012;
-      state.autoRotationY += state.autoSpeed * state.autoDirectionY;
+      state.autoRotationX += xSettle * state.settleAlpha;
     }
+
+    const targetAutoSpeed = state.autoSpeed + state.autoSpeedBoost;
+    state.autoSpeedCurrent = lerp(state.autoSpeedCurrent, targetAutoSpeed, 0.018);
+    state.autoRotationY += state.autoSpeedCurrent * state.autoDirectionY;
+    state.autoSpeedBoost *= 0.992;
+    if (state.autoSpeedBoost < 0.006) state.autoSpeedBoost = 0;
 
     state.autoRotationX += state.wheelVelocityX;
     state.autoRotationY += state.wheelVelocityY;
-    state.wheelVelocityX *= manualActive ? 0.88 : 0.92;
-    state.wheelVelocityY *= manualActive ? 0.88 : 0.92;
+    state.wheelVelocityX *= manualActive ? 0.90 : 0.94;
+    state.wheelVelocityY *= manualActive ? 0.90 : 0.94;
     if (Math.abs(state.wheelVelocityX) < 0.004) state.wheelVelocityX = 0;
     if (Math.abs(state.wheelVelocityY) < 0.004) state.wheelVelocityY = 0;
 
@@ -976,8 +1002,8 @@ document.addEventListener("DOMContentLoaded", function () {
     syncPointerIntent(pointerVector.x, pointerVector.y);
     const absX = Math.abs(pointerVector.x);
     const absY = Math.abs(pointerVector.y);
-    const wheelTurn = clamp(-event.deltaY * 0.02, -5.8, 5.8);
-    const sideTurn = clamp(event.deltaX * 0.02, -5.8, 5.8);
+    const wheelTurn = clamp(-event.deltaY * state.scrollSpeed, -8.5, 8.5);
+    const sideTurn = clamp(event.deltaX * state.scrollSpeed, -8.5, 8.5);
     const totalIntent = Math.max(0.001, absX + absY);
     let xWeight = absY / totalIntent;
     let yWeight = absX / totalIntent;
@@ -1002,8 +1028,9 @@ document.addEventListener("DOMContentLoaded", function () {
     state.wheelVelocityX += xTurn;
     state.wheelVelocityY += yTurn;
     if (Math.abs(yTurn) > 0.08) state.autoDirectionY = Math.sign(yTurn);
-    state.wheelVelocityX = clamp(state.wheelVelocityX, -5.5, 5.5);
-    state.wheelVelocityY = clamp(state.wheelVelocityY, -5.5, 5.5);
+    state.autoSpeedBoost = Math.min(state.maxBoost, state.autoSpeedBoost + Math.min(0.16, (Math.abs(xTurn) + Math.abs(yTurn)) * 0.012));
+    state.wheelVelocityX = clamp(state.wheelVelocityX, -8.5, 8.5);
+    state.wheelVelocityY = clamp(state.wheelVelocityY, -8.5, 8.5);
     state.wheelTargetX = clamp(state.wheelTargetX + xTurn * 0.7, -10, 10);
     state.wheelTargetY = clamp(state.wheelTargetY + yTurn * 0.7, -10, 10);
   }, { passive: false });

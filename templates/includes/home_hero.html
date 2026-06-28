@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load static %}
+{% load l10n %}
 {% load localization %}
 {% load page_sections %}
 <section class="hero hero-home" {% section_attrs "home" "hero" 10 %}>
@@ -37,7 +38,14 @@
         <div class="hero-side-glow"></div>
         <div class="hero-trust-sphere hero-trust-sphere-exact" data-home-trust-sphere>
           <div class="hero-trust-sphere-ambient"></div>
-          <div class="home-sphere-wrap" data-home-sphere-wrap>
+          <div
+            class="home-sphere-wrap"
+            data-home-sphere-wrap
+            data-auto-speed="{% if home_hero %}{{ home_hero.sphere_auto_speed|unlocalize }}{% else %}0.24{% endif %}"
+            data-scroll-speed="{% if home_hero %}{{ home_hero.sphere_scroll_speed|unlocalize }}{% else %}0.03{% endif %}"
+            data-settle-seconds="{% if home_hero %}{{ home_hero.sphere_settle_seconds|unlocalize }}{% else %}10{% endif %}"
+            data-max-boost="{% if home_hero %}{{ home_hero.sphere_max_boost|unlocalize }}{% else %}0.55{% endif %}"
+          >
             <div class="home-sphere" data-home-sphere aria-live="polite"></div>
           </div>
         </div>

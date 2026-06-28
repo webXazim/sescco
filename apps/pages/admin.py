@@ -119,6 +119,7 @@ class SingletonAdminMixin:
 class HomeHeroAdmin(SingletonAdminMixin, admin.ModelAdmin):
     fieldsets = (
         ("Hero Content", {"fields": ("title", "subtitle", "background_image", "show_sphere", "is_active"), "description": "Homepage visual image: upload/update the engineers photo shown on the right side of the hero section. Use Show sphere to turn the animated service-card sphere on or off."}),
+        ("Sphere Motion", {"fields": ("sphere_auto_speed", "sphere_scroll_speed", "sphere_settle_seconds", "sphere_max_boost"), "description": "Tune the home hero sphere without code changes. Increase slowly; small decimal changes are visible."}),
         ("Primary Button", {"fields": ("primary_button_text", "primary_button_url")}),
         ("Secondary Button", {"fields": ("secondary_button_text", "secondary_button_url")}),
     )
@@ -819,4 +820,3 @@ if not getattr(admin.site, "_sescco_section_order_group_patched", False):
 
     admin.site.get_app_list = _sescco_get_app_list
     admin.site._sescco_section_order_group_patched = True
-
