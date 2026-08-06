@@ -1,5 +1,11 @@
 {
     email {$ACME_EMAIL:admin@example.com}
+    servers {
+        # Preserve the original client and HTTPS scheme when this site sits
+        # behind a shared host-level proxy on a multi-site VPS.
+        trusted_proxies static private_ranges
+        trusted_proxies_strict
+    }
 }
 
 {$SITE_DOMAIN:http://localhost} {
@@ -14,6 +20,13 @@
         header Cache-Control "public, max-age=2592000"
     }
 
+    # Applicant CVs and supporting documents are only served by authenticated
+    # Django dashboard views. Never expose their storage path through Caddy.
+    @privateCareerFiles path /media/careers/private/applications/* /media/careers/applications/*
+    handle @privateCareerFiles {
+        respond 404
+    }
+
     handle_path /media/* {
         root * /srv/media
         file_server
@@ -22,8 +35,5 @@
 
     reverse_proxy web:8000 {
         header_up Host {host}
-        header_up X-Real-IP {remote_host}
-        header_up X-Forwarded-For {remote_host}
-        header_up X-Forwarded-Proto {scheme}
     }
 }

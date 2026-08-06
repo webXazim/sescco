@@ -1,119 +1,143 @@
-# DigitalOcean Droplet Deployment
+# Ubuntu VPS Docker Deployment (IONOS)
 
-This project is ready to run on an Ubuntu DigitalOcean Droplet with Docker Compose, PostgreSQL, Gunicorn, and Caddy. Caddy is the public web server and will request/renew HTTPS certificates automatically when your domain DNS points to the droplet.
+The production stack contains Django/Gunicorn, PostgreSQL 16, and Caddy. Each
+deployment is isolated by `COMPOSE_PROJECT_NAME`, so its containers, database,
+media, static files, and Caddy state do not overlap another site.
 
-## 1. Create The Droplet
+## Fast first deployment
 
-Use an Ubuntu LTS droplet with at least 1 GB RAM. Add your SSH key during droplet creation.
-
-Point DNS records to the droplet IP:
-
-```text
-A     example.com       DROPLET_IP
-A     www.example.com   DROPLET_IP
-```
-
-## 2. Bootstrap The Server
-
-SSH into the droplet, clone or upload this project, then run:
+Point the domain's DNS `A` record to the IONOS VPS, clone the repository, and run:
 
 ```sh
-sudo sh scripts/bootstrap_droplet.sh
+sudo sh scripts/deploy.sh --domain example.com --email admin@example.com --project example-site
 ```
 
-This installs Docker, Docker Compose, Git, and enables the firewall for SSH, HTTP, and HTTPS.
+That single command:
 
-## 3. Configure Production Environment
+1. installs Docker Engine/Compose on Ubuntu when they are missing;
+2. creates a permission-restricted `.env` with random Django and PostgreSQL secrets;
+3. builds and starts the isolated Compose stack;
+4. waits for PostgreSQL and Gunicorn health checks;
+5. applies migrations and collects static files;
+6. loads the idempotent SESCCO CMS/localization seed and runs deployment audits;
+7. validates Django, Caddy, and `/healthz/`.
 
-Copy the production template:
+The generated environment contains the primary domain only. Add `www.example.com`
+to `SITE_DOMAIN` and `ALLOWED_HOSTS`, and add
+`https://www.example.com` to `CSRF_TRUSTED_ORIGINS` only if its DNS record exists.
+
+For later code-only deployments that must preserve CMS edits, use:
+
+```sh
+sh scripts/deploy.sh --no-seed
+```
+
+The default seed is repeatable, but it intentionally refreshes the canonical
+seeded fields. `--no-seed` is therefore recommended after editors begin changing
+production content.
+
+## Hosting several sites on one VPS
+
+Every site must use a unique:
+
+- repository directory;
+- `COMPOSE_PROJECT_NAME` (for container, network, and volume isolation);
+- host HTTP/HTTPS ports if it has its own Caddy container.
+
+Only one process can own public ports `80` and `443` on one IP. There are two
+supported layouts:
+
+### One directly exposed site
+
+Use the defaults for the public stack:
+
+```env
+COMPOSE_PROJECT_NAME=sescco
+BIND_ADDRESS=0.0.0.0
+HTTP_PORT=80
+HTTPS_PORT=443
+```
+
+### Several sites behind one shared reverse proxy
+
+Use one host-level/shared proxy for public ports `80/443`. Bind each project's
+Caddy only to loopback and give it a unique upstream port pair:
+
+```env
+# Site A
+COMPOSE_PROJECT_NAME=site_a
+BIND_ADDRESS=127.0.0.1
+HTTP_PORT=8081
+HTTPS_PORT=8441
+
+# Site B, in its own repository and .env
+COMPOSE_PROJECT_NAME=site_b
+BIND_ADDRESS=127.0.0.1
+HTTP_PORT=8082
+HTTPS_PORT=8442
+```
+
+The shared proxy routes each domain to its matching loopback HTTP port, for
+example `127.0.0.1:8081` and `127.0.0.1:8082`. It must preserve `Host`,
+`X-Forwarded-For`, and `X-Forwarded-Proto`. Loopback binding prevents visitors
+from bypassing the shared proxy. Do not expose several independent Caddy
+containers on `0.0.0.0:80/443`.
+
+If the shared proxy terminates TLS, configure the per-site Caddy address as
+`http://example.com` in `SITE_DOMAIN`; the outer proxy remains responsible for
+the public certificate.
+
+A new behind-proxy site can generate that configuration in one command:
+
+```sh
+sudo sh scripts/deploy.sh --domain site-b.example.com --email admin@example.com \
+  --project site-b --behind-proxy --http-port 8082 --https-port 8442
+```
+
+## Existing environment file
+
+To configure manually:
 
 ```sh
 cp .env.production.example .env
-```
-
-Edit `.env` and set real values:
-
-```env
-SITE_DOMAIN=example.com, www.example.com
-ACME_EMAIL=admin@example.com
-SECRET_KEY=replace-with-a-long-random-secret
-ALLOWED_HOSTS=example.com,www.example.com
-CSRF_TRUSTED_ORIGINS=https://example.com,https://www.example.com
-POSTGRES_PASSWORD=replace-db-password
-DATABASE_URL=postgres://company_profile:replace-db-password@db:5432/company_profile
-```
-
-Keep `POSTGRES_PASSWORD` and the password inside `DATABASE_URL` identical.
-
-## 4. Deploy
-
-```sh
+chmod 600 .env
+nano .env
 sh scripts/deploy.sh
 ```
 
-The deployment starts PostgreSQL, waits for it to become healthy, runs migrations, collects static files, starts Gunicorn, and exposes the site through Caddy on ports 80 and 443.
+Keep `POSTGRES_PASSWORD` and the password inside `DATABASE_URL` identical. Never
+reuse the same `COMPOSE_PROJECT_NAME` between unrelated projects.
 
-Create the first admin user:
-
-```sh
-docker compose exec web python manage.py createsuperuser
-```
-
-## 5. Operations
-
-View logs:
+## Operations
 
 ```sh
-docker compose logs -f web
-docker compose logs -f caddy
-docker compose logs -f db
-```
+# Status and logs
+docker compose ps
+docker compose logs -f web caddy db
 
-Restart after code changes:
+# Deploy changed code without refreshing CMS seed fields
+sh scripts/deploy.sh --no-seed
 
-```sh
+# Explicitly refresh canonical seeded content
 sh scripts/deploy.sh
-```
 
-Run Django checks:
-
-```sh
-docker compose exec web python manage.py check --deploy
-```
-
-Back up PostgreSQL:
-
-```sh
+# Backup and restore this isolated database
 sh scripts/backup_postgres.sh
-```
-
-Restore PostgreSQL:
-
-```sh
 sh scripts/restore_postgres.sh backups/postgres_YYYYmmdd_HHMMSS.dump
-```
 
-Stop the stack:
-
-```sh
+# Stop containers but preserve data volumes
 docker compose down
 ```
 
-## Local Docker Smoke Test
+Do not use `docker compose down -v` in production; `-v` deletes the site's
+PostgreSQL, media, static, and certificate volumes.
 
-For local testing on `http://localhost`, set these values in `.env`:
+## IONOS firewall checklist
 
-```env
-SITE_DOMAIN=http://localhost
-ALLOWED_HOSTS=localhost,127.0.0.1
-CSRF_TRUSTED_ORIGINS=http://localhost,http://127.0.0.1
-SECURE_SSL_REDIRECT=False
-SESSION_COOKIE_SECURE=False
-CSRF_COOKIE_SECURE=False
-```
+Allow inbound TCP `22`, `80`, and `443` in both the IONOS firewall policy and
+Ubuntu UFW. Database port `5432` and per-site loopback ports must not be publicly
+opened. The bootstrap script enables UFW rules for SSH/HTTP/HTTPS.
 
-Then run:
-
-```sh
-docker compose up --build
-```
+Before accepting applications, configure SMTP values in `.env`. Applicant files
+under `/media/careers/applications/` are deliberately blocked at Caddy and are
+served only by staff-authenticated dashboard download views.
