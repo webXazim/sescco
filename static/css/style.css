@@ -10126,11 +10126,6 @@ html[dir="rtl"] .home-proof-simple-certificate-copy {
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  contain: layout paint style;
-}
-
-.home-proof-simple-logo-slider:focus-within .home-proof-simple-logo-track {
-  animation-play-state: paused;
 }
 
 .home-proof-simple-logo-track-group {
@@ -10155,6 +10150,8 @@ html[dir="rtl"] .home-proof-simple-certificate-copy {
   border: 1px solid #dce8fb;
   box-shadow: 0 8px 20px rgba(6,27,54,.028);
   transform: translateZ(0);
+  pointer-events: none;
+  user-select: none;
 }
 
 .home-proof-simple-logo-card:hover {

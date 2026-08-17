@@ -666,12 +666,6 @@ document.addEventListener("DOMContentLoaded", function () {
     autoRotationX: 0,
     autoRotationY: 0,
     baseTiltX: -8,
-    pointerTargetX: 0,
-    pointerTargetY: 0,
-    pointerCurrentX: 0,
-    pointerCurrentY: 0,
-    pointerRelX: 0,
-    pointerRelY: 0,
     wheelTargetX: 0,
     wheelTargetY: 0,
     wheelCurrentX: 0,
@@ -750,13 +744,6 @@ document.addEventListener("DOMContentLoaded", function () {
       x: clamp(((clientX - rect.left) / rect.width - 0.5) * 2, -1, 1),
       y: clamp(((clientY - rect.top) / rect.height - 0.5) * 2, -1, 1)
     };
-  }
-
-  function syncPointerIntent(relX, relY) {
-    state.pointerRelX = relX;
-    state.pointerRelY = relY;
-    state.pointerTargetY = clamp(relX * 5, -5, 5);
-    state.pointerTargetX = clamp(-relY * 4, -4, 4);
   }
 
   function holdManualControl(duration = 900) {
@@ -861,18 +848,15 @@ document.addEventListener("DOMContentLoaded", function () {
     if (Math.abs(state.wheelVelocityY) < 0.004) state.wheelVelocityY = 0;
 
     const targetAlpha = 1 - Math.pow(1 - 0.06, frameScale);
-    const pointerAlpha = 1 - Math.pow(1 - 0.1, frameScale);
     const wheelAlpha = 1 - Math.pow(1 - 0.12, frameScale);
     state.wheelTargetX = lerp(state.wheelTargetX, 0, targetAlpha);
     state.wheelTargetY = lerp(state.wheelTargetY, 0, targetAlpha);
 
-    state.pointerCurrentX = lerp(state.pointerCurrentX, state.pointerTargetX, pointerAlpha);
-    state.pointerCurrentY = lerp(state.pointerCurrentY, state.pointerTargetY, pointerAlpha);
     state.wheelCurrentX = lerp(state.wheelCurrentX, state.wheelTargetX, wheelAlpha);
     state.wheelCurrentY = lerp(state.wheelCurrentY, state.wheelTargetY, wheelAlpha);
 
-    const displayX = state.baseTiltX + state.autoRotationX + state.pointerCurrentX + state.wheelCurrentX;
-    const displayY = state.autoRotationY + state.pointerCurrentY + state.wheelCurrentY;
+    const displayX = state.baseTiltX + state.autoRotationX + state.wheelCurrentX;
+    const displayY = state.autoRotationY + state.wheelCurrentY;
 
     sphere.style.transform = `rotateX(${displayX}deg) rotateY(${displayY}deg)`;
     requestAnimationFrame(animate);
@@ -893,14 +877,13 @@ document.addEventListener("DOMContentLoaded", function () {
   wrap.addEventListener('pointermove', (event) => {
     state.hovering = true;
     wrap.classList.add('is-hovered');
-    holdManualControl(500);
     state.pointerClientX = event.clientX;
     state.pointerClientY = event.clientY;
     state.hasPointerPosition = true;
-    const pointerVector = pointerVectorFromEvent(event);
-    syncPointerIntent(pointerVector.x, pointerVector.y);
 
     if (!state.dragging) return;
+
+    holdManualControl(500);
 
     const dx = event.clientX - state.lastX;
     const dy = event.clientY - state.lastY;
@@ -936,7 +919,6 @@ document.addEventListener("DOMContentLoaded", function () {
     state.pointerClientY = Number.isFinite(event.clientY) && event.clientY !== 0 ? event.clientY : state.pointerClientY;
     state.hasPointerPosition = true;
     const pointerVector = pointerVectorFromEvent(event);
-    syncPointerIntent(pointerVector.x, pointerVector.y);
     const absX = Math.abs(pointerVector.x);
     const absY = Math.abs(pointerVector.y);
     const wheelTurn = clamp(-event.deltaY * state.scrollSpeed, -8.5, 8.5);
@@ -974,17 +956,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const enterManualSphere = () => {
     state.hovering = true;
-    holdManualControl(900);
     wrap.classList.add('is-hovered');
   };
 
   const leaveManualSphere = () => {
     state.hovering = false;
     holdManualControl(450);
-    state.pointerTargetX = 0;
-    state.pointerTargetY = 0;
-    state.pointerRelX = 0;
-    state.pointerRelY = 0;
     state.hasPointerPosition = false;
     wrap.classList.remove('is-hovered');
   };

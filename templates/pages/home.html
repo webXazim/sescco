@@ -70,34 +70,34 @@
         {% if featured_clients %}
         <div class="home-proof-simple-logo-slider" aria-label="{% static_text 'Trusted client logos slideshow' %}">
           <div class="home-proof-simple-logo-track">
-            <div class="home-proof-simple-logo-track-group">
+            <div class="home-proof-simple-logo-track-group" role="list">
               {% for client in featured_clients %}
                 {% proper_name client 'name' as client_name %}
-                <a class="home-proof-simple-logo-card" href="{% url 'clients_certifications' %}#clients" aria-label="{% static_text 'View client' %}: {{ client_name }}">
+                <div class="home-proof-simple-logo-card" role="listitem">
                   <span class="home-proof-simple-logo-media">
                     {% if client.logo %}
-                      <img src="{{ client.logo.url }}" alt="{{ client_name }}" loading="lazy">
+                      <img src="{{ client.logo.url }}" alt="{{ client_name }}" loading="eager" decoding="async" draggable="false">
                     {% else %}
                       <span class="home-proof-simple-logo-fallback">{{ client.name|slice:":2" }}</span>
                     {% endif %}
                   </span>
                   <strong>{{ client_name }}</strong>
-                </a>
+                </div>
               {% endfor %}
             </div>
-            <div class="home-proof-simple-logo-track-group" aria-hidden="true">
+            <div class="home-proof-simple-logo-track-group" role="list" aria-hidden="true">
               {% for client in featured_clients %}
                 {% proper_name client 'name' as client_name %}
-                <a class="home-proof-simple-logo-card" href="{% url 'clients_certifications' %}#clients" tabindex="-1">
+                <div class="home-proof-simple-logo-card" role="listitem">
                   <span class="home-proof-simple-logo-media">
                     {% if client.logo %}
-                      <img src="{{ client.logo.url }}" alt="" loading="lazy">
+                      <img src="{{ client.logo.url }}" alt="" loading="eager" decoding="async" draggable="false">
                     {% else %}
                       <span class="home-proof-simple-logo-fallback">{{ client.name|slice:":2" }}</span>
                     {% endif %}
                   </span>
                   <strong>{{ client_name }}</strong>
-                </a>
+                </div>
               {% endfor %}
             </div>
           </div>

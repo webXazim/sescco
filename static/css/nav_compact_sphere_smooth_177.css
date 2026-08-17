@@ -85,7 +85,9 @@ html[dir="rtl"] .site-header .logo{
   pointer-events: none !important;
   cursor: default !important;
   transition: none !important;
-  will-change: transform !important;
+  /* Only the sphere parent moves. Avoid creating a separate GPU layer for
+     every static card, which can produce compositor shimmer while rotating. */
+  will-change: auto !important;
 }
 
 .hero-home .home-sphere-card.is-active,
