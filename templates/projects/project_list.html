@@ -45,34 +45,34 @@
       {% if featured_clients %}
       <div class="project-client-logo-slider" aria-label="{% static_text 'Trusted client logos slideshow' %}">
         <div class="project-client-logo-track">
-          <div class="project-client-logo-group">
+          <div class="project-client-logo-group" role="list">
             {% for client in featured_clients %}
               {% proper_name client 'name' as client_name %}
-              <a class="project-client-logo-card" href="{% url 'clients_certifications' %}#clients" aria-label="{% static_text 'View client' %}: {{ client_name }}">
+              <div class="project-client-logo-card" role="listitem">
                 <span class="project-client-logo-media">
                   {% if client.logo %}
-                    <img src="{{ client.logo.url }}" alt="{{ client_name }}" loading="lazy">
+                    <img src="{{ client.logo.url }}" alt="{{ client_name }}" loading="lazy" decoding="async" draggable="false">
                   {% else %}
                     <span class="project-client-logo-fallback">{{ client.name|slice:":2" }}</span>
                   {% endif %}
                 </span>
                 <strong>{{ client_name }}</strong>
-              </a>
+              </div>
             {% endfor %}
           </div>
           <div class="project-client-logo-group" aria-hidden="true">
             {% for client in featured_clients %}
               {% proper_name client 'name' as client_name %}
-              <a class="project-client-logo-card" href="{% url 'clients_certifications' %}#clients" tabindex="-1">
+              <div class="project-client-logo-card">
                 <span class="project-client-logo-media">
                   {% if client.logo %}
-                    <img src="{{ client.logo.url }}" alt="" loading="lazy">
+                    <img src="{{ client.logo.url }}" alt="" loading="lazy" decoding="async" draggable="false">
                   {% else %}
                     <span class="project-client-logo-fallback">{{ client.name|slice:":2" }}</span>
                   {% endif %}
                 </span>
                 <strong>{{ client_name }}</strong>
-              </a>
+              </div>
             {% endfor %}
           </div>
         </div>
