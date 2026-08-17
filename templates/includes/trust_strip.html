@@ -7,9 +7,9 @@
       <div class="info-item">
         <span class="info-icon{% if metric.title == 'SEC Vendor Code' or metric.title == 'Saudi Electricity Company Vendor Code' or metric.title == 'Aramco Vendor Code' or metric.title == 'Saudi Aramco Vendor Code' %} info-icon--company-logo{% endif %}">
           {% if metric.title == "SEC Vendor Code" or metric.title == "Saudi Electricity Company Vendor Code" %}
-            <img class="info-icon-img info-icon-company-logo info-icon-company-logo--sec" src="{% static 'img/brand/sec-mark.svg' %}" alt="Saudi Electricity Company" loading="eager">
+            <img class="info-icon-img info-icon-company-logo info-icon-company-logo--sec" src="{% static 'img/brand/sec-vendor-mark.png' %}" alt="Saudi Electricity Company" loading="eager">
           {% elif metric.title == "Aramco Vendor Code" or metric.title == "Saudi Aramco Vendor Code" %}
-            <img class="info-icon-img info-icon-company-logo info-icon-company-logo--aramco" src="{% static 'img/seed/clients/client-aramco.png' %}" alt="Saudi Aramco" loading="eager">
+            <img class="info-icon-img info-icon-company-logo info-icon-company-logo--aramco" src="{% static 'img/brand/aramco-vendor-mark.png' %}" alt="Saudi Aramco" loading="eager">
           {% elif metric.icon_image %}
             <img class="info-icon-img" src="{{ metric.icon_image.url }}" alt="" loading="lazy">
           {% else %}
@@ -22,8 +22,8 @@
   {% empty %}
     <div class="info-item"><span class="info-icon">⌖</span><div><small>{% static_text "Saudi Arabia Based" %}</small><strong>{{ company.city|default:"Dammam" }}, KSA</strong></div></div>
     <div class="info-item"><span class="info-icon">▣</span><div><small>{% static_text "Established" %}</small><strong>{{ company.established_year }}</strong></div></div>
-    <div class="info-item"><span class="info-icon info-icon--company-logo"><img class="info-icon-img info-icon-company-logo info-icon-company-logo--sec" src="{% static 'img/brand/sec-mark.svg' %}" alt="Saudi Electricity Company" loading="eager"></span><div><small>{% static_text "SEC Vendor Code" %}</small><strong>{{ company.sec_vendor_code }}</strong></div></div>
-    <div class="info-item"><span class="info-icon info-icon--company-logo"><img class="info-icon-img info-icon-company-logo info-icon-company-logo--aramco" src="{% static 'img/seed/clients/client-aramco.png' %}" alt="Saudi Aramco" loading="eager"></span><div><small>{% static_text "Aramco Vendor Code" %}</small><strong>{{ company.aramco_vendor_code }}</strong></div></div>
+    <div class="info-item"><span class="info-icon info-icon--company-logo"><img class="info-icon-img info-icon-company-logo info-icon-company-logo--sec" src="{% static 'img/brand/sec-vendor-mark.png' %}" alt="Saudi Electricity Company" loading="eager"></span><div><small>{% static_text "SEC Vendor Code" %}</small><strong>{{ company.sec_vendor_code }}</strong></div></div>
+    <div class="info-item"><span class="info-icon info-icon--company-logo"><img class="info-icon-img info-icon-company-logo info-icon-company-logo--aramco" src="{% static 'img/brand/aramco-vendor-mark.png' %}" alt="Saudi Aramco" loading="eager"></span><div><small>{% static_text "Aramco Vendor Code" %}</small><strong>{{ company.aramco_vendor_code }}</strong></div></div>
     <div class="info-item"><span class="info-icon">👥</span><div><small>{% static_text "Trusted Clients" %}</small><strong>85+</strong></div></div>
     <div class="info-item"><span class="info-icon">✓</span><div><small>{% static_text "Certifications" %}</small><strong>6+</strong></div></div>
   {% endfor %}
