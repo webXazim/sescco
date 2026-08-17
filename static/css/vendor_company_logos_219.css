@@ -1,14 +1,16 @@
 /* Upgrade 219 — real SEC/Aramco branding in the shared trust strip. */
 .home-trust-strip .info-icon--company-logo{
-  width: clamp(78px, 6.2vw, 90px);
-  height: clamp(50px, 4.2vw, 58px);
-  flex-basis: clamp(78px, 6.2vw, 90px);
-  padding: 7px;
+  width: clamp(52px, 4.2vw, 58px);
+  height: clamp(52px, 4.2vw, 58px);
+  flex-basis: clamp(52px, 4.2vw, 58px);
+  padding: 0;
   overflow: hidden;
-  border-radius: 11px;
-  border-color: rgba(255,255,255,.45);
-  background: #fff;
-  box-shadow: 0 12px 26px rgba(0,19,62,.22);
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.24);
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255,255,255,.34), transparent 34%),
+    linear-gradient(145deg, rgba(0,115,255,.95), rgba(0,55,142,.95));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.13), 0 16px 32px rgba(0,19,62,.24);
 }
 
 .home-trust-strip .info-icon .info-icon-company-logo{
@@ -17,15 +19,25 @@
   max-width: none;
   max-height: none;
   display: block;
+  object-fit: cover;
+}
+
+/* Crop only the brand marks from the full horizontal source logos. */
+.home-trust-strip .info-icon-company-logo--sec{
+  width: 76%;
+  height: 76%;
   object-fit: contain;
   object-position: center;
 }
 
+.home-trust-strip .info-icon-company-logo--aramco{
+  object-position: 79% center;
+}
+
 @media (max-width: 640px){
   .home-trust-strip .info-icon--company-logo{
-    width: 78px;
-    height: 52px;
-    flex-basis: 78px;
-    padding: 6px;
+    width: 56px;
+    height: 56px;
+    flex-basis: 56px;
   }
 }
