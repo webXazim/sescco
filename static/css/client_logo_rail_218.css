@@ -1,0 +1,89 @@
+/* Upgrade 218 — cardless, non-interactive trusted-client logo rail. */
+.home-proof-simple-logo-slider{
+  min-height: 0;
+  padding: 8px 0 18px;
+}
+
+.home-proof-simple-logo-track,
+.home-proof-simple-logo-track-group{
+  min-height: 0;
+  align-items: center;
+}
+
+.home-proof-simple-logo-track{
+  --client-slide-gap: clamp(34px, 4vw, 66px);
+  animation-duration: 48s;
+}
+
+.home-proof-simple-logo-item{
+  flex: 0 0 clamp(164px, 14vw, 214px);
+  min-width: 0;
+  min-height: 116px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.home-proof-simple-logo-item .home-proof-simple-logo-media{
+  width: 100%;
+  height: 82px;
+  margin: 0;
+  display: grid;
+  place-items: center;
+}
+
+.home-proof-simple-logo-item .home-proof-simple-logo-media img{
+  width: auto;
+  height: auto;
+  max-width: 174px;
+  max-height: 70px;
+  object-fit: contain;
+  object-position: center;
+  filter: none;
+}
+
+.home-proof-simple-logo-item .home-proof-simple-logo-fallback{
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: transparent;
+  color: var(--primary);
+}
+
+@media (max-width: 760px){
+  .home-proof-simple-logo-slider{
+    min-height: 0;
+    padding-block: 6px 14px;
+  }
+
+  .home-proof-simple-logo-track,
+  .home-proof-simple-logo-track-group{
+    min-height: 0;
+  }
+
+  .home-proof-simple-logo-track{
+    --client-slide-gap: 26px;
+  }
+
+  .home-proof-simple-logo-item{
+    flex-basis: 146px;
+    min-height: 96px;
+    padding: 8px 6px;
+  }
+
+  .home-proof-simple-logo-item .home-proof-simple-logo-media{
+    height: 68px;
+  }
+
+  .home-proof-simple-logo-item .home-proof-simple-logo-media img{
+    max-width: 136px;
+    max-height: 58px;
+  }
+}

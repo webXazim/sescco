@@ -73,7 +73,7 @@
             <div class="home-proof-simple-logo-track-group" role="list">
               {% for client in featured_clients %}
                 {% proper_name client 'name' as client_name %}
-                <div class="home-proof-simple-logo-card" role="listitem">
+                <div class="home-proof-simple-logo-item" role="listitem">
                   <span class="home-proof-simple-logo-media">
                     {% if client.logo %}
                       <img src="{{ client.logo.url }}" alt="{{ client_name }}" loading="eager" decoding="async" draggable="false">
@@ -81,14 +81,13 @@
                       <span class="home-proof-simple-logo-fallback">{{ client.name|slice:":2" }}</span>
                     {% endif %}
                   </span>
-                  <strong>{{ client_name }}</strong>
                 </div>
               {% endfor %}
             </div>
             <div class="home-proof-simple-logo-track-group" role="list" aria-hidden="true">
               {% for client in featured_clients %}
                 {% proper_name client 'name' as client_name %}
-                <div class="home-proof-simple-logo-card" role="listitem">
+                <div class="home-proof-simple-logo-item" role="listitem">
                   <span class="home-proof-simple-logo-media">
                     {% if client.logo %}
                       <img src="{{ client.logo.url }}" alt="" loading="eager" decoding="async" draggable="false">
@@ -96,7 +95,6 @@
                       <span class="home-proof-simple-logo-fallback">{{ client.name|slice:":2" }}</span>
                     {% endif %}
                   </span>
-                  <strong>{{ client_name }}</strong>
                 </div>
               {% endfor %}
             </div>
