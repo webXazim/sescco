@@ -14,6 +14,133 @@ document.querySelectorAll("img").forEach((image) => {
   }, { once: true });
 });
 
+  // Preserve native precision scrolling for touchpads, touchscreens, keyboard
+  // and nested panels. Only stepped mouse-wheel input gets a short, continuous
+  // animation so every page feels smooth without making trackpads feel heavy.
+  const enablePageWheelSmoothing = () => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const scrollingElement = document.scrollingElement || document.documentElement;
+    if (!scrollingElement || reducedMotion.matches) return;
+
+    let animationFrame = 0;
+    let animatedPosition = window.scrollY;
+    let targetPosition = animatedPosition;
+    let previousFrameTime = 0;
+
+    const cancelAnimation = () => {
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+      previousFrameTime = 0;
+      animatedPosition = window.scrollY;
+      targetPosition = animatedPosition;
+    };
+
+    const hasScrollableAncestor = (start, deltaY) => {
+      let element = start instanceof Element ? start : start?.parentElement;
+
+      while (element && element !== document.body && element !== document.documentElement) {
+        const overflowY = window.getComputedStyle(element).overflowY;
+        const canOverflow = /^(auto|scroll|overlay)$/.test(overflowY);
+        const hasOverflow = element.scrollHeight > element.clientHeight + 1;
+
+        if (canOverflow && hasOverflow) {
+          const canScrollUp = deltaY < 0 && element.scrollTop > 0;
+          const canScrollDown = deltaY > 0
+            && element.scrollTop + element.clientHeight < element.scrollHeight - 1;
+          if (canScrollUp || canScrollDown) return true;
+        }
+
+        element = element.parentElement;
+      }
+
+      return false;
+    };
+
+    const animateScroll = (time) => {
+      if (!previousFrameTime) previousFrameTime = time;
+      const elapsed = Math.min(34, time - previousFrameTime || 16.67);
+      previousFrameTime = time;
+      const distance = targetPosition - animatedPosition;
+      const frameEase = 1 - Math.pow(0.78, elapsed / 16.67);
+
+      animatedPosition += distance * frameEase;
+      scrollingElement.scrollTop = animatedPosition;
+
+      if (Math.abs(distance) <= 0.5) {
+        scrollingElement.scrollTop = targetPosition;
+        animatedPosition = targetPosition;
+        animationFrame = 0;
+        previousFrameTime = 0;
+        return;
+      }
+
+      animationFrame = requestAnimationFrame(animateScroll);
+    };
+
+    const looksLikeSteppedMouseWheel = (event) => {
+      if (event.deltaMode !== WheelEvent.DOM_DELTA_PIXEL) return true;
+
+      const verticalDelta = Math.abs(event.deltaY);
+      const horizontalDelta = Math.abs(event.deltaX);
+      return verticalDelta >= 70
+        && horizontalDelta < 2
+        && Number.isInteger(event.deltaY);
+    };
+
+    window.addEventListener("wheel", (event) => {
+      if (
+        event.defaultPrevented
+        || reducedMotion.matches
+        || event.ctrlKey
+        || event.metaKey
+        || event.shiftKey
+        || event.deltaY === 0
+        || document.body.classList.contains("nav-open")
+        || document.body.classList.contains("certificate-modal-open")
+        || hasScrollableAncestor(event.target, event.deltaY)
+      ) {
+        return;
+      }
+
+      // Small pixel deltas and diagonal deltas carry touchpad momentum. The
+      // browser already handles those best, so never intercept them.
+      if (!looksLikeSteppedMouseWheel(event)) {
+        cancelAnimation();
+        return;
+      }
+
+      event.preventDefault();
+
+      const currentPosition = window.scrollY;
+      const maximumPosition = Math.max(0, scrollingElement.scrollHeight - window.innerHeight);
+      let wheelDistance = event.deltaY;
+      if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) wheelDistance *= 40;
+      if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) wheelDistance *= window.innerHeight * 0.85;
+      wheelDistance = Math.max(-320, Math.min(320, wheelDistance));
+
+      if (!animationFrame) {
+        animatedPosition = currentPosition;
+        targetPosition = currentPosition;
+      }
+
+      targetPosition = Math.max(0, Math.min(maximumPosition, targetPosition + wheelDistance));
+      if (!animationFrame) animationFrame = requestAnimationFrame(animateScroll);
+    }, { passive: false });
+
+    // Immediately yield to direct navigation controls and native scrolling.
+    window.addEventListener("pointerdown", cancelAnimation, { passive: true });
+    window.addEventListener("touchstart", cancelAnimation, { passive: true });
+    window.addEventListener("resize", cancelAnimation, { passive: true });
+    document.addEventListener("keydown", (event) => {
+      if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(event.key)) {
+        cancelAnimation();
+      }
+    });
+    reducedMotion.addEventListener("change", cancelAnimation);
+  };
+
+  enablePageWheelSmoothing();
+
 
   // Keep the top navigation stable; premium motion is handled in section content, not the header.
   const siteHeader = document.querySelector(".site-header");
