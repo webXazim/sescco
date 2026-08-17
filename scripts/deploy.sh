@@ -3,11 +3,12 @@ set -eu
 
 usage() {
   cat <<'EOF'
-Usage:
-  sudo sh scripts/deploy.sh --domain example.com --email admin@example.com [options]
-  sh scripts/deploy.sh [--env-file .env] [--no-seed]
+Usage: sh scripts/deploy.sh [options]
+
+Deploys code and environment changes without overwriting CMS seed content.
 
 Options:
+  -s, --seed         Seed the full site and run all content audits
   --domain NAME       Primary domain; required only when creating a new .env
   --email ADDRESS     ACME/Let's Encrypt email; required with --domain
   --project NAME      Unique Docker Compose project name (default: domain slug)
@@ -16,9 +17,8 @@ Options:
   --http-port PORT    Host HTTP port (default: 80)
   --https-port PORT   Host HTTPS port (default: 443)
   --env-file PATH     Environment file (default: .env)
-  --no-seed           Deploy without refreshing the idempotent CMS seed
   --skip-install      Do not install Docker automatically when it is missing
-  -h, --help          Show this help
+  -h, --help          Show this help and exit
 EOF
 }
 
@@ -33,7 +33,7 @@ PROJECT_NAME=
 BIND_VALUE=0.0.0.0
 HTTP_PORT_VALUE=80
 HTTPS_PORT_VALUE=443
-RUN_SEED=1
+RUN_SEED=0
 SKIP_INSTALL=0
 BEHIND_PROXY=0
 
@@ -47,6 +47,8 @@ while [ "$#" -gt 0 ]; do
     --http-port) HTTP_PORT_VALUE=${2:?Missing value for --http-port}; shift 2 ;;
     --https-port) HTTPS_PORT_VALUE=${2:?Missing value for --https-port}; shift 2 ;;
     --env-file) ENV_FILE=${2:?Missing value for --env-file}; shift 2 ;;
+    -s|--seed) RUN_SEED=1; shift ;;
+    # Backward compatibility for older deployment notes. No seed is now the default.
     --no-seed) RUN_SEED=0; shift ;;
     --skip-install) SKIP_INSTALL=1; shift ;;
     -h|--help) usage; exit 0 ;;
@@ -159,9 +161,11 @@ compose build --pull web
 compose up -d --remove-orphans --wait --wait-timeout 180
 
 if [ "$RUN_SEED" = 1 ]; then
-  echo "Loading the idempotent production CMS seed and running deployment audits..."
+  echo "Seeding the full production site and running content audits..."
   compose exec -T web python manage.py seed_sescco_production \
     --run-audit --run-language-audit --run-asset-audit --run-admin-audit --run-final-audit
+else
+  echo "Preserving existing CMS content (use -s or --seed to refresh the full site seed)."
 fi
 
 echo "Running Django's production deployment checks..."

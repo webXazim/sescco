@@ -9,7 +9,7 @@ media, static files, and Caddy state do not overlap another site.
 Point the domain's DNS `A` record to the IONOS VPS, clone the repository, and run:
 
 ```sh
-sudo sh scripts/deploy.sh --domain example.com --email admin@example.com --project example-site
+sudo sh scripts/deploy.sh --domain example.com --email admin@example.com --project example-site --seed
 ```
 
 That single command:
@@ -26,15 +26,15 @@ The generated environment contains the primary domain only. Add `www.example.com
 to `SITE_DOMAIN` and `ALLOWED_HOSTS`, and add
 `https://www.example.com` to `CSRF_TRUSTED_ORIGINS` only if its DNS record exists.
 
-For later code-only deployments that must preserve CMS edits, use:
+For later code or environment deployments that preserve CMS edits, use:
 
 ```sh
-sh scripts/deploy.sh --no-seed
+sh scripts/deploy.sh
 ```
 
-The default seed is repeatable, but it intentionally refreshes the canonical
-seeded fields. `--no-seed` is therefore recommended after editors begin changing
-production content.
+Seeding is explicit because it intentionally refreshes canonical content fields.
+Run `sh scripts/deploy.sh --seed` (or `-s`) only when the full site seed should be
+applied again.
 
 ## Hosting several sites on one VPS
 
@@ -116,10 +116,10 @@ docker compose ps
 docker compose logs -f web caddy db
 
 # Deploy changed code without refreshing CMS seed fields
-sh scripts/deploy.sh --no-seed
+sh scripts/deploy.sh
 
 # Explicitly refresh canonical seeded content
-sh scripts/deploy.sh
+sh scripts/deploy.sh --seed
 
 # Backup and restore this isolated database
 sh scripts/backup_postgres.sh

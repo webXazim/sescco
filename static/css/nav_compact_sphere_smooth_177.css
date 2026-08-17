@@ -84,24 +84,18 @@ html[dir="rtl"] .site-header .logo{
 .hero-home .home-sphere-card{
   pointer-events: none !important;
   cursor: default !important;
-  transition: filter .34s ease, opacity .34s ease, box-shadow .34s ease !important;
+  transition: none !important;
+  will-change: transform !important;
 }
 
 .hero-home .home-sphere-card.is-active,
 .hero-home .home-sphere-card:focus,
 .hero-home .home-sphere-card:hover{
-  border-color: rgba(255,255,255,.86) !important;
-  box-shadow:
-    0 24px 54px rgba(5,26,64,.24),
-    inset 0 1px 0 rgba(255,255,255,.86) !important;
-  filter: inherit !important;
   outline: 0 !important;
 }
 
 .hero-home .home-sphere-wrap.is-hovered .home-sphere-card{
-  box-shadow:
-    0 24px 54px rgba(5,26,64,.24),
-    inset 0 1px 0 rgba(255,255,255,.86) !important;
+  filter: none !important;
 }
 
 .hero-home .home-sphere{

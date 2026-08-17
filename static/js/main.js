@@ -660,10 +660,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const configuredCards = readConfiguredCards();
   const cards = configuredCards.length ? configuredCards : fallbackCards;
   const motionConfig = readMotionConfig();
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const state = {
-    rotationX: -8,
-    rotationY: 0,
     autoRotationX: 0,
     autoRotationY: 0,
     baseTiltX: -8,
@@ -671,10 +670,6 @@ document.addEventListener("DOMContentLoaded", function () {
     pointerTargetY: 0,
     pointerCurrentX: 0,
     pointerCurrentY: 0,
-    pointerSpinTargetX: 0,
-    pointerSpinTargetY: 0,
-    pointerSpinCurrentX: 0,
-    pointerSpinCurrentY: 0,
     pointerRelX: 0,
     pointerRelY: 0,
     wheelTargetX: 0,
@@ -683,11 +678,6 @@ document.addEventListener("DOMContentLoaded", function () {
     wheelCurrentY: 0,
     wheelVelocityX: 0,
     wheelVelocityY: 0,
-    focusTargetX: 0,
-    focusTargetY: 0,
-    focusCurrentX: 0,
-    focusCurrentY: 0,
-    focusedIndex: null,
     hovering: false,
     dragging: false,
     moved: false,
@@ -767,16 +757,10 @@ document.addEventListener("DOMContentLoaded", function () {
     state.pointerRelY = relY;
     state.pointerTargetY = clamp(relX * 5, -5, 5);
     state.pointerTargetX = clamp(-relY * 4, -4, 4);
-    state.pointerSpinTargetY = 0;
-    state.pointerSpinTargetX = 0;
   }
 
   function holdManualControl(duration = 900) {
     state.manualUntil = Math.max(state.manualUntil, performance.now() + duration);
-  }
-
-  function shortestAngle(from, to) {
-    return from + ((((to - from) % 360) + 540) % 360) - 180;
   }
 
   function fibonacciSphere(index, total) {
@@ -843,100 +827,54 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  function getRotatedPoint(p, rotX, rotY) {
-    const yRad = rotY * Math.PI / 180;
-    const xRad = rotX * Math.PI / 180;
-
-    const x1 = p.x * Math.cos(yRad) - p.z * Math.sin(yRad);
-    const z1 = p.x * Math.sin(yRad) + p.z * Math.cos(yRad);
-    const y1 = p.y;
-
-    const y2 = y1 * Math.cos(xRad) - z1 * Math.sin(xRad);
-    const z2 = y1 * Math.sin(xRad) + z1 * Math.cos(xRad);
-
-    return { x: x1, y: y2, z: z2 };
-  }
-
-  function focusCard(index) {
-    // Upgrade 177: sphere should rotate smoothly without snapping/selecting a card.
-    // Keep the function as a no-op for backward compatibility with older handlers.
-    state.focusedIndex = null;
-    state.focusTargetX = 0;
-    state.focusTargetY = 0;
-    wrap.classList.remove('is-focused');
-  }
-
   function clearFocus() {
-    state.focusedIndex = null;
-    state.focusTargetX = 0;
-    state.focusTargetY = 0;
     wrap.classList.remove('is-focused');
   }
 
-  function updateDepth() {
-    const items = [...sphere.children];
-    let best = null;
-    let bestZ = -Infinity;
-
-    items.forEach((card, index) => {
-      const p = fibonacciSphere(index, items.length);
-      const result = getRotatedPoint(p, state.rotationX, state.rotationY);
-      const normalized = (result.z + 1) / 2;
-
-      card.style.zIndex = `${Math.round(normalized * 1000)}`;
-      card.style.opacity = '1';
-      card.style.filter = `saturate(${0.90 + normalized * 0.26}) brightness(${0.72 + normalized * 0.32}) blur(${(1 - normalized) * 0.32}px)`;
-
-      if (result.z > bestZ) {
-        bestZ = result.z;
-        best = card;
-      }
-    });
-
-    // Upgrade 177: no visual card selection/highlight during rotation.
-    items.forEach((card) => card.classList.remove('is-active'));
-  }
-
-  function animate() {
+  let lastFrameTime = performance.now();
+  function animate(now) {
+    // Motion values are authored for 60 Hz. Scaling by elapsed time keeps the
+    // sphere at the same speed on 60/120 Hz displays and after occasional
+    // dropped frames without allowing a large jump after a hidden tab resumes.
+    const frameScale = clamp((now - lastFrameTime) / (1000 / 60), 0.25, 2);
+    lastFrameTime = now;
     const manualActive = state.dragging || performance.now() < state.manualUntil;
     if (!state.dragging) {
       const xSettle = uprightAngleDelta(state.autoRotationX);
-      state.autoRotationX += xSettle * state.settleAlpha;
+      const settleAlpha = 1 - Math.pow(1 - state.settleAlpha, frameScale);
+      state.autoRotationX += xSettle * settleAlpha;
     }
 
     const targetAutoSpeed = state.autoSpeed + state.autoSpeedBoost;
-    state.autoSpeedCurrent = lerp(state.autoSpeedCurrent, targetAutoSpeed, 0.018);
-    state.autoRotationY += state.autoSpeedCurrent * state.autoDirectionY;
-    state.autoSpeedBoost *= 0.992;
+    const speedAlpha = 1 - Math.pow(1 - 0.018, frameScale);
+    state.autoSpeedCurrent = lerp(state.autoSpeedCurrent, targetAutoSpeed, speedAlpha);
+    state.autoRotationY += state.autoSpeedCurrent * state.autoDirectionY * frameScale;
+    state.autoSpeedBoost *= Math.pow(0.992, frameScale);
     if (state.autoSpeedBoost < 0.006) state.autoSpeedBoost = 0;
 
-    state.autoRotationX += state.wheelVelocityX;
-    state.autoRotationY += state.wheelVelocityY;
-    state.wheelVelocityX *= manualActive ? 0.90 : 0.94;
-    state.wheelVelocityY *= manualActive ? 0.90 : 0.94;
+    state.autoRotationX += state.wheelVelocityX * frameScale;
+    state.autoRotationY += state.wheelVelocityY * frameScale;
+    const velocityDecay = Math.pow(manualActive ? 0.90 : 0.94, frameScale);
+    state.wheelVelocityX *= velocityDecay;
+    state.wheelVelocityY *= velocityDecay;
     if (Math.abs(state.wheelVelocityX) < 0.004) state.wheelVelocityX = 0;
     if (Math.abs(state.wheelVelocityY) < 0.004) state.wheelVelocityY = 0;
 
-    state.wheelTargetX = lerp(state.wheelTargetX, 0, 0.06);
-    state.wheelTargetY = lerp(state.wheelTargetY, 0, 0.06);
+    const targetAlpha = 1 - Math.pow(1 - 0.06, frameScale);
+    const pointerAlpha = 1 - Math.pow(1 - 0.1, frameScale);
+    const wheelAlpha = 1 - Math.pow(1 - 0.12, frameScale);
+    state.wheelTargetX = lerp(state.wheelTargetX, 0, targetAlpha);
+    state.wheelTargetY = lerp(state.wheelTargetY, 0, targetAlpha);
 
-    state.pointerCurrentX = lerp(state.pointerCurrentX, state.pointerTargetX, 0.1);
-    state.pointerCurrentY = lerp(state.pointerCurrentY, state.pointerTargetY, 0.1);
-    state.pointerSpinCurrentX = lerp(state.pointerSpinCurrentX, state.pointerSpinTargetX, 0.08);
-    state.pointerSpinCurrentY = lerp(state.pointerSpinCurrentY, state.pointerSpinTargetY, 0.08);
-    state.wheelCurrentX = lerp(state.wheelCurrentX, state.wheelTargetX, 0.12);
-    state.wheelCurrentY = lerp(state.wheelCurrentY, state.wheelTargetY, 0.12);
-    state.focusCurrentX = lerp(state.focusCurrentX, state.focusTargetX, 0.08);
-    state.focusCurrentY = lerp(state.focusCurrentY, state.focusTargetY, 0.08);
+    state.pointerCurrentX = lerp(state.pointerCurrentX, state.pointerTargetX, pointerAlpha);
+    state.pointerCurrentY = lerp(state.pointerCurrentY, state.pointerTargetY, pointerAlpha);
+    state.wheelCurrentX = lerp(state.wheelCurrentX, state.wheelTargetX, wheelAlpha);
+    state.wheelCurrentY = lerp(state.wheelCurrentY, state.wheelTargetY, wheelAlpha);
 
-    const displayX = state.baseTiltX + state.autoRotationX + state.focusCurrentX + state.pointerCurrentX + state.wheelCurrentX;
-    const displayY = state.autoRotationY + state.focusCurrentY + state.pointerCurrentY + state.wheelCurrentY;
-
-    state.rotationX = displayX;
-    state.rotationY = displayY;
+    const displayX = state.baseTiltX + state.autoRotationX + state.pointerCurrentX + state.wheelCurrentX;
+    const displayY = state.autoRotationY + state.pointerCurrentY + state.wheelCurrentY;
 
     sphere.style.transform = `rotateX(${displayX}deg) rotateY(${displayY}deg)`;
-    updateDepth();
     requestAnimationFrame(animate);
   }
 
@@ -990,9 +928,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   wrap.addEventListener('wheel', (event) => {
-    // When the pointer is over the sphere, use wheel intent to turn the visual
-    // instead of letting the page scroll swallow the interaction.
-    event.preventDefault();
+    // Let the page keep its native vertical scrolling. Wheel intent adds a
+    // small, passive sphere impulse instead of trapping the user's scroll.
     clearFocus();
     holdManualControl(1300);
     state.pointerClientX = Number.isFinite(event.clientX) && event.clientX !== 0 ? event.clientX : state.pointerClientX;
@@ -1033,7 +970,7 @@ document.addEventListener("DOMContentLoaded", function () {
     state.wheelVelocityY = clamp(state.wheelVelocityY, -8.5, 8.5);
     state.wheelTargetX = clamp(state.wheelTargetX + xTurn * 0.7, -10, 10);
     state.wheelTargetY = clamp(state.wheelTargetY + yTurn * 0.7, -10, 10);
-  }, { passive: false });
+  }, { passive: true });
 
   const enterManualSphere = () => {
     state.hovering = true;
@@ -1046,8 +983,6 @@ document.addEventListener("DOMContentLoaded", function () {
     holdManualControl(450);
     state.pointerTargetX = 0;
     state.pointerTargetY = 0;
-    state.pointerSpinTargetX = 0;
-    state.pointerSpinTargetY = 0;
     state.pointerRelX = 0;
     state.pointerRelY = 0;
     state.hasPointerPosition = false;
@@ -1064,7 +999,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   buildCards();
   placeCards();
-  animate();
+  if (!reduceMotion) requestAnimationFrame(animate);
 })();
 
 // Upgrade 166 — stable accordions across the site.
