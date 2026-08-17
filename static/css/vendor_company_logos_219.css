@@ -1,0 +1,31 @@
+/* Upgrade 219 — real SEC/Aramco branding in the shared trust strip. */
+.home-trust-strip .info-icon--company-logo{
+  width: clamp(78px, 6.2vw, 90px);
+  height: clamp(50px, 4.2vw, 58px);
+  flex-basis: clamp(78px, 6.2vw, 90px);
+  padding: 7px;
+  overflow: hidden;
+  border-radius: 11px;
+  border-color: rgba(255,255,255,.45);
+  background: #fff;
+  box-shadow: 0 12px 26px rgba(0,19,62,.22);
+}
+
+.home-trust-strip .info-icon .info-icon-company-logo{
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+}
+
+@media (max-width: 640px){
+  .home-trust-strip .info-icon--company-logo{
+    width: 78px;
+    height: 52px;
+    flex-basis: 78px;
+    padding: 6px;
+  }
+}
