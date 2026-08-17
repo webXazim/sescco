@@ -8,6 +8,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}{{ meta_title|default:site_settings.default_seo_title|default:company.short_name }}{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}{{ meta_description|default:site_settings.default_seo_description|default:company.tagline }}{% endblock %}">
+  {% if company.favicon %}
+  <link rel="icon" href="{{ company.favicon.url }}" sizes="any">
+  <link rel="shortcut icon" href="{{ company.favicon.url }}">
+  {% else %}
+  <link rel="icon" type="image/svg+xml" href="{% static 'img/brand/sescco-logo.svg' %}" sizes="any">
+  <link rel="shortcut icon" type="image/svg+xml" href="{% static 'img/brand/sescco-logo.svg' %}">
+  {% endif %}
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="theme-color" content="{{ theme.primary_color|default:'#0758d8' }}">
   <script>
