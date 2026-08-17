@@ -12,7 +12,29 @@
 
 .home-proof-simple-logo-track{
   --client-slide-gap: clamp(34px, 4vw, 66px);
+  --client-slide-half-gap: clamp(17px, 2vw, 33px);
+  animation-name: homeClientSeamlessSlide218;
   animation-duration: 48s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  contain: layout paint;
+}
+
+/*
+ * The track contains two identical groups separated by one flex gap. Moving by
+ * half the track plus half that gap lands group two exactly where group one
+ * started, making the animation reset visually identical to the previous frame.
+ */
+@keyframes homeClientSeamlessSlide218{
+  from{transform:translate3d(0,0,0);}
+  to{transform:translate3d(calc(-50% - var(--client-slide-half-gap)),0,0);}
+}
+
+html[dir="rtl"] .home-proof-simple-logo-track{
+  animation-name:homeClientSeamlessSlide218 !important;
 }
 
 .home-proof-simple-logo-item{
@@ -70,6 +92,7 @@
 
   .home-proof-simple-logo-track{
     --client-slide-gap: 26px;
+    --client-slide-half-gap: 13px;
   }
 
   .home-proof-simple-logo-item{
