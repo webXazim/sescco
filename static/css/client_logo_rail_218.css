@@ -11,10 +11,10 @@
 }
 
 .home-proof-simple-logo-track{
-  --client-slide-gap: clamp(34px, 4vw, 66px);
-  --client-slide-half-gap: clamp(17px, 2vw, 33px);
+  --client-slide-gap: clamp(50px, 5vw, 76px);
+  --client-slide-half-gap: clamp(25px, 2.5vw, 38px);
   animation-name: homeClientSeamlessSlide218;
-  animation-duration: 48s;
+  animation-duration: 58s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   transform: translate3d(0, 0, 0);
@@ -38,7 +38,7 @@ html[dir="rtl"] .home-proof-simple-logo-track{
 }
 
 .home-proof-simple-logo-item{
-  flex: 0 0 clamp(164px, 14vw, 214px);
+  flex: 0 0 clamp(210px, 17vw, 244px);
   min-width: 0;
   min-height: 116px;
   display: flex;
@@ -51,6 +51,7 @@ html[dir="rtl"] .home-proof-simple-logo-track{
   box-shadow: none;
   pointer-events: none;
   user-select: none;
+  overflow: hidden;
 }
 
 .home-proof-simple-logo-item .home-proof-simple-logo-media{
@@ -64,8 +65,8 @@ html[dir="rtl"] .home-proof-simple-logo-track{
 .home-proof-simple-logo-item .home-proof-simple-logo-media img{
   width: auto;
   height: auto;
-  max-width: 174px;
-  max-height: 70px;
+  max-width: 152px;
+  max-height: 66px;
   object-fit: contain;
   object-position: center;
   filter: none;
@@ -91,12 +92,13 @@ html[dir="rtl"] .home-proof-simple-logo-track{
   }
 
   .home-proof-simple-logo-track{
-    --client-slide-gap: 26px;
-    --client-slide-half-gap: 13px;
+    --client-slide-gap: 34px;
+    --client-slide-half-gap: 17px;
+    animation-duration: 48s;
   }
 
   .home-proof-simple-logo-item{
-    flex-basis: 146px;
+    flex-basis: 156px;
     min-height: 96px;
     padding: 8px 6px;
   }
@@ -106,7 +108,7 @@ html[dir="rtl"] .home-proof-simple-logo-track{
   }
 
   .home-proof-simple-logo-item .home-proof-simple-logo-media img{
-    max-width: 136px;
-    max-height: 58px;
+    max-width: 120px;
+    max-height: 56px;
   }
 }
