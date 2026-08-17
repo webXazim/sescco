@@ -1,0 +1,25 @@
+/* Upgrade 220 — balanced project-category layout after adding telecom. */
+@media (min-width: 901px){
+  .cms-page-projects-list .project-filter-tabs{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .cms-page-projects-list .project-filter-tab{
+    width: 100%;
+    min-width: 0;
+    padding-inline: 18px;
+    text-align: center;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 900px){
+  .cms-page-projects-list .project-filter-tabs{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cms-page-projects-list .project-filter-tab{
+    width: 100%;
+  }
+}

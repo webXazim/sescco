@@ -231,8 +231,8 @@ class Command(BaseCommand):
             many(faq,'zh-hans',{'question':'关于 SESCCO 服务的常见问题','answer':'<p>SESCCO 根据客户和现场要求提供工程、承包和项目支持服务。</p>'})
         plps=ProjectListPageSettings.objects.first()
         if plps:
-            many(plps,'ar',{'eyebrow':'خبرات المشاريع','hero_title':'خبرة مشاريع مثبتة في المملكة العربية السعودية','hero_subtitle':'تشمل محفظة SESCCO مشاريع كهربائية ومدنية ومعمارية وتشطيبات وأنابيب وميكانيكا ودعم.','intro_title':'خبرة تعكس قدرة التنفيذ.','intro_text':'<p>تُظهر خبراتنا القدرة على العمل في بيئات صناعية وخدمية وتجارية معقدة.</p>'})
-            many(plps,'zh-hans',{'eyebrow':'项目经验','hero_title':'在沙特阿拉伯的成熟项目经验','hero_subtitle':'SESCCO 的项目组合涵盖电气、土建、建筑装修、管道、机械和支持项目。','intro_title':'体现执行能力的经验。','intro_text':'<p>我们的项目经验展示了在复杂环境中工作的能力。</p>'})
+            many(plps,'ar',{'eyebrow':'خبرات المشاريع','hero_title':'خبرة مشاريع مثبتة في المملكة العربية السعودية','hero_subtitle':'تشمل محفظة SESCCO مشاريع كهربائية واتصالات ومدنية ومعمارية وتشطيبات وأنابيب وميكانيكا ودعم.','intro_title':'خبرة تعكس قدرة التنفيذ.','intro_text':'<p>تُظهر خبراتنا القدرة على العمل في بيئات صناعية وخدمية وتجارية معقدة.</p>'})
+            many(plps,'zh-hans',{'eyebrow':'项目经验','hero_title':'在沙特阿拉伯的成熟项目经验','hero_subtitle':'SESCCO 的项目组合涵盖电气、通信、土建、建筑装修、管道、机械和支持项目。','intro_title':'体现执行能力的经验。','intro_text':'<p>我们的项目经验展示了在复杂环境中工作的能力。</p>'})
         project_ar={'Replacement of Existing Outdoor Aindar Sub-30 with New GIS Substation':'استبدال محطة عين دار الخارجية بمحطة GIS جديدة','Yanbu 4 - 110kV HV Substation Interface Works':'أعمال الربط لمحطة ينبع 4 جهد 110 ك.ف','Replacement of 13.8kV SWGR':'استبدال لوحة مفاتيح جهد 13.8 ك.ف','MV Cable Fault Location Test, Damage Repair and Termination':'اختبار تحديد عطل كابل الجهد المتوسط وإصلاحه وإنهاؤه','EPCC 10,000TPD Clinker Cement Plant Civil Works':'الأعمال المدنية لمشروع مصنع كلنكر أسمنت بطاقة 10,000 طن يومياً','EPCC 10,000TPD Clinker Cement Plant Architectural & Fitout Works':'الأعمال المعمارية والتشطيبات لمشروع مصنع الكلنكر','Roshan Ewan Sedra 2 Villas Tile Works':'أعمال البلاط لفلل روشن إيوان سدرة 2','Haradh RTR Pipeline Project':'مشروع خط أنابيب هرض RTR','Jafurah Upstream Pipeline Project':'مشروع خط أنابيب الجافورة','The Avenues Khobar Plaster and Screed Works':'أعمال اللياسة والسكريد في ذا أفنيوز الخبر','McDermott Arabia Office Fitout':'تشطيبات مكتب ماكديرموت العربية','Worley Parsons Office Fitout':'تشطيبات مكتب وورلي بارسونز','Fire-Fighting System Installation for Industrial Facility and Warehouse':'تركيب نظام مكافحة الحريق لمنشأة صناعية ومستودع'}
         project_zh={'Replacement of Existing Outdoor Aindar Sub-30 with New GIS Substation':'Aindar 室外 Sub-30 更换为新 GIS 变电站','Yanbu 4 - 110kV HV Substation Interface Works':'Yanbu 4 110kV 高压变电站接口工程','Replacement of 13.8kV SWGR':'13.8kV 开关柜更换工程','MV Cable Fault Location Test, Damage Repair and Termination':'中压电缆故障定位、损伤修复与终端施工','EPCC 10,000TPD Clinker Cement Plant Civil Works':'日产 10,000 吨熟料水泥厂土建工程','EPCC 10,000TPD Clinker Cement Plant Architectural & Fitout Works':'日产 10,000 吨熟料水泥厂建筑与装修工程','Roshan Ewan Sedra 2 Villas Tile Works':'Roshan Ewan Sedra 2 别墅瓷砖工程','Haradh RTR Pipeline Project':'Haradh RTR 管道项目','Jafurah Upstream Pipeline Project':'Jafurah 上游管道项目','The Avenues Khobar Plaster and Screed Works':'The Avenues Khobar 抹灰与找平层工程','McDermott Arabia Office Fitout':'McDermott Arabia 办公室装修工程','Worley Parsons Office Fitout':'Worley Parsons 办公室装修工程','Fire-Fighting System Installation for Industrial Facility and Warehouse':'工业设施与仓库消防系统安装工程'}
         for pr in Project.objects.all():
@@ -290,6 +290,14 @@ class Command(BaseCommand):
         for client in Client.objects.all():
             many(client,'ar',{'name':client_name_ar.get(client.name, client.name),'category':'عميل / جهة مشروع','description':'من الجهات المرتبطة بخبرات SESCCO في المشاريع.'})
             many(client,'zh-hans',{'name':client.name,'category':'客户 / 项目相关方','description':'与 SESCCO 项目经验相关的组织之一。'})
+        project_category_names = {
+            'Telecommunication Projects': ('مشاريع الاتصالات', '通信项目'),
+        }
+        for category in ProjectCategory.objects.all():
+            localized_names = project_category_names.get(category.name)
+            if localized_names:
+                many(category, 'ar', {'name': localized_names[0]})
+                many(category, 'zh-hans', {'name': localized_names[1]})
         for method in ContactMethod.objects.all():
             ar={'Call Us':'اتصل بنا','WhatsApp':'واتساب','Email Us':'راسلنا عبر البريد'}.get(method.title,method.title); zh={'Call Us':'致电我们','WhatsApp':'WhatsApp','Email Us':'邮件联系'}.get(method.title,method.title)
             many(method,'ar',{'title':ar,'value':method.value}); many(method,'zh-hans',{'title':zh,'value':method.value})

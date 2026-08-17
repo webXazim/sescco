@@ -99,7 +99,7 @@ def project_list(request):
         "years": years,
         "sort": sort,
         "meta_title": "SESCCO Project Experience | Engineering & Contracting Portfolio",
-        "meta_description": "Review SESCCO electrical, civil, architectural fitout and industrial project experience across Saudi Arabia.",
+        "meta_description": "Review SESCCO electrical, telecommunication, civil, architectural fitout and industrial project experience across Saudi Arabia.",
     })
 
 
