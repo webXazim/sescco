@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load page_sections %}
 {% block title %}{% trans "Certifications" %} & {% trans "Clients" %} | {{ company.short_name }}{% endblock %}
+{% block resource_hints %}{% if trust_settings.hero_image %}<link rel="preload" as="image" fetchpriority="high" href="{{ trust_settings.hero_image.url }}">{% endif %}{% endblock %}
 {% block content %}
 <main class="cms-section-sort cms-page-clients-certifications">
   <section class="hero dark page-photo-hero" {% section_attrs "clients_certifications" "hero" 10 %} {% if trust_settings.hero_image %}style="--page-hero-bg:url('{{ trust_settings.hero_image.url }}')"{% endif %}>

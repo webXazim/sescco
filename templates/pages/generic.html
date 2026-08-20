@@ -3,6 +3,7 @@
 {% load page_sections %}
 {% block title %}{% localized_meta page 'seo_title' page.title %}{% endblock %}
 {% block meta_description %}{% localized_meta page 'seo_description' site_settings.default_seo_description %}{% endblock %}
+{% block resource_hints %}{% if page.hero_image %}<link rel="preload" as="image" fetchpriority="high" href="{{ page.hero_image.url }}">{% endif %}{% endblock %}
 {% block content %}
 <main class="cms-section-sort cms-page-generic">
   <section class="hero dark page-photo-hero" {% section_attrs "generic" "hero" 10 %} {% if page.hero_image %}style="--page-hero-bg:url('{{ page.hero_image.url }}')"{% endif %}>

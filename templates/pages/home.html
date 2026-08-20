@@ -2,8 +2,10 @@
 {% load i18n %}
 {% load localization %}
 {% load page_sections %}
+{% load static %}
 {% block title %}{% localized_meta page 'seo_title' company.short_name %}{% endblock %}
 {% block meta_description %}{% localized_meta page 'seo_description' company.tagline %}{% endblock %}
+{% block resource_hints %}<link rel="preload" as="image" fetchpriority="high" href="{% if home_hero and home_hero.background_image %}{{ home_hero.background_image.url }}{% else %}{% static 'img/sescco-hero-engineers.webp' %}{% endif %}">{% endblock %}
 {% block content %}
 <main class="cms-section-sort cms-page-home">
   {% include "includes/home_hero.html" %}
@@ -76,7 +78,7 @@
                 <div class="home-proof-simple-logo-item" role="listitem">
                   <span class="home-proof-simple-logo-media">
                     {% if client.logo %}
-                      <img src="{{ client.logo.url }}" alt="{{ client_name }}" loading="eager" decoding="async" draggable="false">
+                      <img src="{{ client.logo.url }}" alt="{{ client_name }}" loading="lazy" decoding="async" draggable="false">
                     {% else %}
                       <span class="home-proof-simple-logo-fallback">{{ client.name|slice:":2" }}</span>
                     {% endif %}
@@ -90,7 +92,7 @@
                 <div class="home-proof-simple-logo-item" role="listitem">
                   <span class="home-proof-simple-logo-media">
                     {% if client.logo %}
-                      <img src="{{ client.logo.url }}" alt="" loading="eager" decoding="async" draggable="false">
+                      <img src="{{ client.logo.url }}" alt="" loading="lazy" decoding="async" draggable="false">
                     {% else %}
                       <span class="home-proof-simple-logo-fallback">{{ client.name|slice:":2" }}</span>
                     {% endif %}

@@ -4,6 +4,7 @@
 {% load page_sections %}
 {% block title %}{% localized_meta page 'seo_title' 'About Us' %}{% endblock %}
 {% block meta_description %}{% localized_meta page 'seo_description' company.tagline %}{% endblock %}
+{% block resource_hints %}{% if page.hero_image %}<link rel="preload" as="image" fetchpriority="high" href="{{ page.hero_image.url }}">{% endif %}{% endblock %}
 {% block content %}
 <main class="cms-section-sort cms-page-about">
   <section class="hero dark page-photo-hero" {% section_attrs "about" "hero" 10 %} {% if page.hero_image %}style="--page-hero-bg:url('{{ page.hero_image.url }}')"{% endif %}>
@@ -22,7 +23,7 @@
   <section class="section" {% section_attrs "about" "overview" 30 %}>
     <div class="container split">
       {% if about_settings.overview_image %}
-        <img src="{{ about_settings.overview_image.url }}" alt="{% localized_plain about_settings 'overview_title' %}" class="placeholder-img" style="object-fit:cover;width:100%">
+        <img src="{{ about_settings.overview_image.url }}" alt="{% localized_plain about_settings 'overview_title' %}" class="placeholder-img" loading="lazy" decoding="async" style="object-fit:cover;width:100%">
       {% else %}
         <div class="placeholder-img"></div>
       {% endif %}

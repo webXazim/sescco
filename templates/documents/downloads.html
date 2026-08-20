@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load page_sections %}
 {% block title %}{% trans "Downloads" %} | {{ company.short_name }}{% endblock %}
+{% block resource_hints %}{% if download_settings.hero_image %}<link rel="preload" as="image" fetchpriority="high" href="{{ download_settings.hero_image.url }}">{% endif %}{% endblock %}
 {% block content %}
 <main class="cms-section-sort cms-page-downloads">
   <section class="hero dark page-photo-hero" {% section_attrs "downloads" "hero" 10 %} {% if download_settings.hero_image %}style="--page-hero-bg:url('{{ download_settings.hero_image.url }}')"{% endif %}>

@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load page_sections %}
 {% block title %}{% trans "Services" %} | {{ company.short_name }}{% endblock %}
+{% block resource_hints %}{% if service_page_settings.hero_image %}<link rel="preload" as="image" fetchpriority="high" href="{{ service_page_settings.hero_image.url }}">{% endif %}{% endblock %}
 {% block content %}
 <main class="services-page services-modern-page cms-section-sort cms-page-services-list">
   <section class="services-modern-hero{% if service_page_settings.hero_image %} has-parallax-hero{% endif %}" {% section_attrs "services_list" "hero" 10 %} {% if service_page_settings.hero_image %}style="--services-hero-bg:url('{{ service_page_settings.hero_image.url }}')"{% endif %}>

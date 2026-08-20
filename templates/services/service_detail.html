@@ -4,6 +4,7 @@
 {% load page_sections %}
 {% block title %}{% localized_meta service 'seo_title' service.title %}{% endblock %}
 {% block meta_description %}{% localized_meta service 'seo_description' service.short_description %}{% endblock %}
+{% block resource_hints %}{% if service.cover_image %}<link rel="preload" as="image" fetchpriority="high" href="{{ service.cover_image.url }}">{% endif %}{% endblock %}
 {% block content %}
 <main class="cms-section-sort cms-page-service-detail">
   <section class="hero dark service-detail-hero{% if service.cover_image %} has-parallax-hero{% endif %}" {% section_attrs "service_detail" "hero" 10 %} {% if service.cover_image %}style="--service-hero-bg:url('{{ service.cover_image.url }}')"{% endif %}>

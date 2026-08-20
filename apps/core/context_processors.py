@@ -1,3 +1,6 @@
+from django.conf import settings
+from django.core.cache import cache
+
 from .models import (
     BusinessHour, CompanyProfile, ContactMethod, CTASection, CTASettings,
     FooterColumn, NavigationMenu, OfficeLocation, SiteSettings, SocialLink,
@@ -74,22 +77,29 @@ def _footer_map_context():
 def site_context(request):
     language_urls = _language_urls(request)
     canonical_url = request.build_absolute_uri(request.path)
-    footer_map = _footer_map_context()
+    cache_key = "site-context:v1"
+    shared_context = cache.get(cache_key)
+    if shared_context is None:
+        shared_context = {
+            "company": _first_or_new(CompanyProfile),
+            "site_settings": _first_or_new(SiteSettings),
+            "theme": _first_or_new(ThemeSettings),
+            "cta_settings": _first_or_new(CTASettings),
+            "global_cta": CTASection.objects.filter(key="global-main", is_active=True).first(),
+            "nav_items": list(NavigationMenu.objects.filter(is_active=True)),
+            "footer_columns": list(FooterColumn.objects.filter(is_active=True).prefetch_related("links")),
+            "social_links": list(SocialLink.objects.filter(is_active=True)),
+            "trust_metrics_global": list(TrustMetric.objects.filter(is_active=True)),
+            "office_locations": list(OfficeLocation.objects.filter(is_active=True)),
+            "business_hours": list(BusinessHour.objects.filter(is_active=True)),
+            "contact_methods": list(ContactMethod.objects.filter(is_active=True)),
+            **_footer_map_context(),
+        }
+        cache.set(cache_key, shared_context, settings.SITE_CONTEXT_CACHE_SECONDS)
+
     return {
-        "company": _first_or_new(CompanyProfile),
-        "site_settings": _first_or_new(SiteSettings),
-        "theme": _first_or_new(ThemeSettings),
-        "cta_settings": _first_or_new(CTASettings),
-        "global_cta": CTASection.objects.filter(key="global-main", is_active=True).first(),
-        "nav_items": NavigationMenu.objects.filter(is_active=True),
-        "footer_columns": FooterColumn.objects.filter(is_active=True).prefetch_related("links"),
-        "social_links": SocialLink.objects.filter(is_active=True),
-        "trust_metrics_global": TrustMetric.objects.filter(is_active=True),
-        "office_locations": OfficeLocation.objects.filter(is_active=True),
-        "business_hours": BusinessHour.objects.filter(is_active=True),
-        "contact_methods": ContactMethod.objects.filter(is_active=True),
+        **shared_context,
         "language_urls": language_urls,
         "absolute_language_urls": _absolute_language_urls(request, language_urls),
         "canonical_url": canonical_url,
-        **footer_map,
     }

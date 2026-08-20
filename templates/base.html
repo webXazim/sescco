@@ -27,8 +27,7 @@
       }
     })();
   </script>
-  <link rel="preload" href="{% static 'img/brand/sescco-logo.svg' %}" as="image" type="image/svg+xml">
-  <link rel="preload" href="{% static 'img/fallbacks/industrial-fallback.svg' %}" as="image" type="image/svg+xml">
+  {% block resource_hints %}{% endblock %}
   <meta name="application-name" content="{{ site_settings.site_name|default:company.short_name }}">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="{{ site_settings.site_name|default:company.short_name }}">
@@ -39,33 +38,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ meta_title|default:site_settings.default_seo_title|default:company.short_name }}">
   <meta name="twitter:description" content="{{ meta_description|default:site_settings.default_seo_description|default:company.tagline }}">
-  <link rel="stylesheet" href="{% static 'css/style.css' %}?v=motion-stable-216">
-  <link rel="stylesheet" href="{% static 'css/prototype_alignment.css' %}?v=responsive-109">
-  <link rel="stylesheet" href="{% static 'css/rtl.css' %}?v=hero-name-polish-169">
-  <link rel="stylesheet" href="{% static 'css/career_ux.css' %}?v=career-ux-mobile-90">
-  <link rel="stylesheet" href="{% static 'css/rtl_layout_stabilization.css' %}?v=rtl-layout-140">
-  <link rel="stylesheet" href="{% static 'css/rtl_hero_restore_141.css' %}?v=rtl-hero-141">
-  <link rel="stylesheet" href="{% static 'css/rtl_hero_spacing_breadcrumbs_142.css' %}?v=rtl-hero-breadcrumbs-142">
-  <link rel="stylesheet" href="{% static 'css/visible_localization_polish_143.css' %}?v=visible-localization-143">
-  <link rel="stylesheet" href="{% static 'css/sticky_local_nav_top_144.css' %}?v=sticky-local-nav-144">
-  <link rel="stylesheet" href="{% static 'css/sticky_local_nav_header_sync_145.css' %}?v=sticky-local-nav-145">
-  <link rel="stylesheet" href="{% static 'css/certificate_premium_cards_147.css' %}?v=certificate-minimal-158">
-  <link rel="stylesheet" href="{% static 'css/hero_center_proper_names_169.css' %}?v=hero-center-proper-names-169">
-  <link rel="stylesheet" href="{% static 'css/home_hero_background_visibility_170.css' %}?v=home-hero-bg-170">
-  <link rel="stylesheet" href="{% static 'css/home_hero_consistent_dark_171.css' %}?v=home-hero-consistent-dark-171">
-  <link rel="stylesheet" href="{% static 'css/home_sphere_no_extra_text_172.css' %}?v=home-sphere-no-extra-text-172">
-  <link rel="stylesheet" href="{% static 'css/project_cards_fixed_media_176.css' %}?v=project-cards-fixed-media-176">
-  <link rel="stylesheet" href="{% static 'css/nav_compact_sphere_smooth_177.css' %}?v=sphere-motion-stable-216">
-  <link rel="stylesheet" href="{% static 'css/accordion_consistency_184.css' %}?v=accordion-consistency-184">
-  <link rel="stylesheet" href="{% static 'css/gsap_prehide_186.css' %}?v=gsap-prehide-final-187">
-  <link rel="stylesheet" href="{% static 'css/mobile_polish_188.css' %}?v=home-mobile-hero-193">
-  <link rel="stylesheet" href="{% static 'css/hero_card_spacing_clarity_194.css' %}?v=hero-card-spacing-197">
-  <link rel="stylesheet" href="{% static 'css/home_mobile_photo_visible_198.css' %}?v=home-mobile-photo-visible-202">
-  <link rel="stylesheet" href="{% static 'css/mobile_site_polish_203.css' %}?v=mobile-site-polish-207">
-  <link rel="stylesheet" href="{% static 'css/client_logo_rail_218.css' %}?v=client-logo-isolation-223">
-  <link rel="stylesheet" href="{% static 'css/vendor_company_logos_219.css' %}?v=vendor-company-logos-219">
-  <link rel="stylesheet" href="{% static 'css/project_category_tabs_220.css' %}?v=project-category-tabs-220">
-  <link rel="stylesheet" href="{% static 'css/project_client_logos_221.css' %}?v=project-client-logos-221">
+  <link rel="stylesheet" href="{% static 'css/site.bundle.css' %}?v=performance-224">
   <style>
     :root {
       --primary: {{ theme.primary_color|default:'#0758d8' }};
@@ -96,11 +69,11 @@
     {% block content %}{% endblock %}
   </main>
   {% include "includes/footer.html" %}
-  <script src="{% static 'js/main.js' %}?v=page-scroll-smooth-217"></script>
-  <script src="{% static 'js/cms_section_order.js' %}?v=section-order-163"></script>
-  <script src="{% static 'vendor/gsap/gsap.min.js' %}?v=3.15.0"></script>
-  <script src="{% static 'vendor/gsap/ScrollTrigger.min.js' %}?v=3.15.0"></script>
-  <script src="{% static 'js/gsap_enhancements.js' %}?v=gsap-reveal-failsafe-214"></script>
+  <script defer src="{% static 'js/main.js' %}?v=performance-224"></script>
+  <script defer src="{% static 'js/cms_section_order.js' %}?v=section-order-163"></script>
+  <script defer src="{% static 'vendor/gsap/gsap.min.js' %}?v=3.15.0"></script>
+  <script defer src="{% static 'vendor/gsap/ScrollTrigger.min.js' %}?v=3.15.0"></script>
+  <script defer src="{% static 'js/gsap_enhancements.js' %}?v=gsap-reveal-failsafe-214"></script>
   {% block extra_js %}{% endblock %}
 </body>
 </html>

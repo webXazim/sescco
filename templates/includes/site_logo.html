@@ -2,9 +2,9 @@
 <a class="site-logo site-logo-lockup" href="{% if request.LANGUAGE_CODE == 'ar' %}/ar/{% elif request.LANGUAGE_CODE == 'zh-hans' %}/zh-hans/{% else %}/{% endif %}" aria-label="{{ company.short_name|default:'SESCCO' }}">
   <span class="site-logo-mark">
     {% if company.logo %}
-      <img src="{{ company.logo.url }}" alt="{{ company.short_name|default:'SESCCO' }} mark">
+      <img src="{{ company.logo.url }}" alt="{{ company.short_name|default:'SESCCO' }} mark" decoding="async" fetchpriority="high">
     {% else %}
-      <img src="{% static 'img/brand/sescco-logo.svg' %}" alt="{{ company.short_name|default:'SESCCO' }} mark">
+      <img src="{% static 'img/brand/sescco-logo.svg' %}" alt="{{ company.short_name|default:'SESCCO' }} mark" decoding="async" fetchpriority="high">
     {% endif %}
   </span>
   <span class="site-logo-text">

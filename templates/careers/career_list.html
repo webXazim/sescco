@@ -5,6 +5,7 @@
 {% load page_sections %}
 {% block title %}{% localized_meta career_settings 'meta_title' 'Careers | SESCCO' %}{% endblock %}
 {% block meta_description %}{% localized_meta career_settings 'meta_description' company.tagline %}{% endblock %}
+{% block resource_hints %}{% if career_settings.hero_image %}<link rel="preload" as="image" fetchpriority="high" href="{{ career_settings.hero_image.url }}">{% endif %}{% endblock %}
 {% block content %}
 <main class="career-page career-list-page cms-section-sort cms-page-careers">
   <section class="hero dark career-hero page-photo-hero" {% section_attrs "careers" "hero" 10 %} {% if career_settings.hero_image %}style="--page-hero-bg:url('{{ career_settings.hero_image.url }}')"{% endif %}>

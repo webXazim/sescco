@@ -18,7 +18,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sitemaps",
     "django_ckeditor_5",
-    "parler",
     "apps.core",
     "apps.pages",
     "apps.services",
@@ -70,6 +69,10 @@ ASGI_APPLICATION = "config.asgi.application"
 
 DATABASES = {"default": env.db("DATABASE_URL", default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")}
 DATABASES["default"]["CONN_MAX_AGE"] = env.int("DATABASE_CONN_MAX_AGE", default=60)
+
+# Header/footer settings are shared by every public route. A short in-process
+# cache removes repeated database round trips while keeping admin edits fresh.
+SITE_CONTEXT_CACHE_SECONDS = env.int("SITE_CONTEXT_CACHE_SECONDS", default=60)
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},

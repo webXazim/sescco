@@ -899,8 +899,13 @@ document.addEventListener("DOMContentLoaded", function () {
       card.dataset.index = index;
 
       if (item.type === 'image') {
+        // Only the first few decorative cards compete with the LCP image. The
+        // remaining sphere artwork hydrates after window load in small batches.
+        const sourceAttribute = index < 4
+          ? `src="${item.src}" fetchpriority="low"`
+          : `src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="${item.src}"`;
         card.innerHTML = `
-          <img src="${item.src}" alt="${item.alt || item.title}" draggable="false" />
+          <img ${sourceAttribute} alt="${item.alt || item.title}" loading="lazy" decoding="async" draggable="false" />
         `;
       } else {
         card.innerHTML = `
@@ -921,6 +926,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
       sphere.appendChild(card);
     });
+  }
+
+  function hydrateDeferredCardImages() {
+    const pending = [...sphere.querySelectorAll('img[data-src]')];
+    let cursor = 0;
+
+    function loadBatch() {
+      pending.slice(cursor, cursor + 3).forEach((image) => {
+        image.src = image.dataset.src;
+        image.removeAttribute('data-src');
+      });
+      cursor += 3;
+      if (cursor >= pending.length) return;
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(loadBatch, { timeout: 1200 });
+      } else {
+        window.setTimeout(loadBatch, 120);
+      }
+    }
+
+    loadBatch();
   }
 
   function placeCards() {
@@ -1103,6 +1129,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   buildCards();
   placeCards();
+  window.addEventListener('load', () => {
+    window.setTimeout(hydrateDeferredCardImages, 250);
+  }, { once: true });
   if (!reduceMotion) requestAnimationFrame(animate);
 })();
 

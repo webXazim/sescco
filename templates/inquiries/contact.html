@@ -4,6 +4,7 @@
 {% load page_sections %}
 {% get_current_language as LANGUAGE_CODE %}
 {% block title %}{{ meta_title|default:"Contact" }}{% endblock %}
+{% block resource_hints %}{% if contact_settings.hero_image %}<link rel="preload" as="image" fetchpriority="high" href="{{ contact_settings.hero_image.url }}">{% endif %}{% endblock %}
 {% block content %}
 <main class="cms-section-sort cms-page-contact contact-page-v2">
   <section class="contact-hero{% if contact_settings.hero_image %} has-contact-hero-image contact-hero-parallax{% endif %}" {% section_attrs "contact" "hero" 10 %} {% if contact_settings.hero_image %}style="--contact-hero-bg:url('{{ contact_settings.hero_image.url }}')"{% endif %}>

@@ -4,6 +4,7 @@
 {% load page_sections %}
 {% block title %}{% localized_meta project 'seo_title' project.title %}{% endblock %}
 {% block meta_description %}{% localized_meta project 'seo_description' project.short_description %}{% endblock %}
+{% block resource_hints %}{% if project.cover_image %}<link rel="preload" as="image" fetchpriority="high" href="{{ project.cover_image.url }}">{% endif %}{% endblock %}
 {% block content %}
 <main class="project-detail-page cms-section-sort cms-page-project-detail">
   <section class="project-detail-hero" {% section_attrs "project_detail" "hero" 10 %} {% if project.cover_image %}style="--project-hero-bg:url('{{ project.cover_image.url }}')"{% endif %}>

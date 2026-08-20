@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load page_sections %}
 {% block title %}{% trans "Projects" %} | {{ company.short_name }}{% endblock %}
+{% block resource_hints %}{% if project_page_settings.hero_image %}<link rel="preload" as="image" fetchpriority="high" href="{{ project_page_settings.hero_image.url }}">{% endif %}{% endblock %}
 {% block content %}
 <main class="cms-section-sort cms-page-projects-list">
   <section class="hero dark page-photo-hero" {% section_attrs "projects_list" "hero" 10 %} {% if project_page_settings.hero_image %}style="--page-hero-bg:url('{{ project_page_settings.hero_image.url }}')"{% endif %}>

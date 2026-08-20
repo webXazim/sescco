@@ -19,7 +19,7 @@
           <article class="trust-accreditation-item">
             <div class="trust-accreditation-media" aria-hidden="true">
               {% if item.logo %}
-                <img src="{{ item.logo.url }}" alt="{{ accreditation_title }}">
+                <img src="{{ item.logo.url }}" alt="{{ accreditation_title }}" loading="lazy" decoding="async">
               {% else %}
                 <span>{{ forloop.counter|stringformat:"02d" }}</span>
               {% endif %}

@@ -3,7 +3,7 @@
 <section class="section" {% section_attrs "home" "about" 50 %}>
   <div class="container split">
     {% if home_about and home_about.image %}
-      <img src="{{ home_about.image.url }}" alt="{% localized_plain home_about 'title' %}" class="placeholder-img" style="object-fit:cover;width:100%">
+      <img src="{{ home_about.image.url }}" alt="{% localized_plain home_about 'title' %}" class="placeholder-img" loading="lazy" decoding="async" style="object-fit:cover;width:100%">
     {% else %}
       <div class="placeholder-img"></div>
     {% endif %}
