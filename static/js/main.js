@@ -24,16 +24,13 @@ document.querySelectorAll("img").forEach((image) => {
     const scrollAcceleration = 1.65;
 
     let animationFrame = 0;
-    let touchAnimationFrame = 0;
     let animatedPosition = window.scrollY;
     let targetPosition = animatedPosition;
     let previousFrameTime = 0;
 
     const cancelAnimation = () => {
       if (animationFrame) cancelAnimationFrame(animationFrame);
-      if (touchAnimationFrame) cancelAnimationFrame(touchAnimationFrame);
       animationFrame = 0;
-      touchAnimationFrame = 0;
       previousFrameTime = 0;
       animatedPosition = window.scrollY;
       targetPosition = animatedPosition;
@@ -86,7 +83,9 @@ document.querySelectorAll("img").forEach((image) => {
 
       const verticalDelta = Math.abs(event.deltaY);
       const horizontalDelta = Math.abs(event.deltaX);
+      const commonWheelNotch = verticalDelta % 100 < 0.01 || verticalDelta % 120 < 0.01;
       return verticalDelta >= 70
+        && commonWheelNotch
         && horizontalDelta < 2
         && Number.isInteger(event.deltaY);
     };
@@ -106,16 +105,10 @@ document.querySelectorAll("img").forEach((image) => {
         return;
       }
 
-      // Small pixel deltas and diagonal deltas carry touchpad momentum. The
-      // browser supplies their cadence and momentum; preserve both while
-      // increasing only the distance of each precision delta.
+      // Precision touchpad deltas already include operating-system momentum
+      // and acceleration. Never cancel or reimplement that native path.
       if (!looksLikeSteppedMouseWheel(event)) {
         cancelAnimation();
-        event.preventDefault();
-        const maximumPosition = Math.max(0, scrollingElement.scrollHeight - window.innerHeight);
-        const maximumTouchpadDistance = Math.min(560, window.innerHeight * 0.72);
-        const acceleratedDelta = Math.max(-maximumTouchpadDistance, Math.min(maximumTouchpadDistance, event.deltaY * scrollAcceleration));
-        scrollingElement.scrollTop = Math.max(0, Math.min(maximumPosition, window.scrollY + acceleratedDelta));
         return;
       }
 
@@ -140,6 +133,7 @@ document.querySelectorAll("img").forEach((image) => {
 
     // Immediately yield to direct navigation controls and native scrolling.
     window.addEventListener("pointerdown", cancelAnimation, { passive: true });
+    window.addEventListener("touchstart", cancelAnimation, { passive: true });
     window.addEventListener("resize", cancelAnimation, { passive: true });
     document.addEventListener("keydown", (event) => {
       const target = event.target;
@@ -171,77 +165,6 @@ document.querySelectorAll("img").forEach((image) => {
       if (!animationFrame) animationFrame = requestAnimationFrame(animateScroll);
     });
 
-    let touchState = null;
-    window.addEventListener("touchstart", (event) => {
-      cancelAnimation();
-      if (event.touches.length !== 1) {
-        touchState = null;
-        return;
-      }
-      const touch = event.touches[0];
-      touchState = {
-        target: event.target,
-        lastX: touch.clientX,
-        lastY: touch.clientY,
-        lastTime: performance.now(),
-        velocity: 0,
-        axis: null,
-      };
-    }, { passive: true });
-
-    window.addEventListener("touchmove", (event) => {
-      if (!touchState || event.touches.length !== 1) return;
-      const touch = event.touches[0];
-      const deltaX = touchState.lastX - touch.clientX;
-      const deltaY = touchState.lastY - touch.clientY;
-
-      if (!touchState.axis && Math.max(Math.abs(deltaX), Math.abs(deltaY)) >= 3) {
-        touchState.axis = Math.abs(deltaY) >= Math.abs(deltaX) * 0.85 ? "vertical" : "native";
-      }
-      if (touchState.axis !== "vertical") return;
-      if (hasScrollableAncestor(touchState.target, deltaY)) {
-        touchState.axis = "native";
-        return;
-      }
-
-      event.preventDefault();
-      const now = performance.now();
-      const elapsed = Math.max(8, Math.min(40, now - touchState.lastTime));
-      const acceleratedDelta = deltaY * scrollAcceleration;
-      const maximumPosition = Math.max(0, scrollingElement.scrollHeight - window.innerHeight);
-      scrollingElement.scrollTop = Math.max(0, Math.min(maximumPosition, window.scrollY + acceleratedDelta));
-      const frameVelocity = acceleratedDelta / (elapsed / 16.67);
-      touchState.velocity = touchState.velocity * 0.68 + frameVelocity * 0.32;
-      touchState.lastX = touch.clientX;
-      touchState.lastY = touch.clientY;
-      touchState.lastTime = now;
-    }, { passive: false });
-
-    const finishTouchScroll = () => {
-      if (!touchState || touchState.axis !== "vertical") {
-        touchState = null;
-        return;
-      }
-      let velocity = touchState.velocity;
-      touchState = null;
-      const glide = () => {
-        const maximumPosition = Math.max(0, scrollingElement.scrollHeight - window.innerHeight);
-        const before = window.scrollY;
-        scrollingElement.scrollTop = Math.max(0, Math.min(maximumPosition, before + velocity));
-        velocity *= 0.91;
-        if (Math.abs(velocity) < 0.35 || window.scrollY === before) {
-          touchAnimationFrame = 0;
-          return;
-        }
-        touchAnimationFrame = requestAnimationFrame(glide);
-      };
-      if (Math.abs(velocity) >= 0.35) touchAnimationFrame = requestAnimationFrame(glide);
-    };
-    window.addEventListener("touchend", finishTouchScroll, { passive: true });
-    window.addEventListener("touchcancel", () => {
-      touchState = null;
-      cancelAnimation();
-    }, { passive: true });
     reducedMotion.addEventListener("change", cancelAnimation);
   };
 
