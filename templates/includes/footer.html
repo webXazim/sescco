@@ -69,10 +69,10 @@
           <div class="map-dots"></div>
         {% endif %}
         {% if footer_primary_office %}
-          <p class="footer-location"><strong>{% static_text "Location" %}</strong><a href="{{ footer_map_url|default:'/contact/' }}" target="_blank" rel="noopener">{{ footer_primary_office.address }}</a></p>
+          <p class="footer-location"><strong>{% static_text "Location" %}</strong><a href="{{ footer_map_url|default:'/contact/' }}" target="_blank" rel="noopener">{{ footer_primary_office.address }}{% if footer_primary_office.city %}, {{ footer_primary_office.city }}{% endif %}{% if footer_primary_office.country %}, {{ footer_primary_office.country }}{% endif %}</a></p>
         {% else %}
           {% for office in office_locations %}
-            {% if office.is_primary %}<p class="footer-location"><strong>{% static_text "Location" %}</strong><a href="{{ footer_map_url|default:'/contact/' }}" target="_blank" rel="noopener">{{ office.address }}</a></p>{% endif %}
+            {% if office.is_primary %}<p class="footer-location"><strong>{% static_text "Location" %}</strong><a href="{{ footer_map_url|default:'/contact/' }}" target="_blank" rel="noopener">{{ office.address }}{% if office.city %}, {{ office.city }}{% endif %}{% if office.country %}, {{ office.country }}{% endif %}</a></p>{% endif %}
           {% endfor %}
         {% endif %}
       </div>

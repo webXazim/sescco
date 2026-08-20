@@ -31,6 +31,11 @@ from apps.inquiries.models import InquirySubject, ContactPageSettings
 from apps.seo.models import RobotsSettings, SchemaMarkup
 
 
+SESCCO_PLUS_CODE = 'C3FW+Q7V'
+SESCCO_LOCATION = 'C3FW+Q7V, Dammam, Saudi Arabia'
+SESCCO_MAP_URL = 'https://maps.app.goo.gl/QD8iU89NpRodzpeA9'
+SESCCO_MAP_EMBED_URL = 'https://www.google.com/maps?q=26.4244875%2C50.0956719&z=17&output=embed'
+
 
 def set_loc(obj, lang, field, text):
     if not obj or not getattr(obj, "id", None):
@@ -171,7 +176,8 @@ class Command(BaseCommand):
             aramco_vendor_code='10114560', sec_vendor_code='02013075',
             phone_primary='', phone_secondary='',
             email_primary='info@sescco.com', email_secondary='', email_third='',
-            address='Dammam, Eastern Province, Kingdom of Saudi Arabia', city='Dammam', country='Saudi Arabia', website_url='https://sescco.com',
+            address=SESCCO_LOCATION, city='Dammam', country='Saudi Arabia', website_url='https://sescco.com',
+            map_embed_url=SESCCO_MAP_EMBED_URL,
             description=p('Summit Engineering Solutions Cont. Co. specializes in reliable engineering, construction and contract support services across Saudi Arabia.', 'With years of experience and a commitment to excellence, SESCCO ensures that projects meet high standards of safety, efficiency and quality.', 'Core capabilities include electrical engineering services, civil and architectural fit-out works, contract support services and electromechanical works.'))
 
         up(SiteSettings, {'site_name': 'SESCCO'}, domain='sescco.com', default_language='en', enable_multilingual=True, default_seo_title='SESCCO | Summit Engineering Solutions Cont. Co.', default_seo_description='SESCCO provides electrical engineering, civil, architectural, fit-out, mechanical and contract support services in Saudi Arabia.', footer_social_title='Find us on social media', show_developer_credit=True, developer_credit_label='Website developed by', developer_name='A2TDEV', developer_url='https://a2tdev.com', developer_seo_description='A2TDEV is the website design and development partner for SESCCO.')
@@ -653,15 +659,15 @@ class Command(BaseCommand):
             notification_email='info@sescco.com',
             email_from_name='SESCCO Website',
             map_eyebrow='Find Us',
-            map_title='Office location details are available on request.',
-            map_subtitle='Exact map details are temporarily hidden while public contact information is being finalized.',
-            google_map_embed_url='',
-            google_map_url='',
+            map_title='Visit our Dammam office.',
+            map_subtitle=SESCCO_LOCATION,
+            google_map_embed_url=SESCCO_MAP_EMBED_URL,
+            google_map_url=SESCCO_MAP_URL,
             map_button_text='Open in Google Maps',
             show_contact_methods=True,
             show_offices=True,
             show_business_hours=True,
-            show_map=False,
+            show_map=True,
             show_faqs=True,
             show_whatsapp_cta=False,
         )
@@ -670,13 +676,13 @@ class Command(BaseCommand):
         up(
             OfficeLocation,
             {'name': 'Main Office'},
-            address='Dammam, Eastern Province, Kingdom of Saudi Arabia',
+            address=SESCCO_PLUS_CODE,
             city='Dammam',
             country='Saudi Arabia',
             phone='',
             email='info@sescco.com',
-            map_embed_url='',
-            map_url='',
+            map_embed_url=SESCCO_MAP_EMBED_URL,
+            map_url=SESCCO_MAP_URL,
             is_primary=True,
             sort_order=1,
             is_active=True,
