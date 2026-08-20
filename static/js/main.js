@@ -14,19 +14,20 @@ document.querySelectorAll("img").forEach((image) => {
   }, { once: true });
 });
 
-  // Preserve native precision scrolling for touchpads, touchscreens, keyboard
-  // and nested panels. Only stepped mouse-wheel input gets a short, continuous
-  // animation so every page feels smooth without making trackpads feel heavy.
+  // Use one continuous target-based animation for vertical mouse-wheel and
+  // touchpad input. Touchscreens and independently scrolling panels stay native.
   const enablePageWheelSmoothing = () => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const scrollingElement = document.scrollingElement || document.documentElement;
     if (!scrollingElement || reducedMotion.matches) return;
     const scrollAcceleration = 1.65;
+    const touchpadAcceleration = 3;
 
     let animationFrame = 0;
     let animatedPosition = window.scrollY;
     let targetPosition = animatedPosition;
     let previousFrameTime = 0;
+    let easingBase = 0.82;
 
     const cancelAnimation = () => {
       if (animationFrame) cancelAnimationFrame(animationFrame);
@@ -62,12 +63,12 @@ document.querySelectorAll("img").forEach((image) => {
       const elapsed = Math.min(34, time - previousFrameTime || 16.67);
       previousFrameTime = time;
       const distance = targetPosition - animatedPosition;
-      const frameEase = 1 - Math.pow(0.72, elapsed / 16.67);
+      const frameEase = 1 - Math.pow(easingBase, elapsed / 16.67);
 
       animatedPosition += distance * frameEase;
       scrollingElement.scrollTop = animatedPosition;
 
-      if (Math.abs(distance) <= 0.5) {
+      if (Math.abs(distance) <= 0.2) {
         scrollingElement.scrollTop = targetPosition;
         animatedPosition = targetPosition;
         animationFrame = 0;
@@ -79,10 +80,8 @@ document.querySelectorAll("img").forEach((image) => {
     };
 
     const looksLikeSteppedMouseWheel = (event) => {
-      // Pixel-mode events are ambiguous across browsers and are commonly used
-      // by precision touchpads, even for large integer deltas. Never intercept
-      // them. Firefox-style mouse notches normally arrive as whole line steps;
-      // fractional/small line deltas remain native for touchpad compatibility.
+      // Firefox-style mouse notches normally arrive as whole line steps.
+      // Pixel/fractional events use the continuous precision-input profile.
       if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) return true;
       if (event.deltaMode !== WheelEvent.DOM_DELTA_LINE) return false;
       return Math.abs(event.deltaY) >= 3
@@ -105,22 +104,17 @@ document.querySelectorAll("img").forEach((image) => {
         return;
       }
 
-      // Precision touchpad events must stay fully native. Preventing their
-      // default action breaks hardware momentum on some Windows/Linux drivers.
-      if (!looksLikeSteppedMouseWheel(event)) {
-        cancelAnimation();
-        return;
-      }
-
+      const steppedWheel = looksLikeSteppedMouseWheel(event);
+      if (!steppedWheel && Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
       event.preventDefault();
-
       const currentPosition = window.scrollY;
       const maximumPosition = Math.max(0, scrollingElement.scrollHeight - window.innerHeight);
-      let wheelDistance = event.deltaY * scrollAcceleration;
-      if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) wheelDistance = event.deltaY * 64;
-      if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) wheelDistance = event.deltaY * window.innerHeight * 0.9;
-      const maximumWheelDistance = Math.min(560, window.innerHeight * 0.72);
+      let wheelDistance = event.deltaY * touchpadAcceleration;
+      if (steppedWheel && event.deltaMode === WheelEvent.DOM_DELTA_LINE) wheelDistance = event.deltaY * 64;
+      if (steppedWheel && event.deltaMode === WheelEvent.DOM_DELTA_PAGE) wheelDistance = event.deltaY * window.innerHeight * 0.9;
+      const maximumWheelDistance = Math.min(680, window.innerHeight * 0.86);
       wheelDistance = Math.max(-maximumWheelDistance, Math.min(maximumWheelDistance, wheelDistance));
+      easingBase = steppedWheel ? 0.84 : 0.78;
 
       if (!animationFrame) {
         animatedPosition = currentPosition;
@@ -155,6 +149,7 @@ document.querySelectorAll("img").forEach((image) => {
       if (direction && hasScrollableAncestor(target, direction)) return;
 
       event.preventDefault();
+      easingBase = 0.82;
       if (!animationFrame) {
         animatedPosition = window.scrollY;
         targetPosition = animatedPosition;
