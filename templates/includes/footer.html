@@ -32,8 +32,6 @@
         <h4>{% static_text "Contact Us" %}</h4>
         <ul class="footer-email-list">
           {% if company.email_primary %}<li><a href="mailto:{{ company.email_primary }}">{{ company.email_primary }}</a></li>{% endif %}
-          {% if company.email_secondary %}<li><a href="mailto:{{ company.email_secondary }}">{{ company.email_secondary }}</a></li>{% endif %}
-          {% if company.email_third %}<li><a href="mailto:{{ company.email_third }}">{{ company.email_third }}</a></li>{% endif %}
         </ul>
       </div>
 

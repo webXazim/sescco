@@ -61,7 +61,7 @@ document.querySelectorAll("img").forEach((image) => {
       const elapsed = Math.min(34, time - previousFrameTime || 16.67);
       previousFrameTime = time;
       const distance = targetPosition - animatedPosition;
-      const frameEase = 1 - Math.pow(0.78, elapsed / 16.67);
+      const frameEase = 1 - Math.pow(0.72, elapsed / 16.67);
 
       animatedPosition += distance * frameEase;
       scrollingElement.scrollTop = animatedPosition;
@@ -113,10 +113,11 @@ document.querySelectorAll("img").forEach((image) => {
 
       const currentPosition = window.scrollY;
       const maximumPosition = Math.max(0, scrollingElement.scrollHeight - window.innerHeight);
-      let wheelDistance = event.deltaY;
-      if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) wheelDistance *= 40;
-      if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) wheelDistance *= window.innerHeight * 0.85;
-      wheelDistance = Math.max(-320, Math.min(320, wheelDistance));
+      let wheelDistance = event.deltaY * 1.65;
+      if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) wheelDistance = event.deltaY * 64;
+      if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) wheelDistance = event.deltaY * window.innerHeight * 0.9;
+      const maximumWheelDistance = Math.min(560, window.innerHeight * 0.72);
+      wheelDistance = Math.max(-maximumWheelDistance, Math.min(maximumWheelDistance, wheelDistance));
 
       if (!animationFrame) {
         animatedPosition = currentPosition;

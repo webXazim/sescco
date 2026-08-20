@@ -21,7 +21,7 @@ class CompanyProfileAdmin(SingletonAdminMixin, admin.ModelAdmin):
     fieldsets = (
         ("Brand", {"fields": ("company_name", "short_name", "tagline", "description", "logo", "favicon")}),
         ("Trust Codes", {"fields": ("established_year", "aramco_vendor_code", "sec_vendor_code")}),
-        ("Contact", {"fields": ("phone_primary", "phone_secondary", "email_primary", "email_secondary", "email_third", "address", "city", "country", "website_url", "map_embed_url")}),
+        ("Contact", {"fields": ("phone_primary", "phone_secondary", "email_primary", "address", "city", "country", "website_url", "map_embed_url")}),
     )
 
 

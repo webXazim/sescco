@@ -170,7 +170,7 @@ class Command(BaseCommand):
             tagline='Where Quality Engineering Meets Dependable Service.', established_year=2015,
             aramco_vendor_code='10114560', sec_vendor_code='02013075',
             phone_primary='', phone_secondary='',
-            email_primary='info@sescco.com', email_secondary='imran@sescco.com', email_third='mehrab@sescco.com',
+            email_primary='info@sescco.com', email_secondary='', email_third='',
             address='Dammam, Eastern Province, Kingdom of Saudi Arabia', city='Dammam', country='Saudi Arabia', website_url='https://sescco.com',
             description=p('Summit Engineering Solutions Cont. Co. specializes in reliable engineering, construction and contract support services across Saudi Arabia.', 'With years of experience and a commitment to excellence, SESCCO ensures that projects meet high standards of safety, efficiency and quality.', 'Core capabilities include electrical engineering services, civil and architectural fit-out works, contract support services and electromechanical works.'))
 
