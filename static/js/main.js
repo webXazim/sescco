@@ -22,6 +22,7 @@ document.querySelectorAll("img").forEach((image) => {
     const scrollingElement = document.scrollingElement || document.documentElement;
     if (!scrollingElement || reducedMotion.matches) return;
     const scrollAcceleration = 1.65;
+    const touchpadAcceleration = 5;
 
     let animationFrame = 0;
     let animatedPosition = window.scrollY;
@@ -105,10 +106,22 @@ document.querySelectorAll("img").forEach((image) => {
         return;
       }
 
-      // Precision touchpad deltas already include operating-system momentum
-      // and acceleration. Never cancel or reimplement that native path.
+      // Preserve precision touchpad cadence and OS-generated momentum while
+      // amplifying vertical travel. Horizontal gestures remain fully native.
       if (!looksLikeSteppedMouseWheel(event)) {
         cancelAnimation();
+        if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+        event.preventDefault();
+        const maximumPosition = Math.max(0, scrollingElement.scrollHeight - window.innerHeight);
+        const maximumTouchpadDistance = Math.min(760, window.innerHeight * 0.92);
+        const acceleratedDelta = Math.max(
+          -maximumTouchpadDistance,
+          Math.min(maximumTouchpadDistance, event.deltaY * touchpadAcceleration)
+        );
+        scrollingElement.scrollTop = Math.max(
+          0,
+          Math.min(maximumPosition, window.scrollY + acceleratedDelta)
+        );
         return;
       }
 
