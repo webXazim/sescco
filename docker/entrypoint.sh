@@ -12,7 +12,10 @@ if [ "${RUN_MIGRATIONS:-1}" = "1" ]; then
   python manage.py migrate --noinput
 fi
 
-if [ "${OPTIMIZE_PUBLIC_IMAGES:-1}" = "1" ]; then
+# Image conversion can take several minutes on an established media volume.
+# Keep it out of the health-critical startup path; deploy.sh runs it after
+# Gunicorn is healthy. It remains opt-in here for one-off maintenance jobs.
+if [ "${OPTIMIZE_PUBLIC_IMAGES:-0}" = "1" ]; then
   python manage.py optimize_public_images
 fi
 

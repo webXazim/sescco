@@ -158,7 +158,12 @@ echo "Building and starting the isolated site stack..."
 compose pull db caddy
 compose build --pull web
 # --wait makes this command fail if PostgreSQL or Gunicorn never becomes healthy.
-compose up -d --remove-orphans --wait --wait-timeout 180
+if ! compose up -d --remove-orphans --wait --wait-timeout 300; then
+  echo "Web stack did not become healthy. Recent web startup logs:" >&2
+  compose ps >&2 || true
+  compose logs --no-color --tail=200 web >&2 || true
+  exit 1
+fi
 
 if [ "$RUN_SEED" = 1 ]; then
   echo "Seeding the full production site and running content audits..."
@@ -167,6 +172,9 @@ if [ "$RUN_SEED" = 1 ]; then
 else
   echo "Preserving existing CMS content (use -s or --seed to refresh the full site seed)."
 fi
+
+echo "Optimizing public media after the web service is healthy..."
+compose exec -T web python manage.py optimize_public_images
 
 echo "Running Django's production deployment checks..."
 compose exec -T web python manage.py check --deploy

@@ -9,6 +9,7 @@ services:
       DJANGO_SETTINGS_MODULE: config.settings.production
       DATABASE_HOST: db
       DATABASE_PORT: 5432
+      OPTIMIZE_PUBLIC_IMAGES: "0"
     volumes:
       - static_volume:/app/staticfiles
       - media_volume:/app/media
@@ -19,8 +20,8 @@ services:
       test: ["CMD", "python", "-c", "import socket; socket.create_connection(('127.0.0.1', 8000), 2).close()"]
       interval: 10s
       timeout: 5s
-      retries: 12
-      start_period: 20s
+      retries: 15
+      start_period: 45s
     stop_grace_period: 30s
 
   caddy:
