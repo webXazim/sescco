@@ -81,8 +81,13 @@ document.querySelectorAll("img").forEach((image) => {
     const looksLikeSteppedMouseWheel = (event) => {
       // Pixel-mode events are ambiguous across browsers and are commonly used
       // by precision touchpads, even for large integer deltas. Never intercept
-      // them. Line/page-mode events are discrete wheel inputs.
-      return event.deltaMode !== WheelEvent.DOM_DELTA_PIXEL;
+      // them. Firefox-style mouse notches normally arrive as whole line steps;
+      // fractional/small line deltas remain native for touchpad compatibility.
+      if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) return true;
+      if (event.deltaMode !== WheelEvent.DOM_DELTA_LINE) return false;
+      return Math.abs(event.deltaY) >= 3
+        && Math.abs(event.deltaX) < 0.01
+        && Number.isInteger(event.deltaY);
     };
 
     window.addEventListener("wheel", (event) => {
