@@ -1,4 +1,4 @@
-{% load localization %}
+{% load localization static %}
 {% if about_settings.show_leadership and page %}
   {% for message in page.leadership_messages.all %}
     {% if message.is_active %}
@@ -9,7 +9,7 @@
               {% if message.image %}
                 <img src="{{ message.image.url }}" alt="{{ message.person_name }}" loading="lazy">
               {% elif company.logo %}
-                <img src="{{ company.logo.url }}" alt="{{ company.short_name }}" loading="lazy">
+                <img src="{% static 'img/brand/sescco-mark.webp' %}" alt="{{ company.short_name }}" loading="lazy" decoding="async">
               {% else %}
                 <span>CEO</span>
               {% endif %}

@@ -9,6 +9,7 @@ from django.db.models import FileField, ImageField
 
 
 IMPORTANT_STATIC_ASSETS = [
+    "img/brand/sescco-mark.webp",
     "img/brand/sescco-logo.svg",
     "img/brand/sescco_logo.svg",
     "img/fallbacks/industrial-fallback.svg",

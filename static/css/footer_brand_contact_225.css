@@ -1,0 +1,68 @@
+/* Footer brand/contact polish and shared lightweight logo presentation. */
+.footer-grid {
+  grid-template-columns: minmax(245px, 1.3fr) minmax(165px, .85fr) minmax(135px, .72fr) minmax(170px, .9fr) minmax(210px, 1.15fr);
+  gap: clamp(26px, 3vw, 44px);
+}
+
+.footer .site-logo-lockup {
+  color: #fff;
+  margin-bottom: 18px;
+}
+
+.footer .site-logo-text strong {
+  color: #fff !important;
+  text-shadow: 0 8px 24px rgba(0, 0, 0, .24);
+}
+
+.footer .site-logo-text small {
+  color: #cfe1f8 !important;
+}
+
+.footer-brand-column > p {
+  max-width: 34ch;
+  color: #d6e5f7;
+}
+
+.footer-email-list a {
+  color: #e8f3ff;
+  overflow-wrap: anywhere;
+  transition: color .18s ease;
+}
+
+.footer-email-list a:hover {
+  color: #72c9ff;
+}
+
+.footer-social-links a svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.footer-location {
+  display: grid;
+  gap: 7px;
+  margin-top: 18px !important;
+}
+
+.footer-location strong {
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.footer-location a {
+  color: #d6e5f7;
+  line-height: 1.65;
+}
+
+.footer-location a:hover {
+  color: #72c9ff;
+}
+
+@media (max-width: 1180px) and (min-width: 761px) {
+  .footer-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

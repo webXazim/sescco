@@ -695,10 +695,10 @@ class Command(BaseCommand):
 
         # Default official SESCCO logo. It is copied to media only when company.logo is empty,
         # so future admin logo changes are never overwritten.
-        default_logo = Path(settings.BASE_DIR) / "static" / "img" / "brand" / "sescco-logo.svg"
+        default_logo = Path(settings.BASE_DIR) / "static" / "img" / "brand" / "sescco-mark.webp"
         if company and not company.logo and default_logo.exists():
             with default_logo.open("rb") as logo_file:
-                company.logo.save("sescco-logo.svg", File(logo_file), save=True)
+                company.logo.save("sescco-mark.webp", File(logo_file), save=True)
 
 
         # ---------------------------------------------------------------------

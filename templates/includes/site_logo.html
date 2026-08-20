@@ -1,14 +1,10 @@
 {% load static %}
 <a class="site-logo site-logo-lockup" href="{% if request.LANGUAGE_CODE == 'ar' %}/ar/{% elif request.LANGUAGE_CODE == 'zh-hans' %}/zh-hans/{% else %}/{% endif %}" aria-label="{{ company.short_name|default:'SESCCO' }}">
   <span class="site-logo-mark">
-    {% if company.logo %}
-      <img src="{{ company.logo.url }}" alt="{{ company.short_name|default:'SESCCO' }} mark" decoding="async" fetchpriority="high">
-    {% else %}
-      <img src="{% static 'img/brand/sescco-logo.svg' %}" alt="{{ company.short_name|default:'SESCCO' }} mark" decoding="async" fetchpriority="high">
-    {% endif %}
+    <img src="{% static 'img/brand/sescco-mark.webp' %}" width="256" height="255" alt="{{ company.short_name|default:'SESCCO' }} mark" decoding="async" fetchpriority="{{ logo_priority|default:'auto' }}"{% if logo_priority == 'low' %} loading="lazy"{% endif %}>
   </span>
   <span class="site-logo-text">
-    <strong>SESCCO</strong>
+    <strong>{{ company.short_name|default:'SESCCO' }}</strong>
     <small>Summit Engineering Solutions<br>Cont. Co.</small>
   </span>
 </a>

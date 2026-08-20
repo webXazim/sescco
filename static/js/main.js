@@ -901,7 +901,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (item.type === 'image') {
         // Only the first few decorative cards compete with the LCP image. The
         // remaining sphere artwork hydrates after window load in small batches.
-        const sourceAttribute = index < 4
+        const sourceAttribute = index < 3
           ? `src="${item.src}" fetchpriority="low"`
           : `src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="${item.src}"`;
         card.innerHTML = `

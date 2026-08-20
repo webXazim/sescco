@@ -3,7 +3,7 @@
 {% load localization %}
 <header class="site-header">
   <div class="container navbar">
-    {% include "includes/site_logo.html" %}
+    {% include "includes/site_logo.html" with logo_priority="high" %}
     <nav class="nav-links" id="primary-navigation" data-mobile-nav aria-label="{% static_text 'Primary navigation' %}">
       {% if nav_items %}
         {% for item in nav_items %}

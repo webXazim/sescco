@@ -44,7 +44,7 @@ def _company_logo_url_by_name(name):
     )
     if not is_company:
         return ""
-    return _image_url(company.logo) or static("img/brand/sescco-logo.svg")
+    return static("img/brand/sescco-mark.webp")
 
 
 def _stakeholder_logo_url(project, relation_field, legacy_logo_field, name_field, include_company=False):

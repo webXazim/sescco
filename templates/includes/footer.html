@@ -5,8 +5,8 @@
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
-      <div>
-        {% include "includes/site_logo.html" %}
+      <div class="footer-brand-column">
+        {% include "includes/site_logo.html" with logo_priority="low" %}
         <p>{{ company.tagline }}</p>
         {% if social_links %}
           <div class="footer-social-block" aria-label="{{ site_settings.footer_social_title|default:'Find us on social media' }}">
@@ -14,7 +14,13 @@
             <div class="social footer-social-links">
               {% for social in social_links %}
                 <a href="{{ social.url }}" target="_blank" rel="noopener" aria-label="{{ social.title }}">
-                  {{ social.icon_text|default:social.title|slice:":2" }}
+                  {% if social.title|lower == "linkedin" %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 7.8H1.6V22h3.6V7.8ZM3.4 2A2.1 2.1 0 1 0 3.4 6.2 2.1 2.1 0 0 0 3.4 2ZM22.4 13.9c0-4.3-2.3-6.4-5.4-6.4-2.5 0-3.6 1.4-4.2 2.3v-2H9.2V22h3.6v-7c0-1.9.4-3.7 2.7-3.7 2.3 0 2.3 2.1 2.3 3.8V22h3.6l1-8.1Z"/></svg>
+                  {% elif social.title|lower == "facebook" %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 22v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5h1.7V4.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H8V14h2.8v8h3.4Z"/></svg>
+                  {% else %}
+                    {{ social.icon_text|default:social.title|slice:":2" }}
+                  {% endif %}
                 </a>
               {% endfor %}
             </div>
@@ -22,21 +28,12 @@
         {% endif %}
       </div>
 
-      <div>
+      <div class="footer-contact-column">
         <h4>{% static_text "Contact Us" %}</h4>
-        <ul>
-          {% for method in contact_methods %}
-            {% if method.show_in_footer %}
-              <li>{% if method.url %}<a href="{{ method.url }}">{{ method.value }}</a>{% else %}{{ method.value }}{% endif %}</li>
-            {% endif %}
-          {% empty %}
-            {% if company.phone_primary %}<li>{{ company.phone_primary }}</li>{% endif %}
-            {% if company.phone_secondary %}<li>{{ company.phone_secondary }}</li>{% endif %}
-            {% if company.email_primary %}<li>{{ company.email_primary }}</li>{% endif %}
-            {% if company.email_secondary %}<li>{{ company.email_secondary }}</li>{% endif %}
-            {% if company.email_third %}<li>{{ company.email_third }}</li>{% endif %}
-            {% if company.address %}<li>{{ company.address }}</li>{% endif %}
-          {% endfor %}
+        <ul class="footer-email-list">
+          {% if company.email_primary %}<li><a href="mailto:{{ company.email_primary }}">{{ company.email_primary }}</a></li>{% endif %}
+          {% if company.email_secondary %}<li><a href="mailto:{{ company.email_secondary }}">{{ company.email_secondary }}</a></li>{% endif %}
+          {% if company.email_third %}<li><a href="mailto:{{ company.email_third }}">{{ company.email_third }}</a></li>{% endif %}
         </ul>
       </div>
 
@@ -74,16 +71,16 @@
           <div class="map-dots"></div>
         {% endif %}
         {% if footer_primary_office %}
-          <p>{{ footer_primary_office.address }}</p>
+          <p class="footer-location"><strong>{% static_text "Location" %}</strong><a href="{{ footer_map_url|default:'/contact/' }}" target="_blank" rel="noopener">{{ footer_primary_office.address }}</a></p>
         {% else %}
           {% for office in office_locations %}
-            {% if office.is_primary %}<p>{{ office.address }}</p>{% endif %}
+            {% if office.is_primary %}<p class="footer-location"><strong>{% static_text "Location" %}</strong><a href="{{ footer_map_url|default:'/contact/' }}" target="_blank" rel="noopener">{{ office.address }}</a></p>{% endif %}
           {% endfor %}
         {% endif %}
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2015 – 2025 {{ company.company_name }}. All rights reserved.</span>
+      <span>© 2015 – {% now "Y" %} {{ company.company_name }} — All rights reserved.</span>
       <span class="footer-bottom-links">
         <span>{{ site_settings.domain }}</span>
         {% if site_settings.show_developer_credit and site_settings.developer_name and site_settings.developer_url %}

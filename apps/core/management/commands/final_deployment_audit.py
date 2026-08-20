@@ -93,8 +93,9 @@ class Command(BaseCommand):
 
         static_root = Path(getattr(settings, "STATIC_ROOT", ""))
         media_root = Path(getattr(settings, "MEDIA_ROOT", ""))
-        if not getattr(settings, "STATICFILES_STORAGE", ""):
-            self._add(rows, "WARN", "STATICFILES_STORAGE is empty.", "Use ManifestStaticFilesStorage or WhiteNoise compressed manifest storage.")
+        staticfiles_backend = getattr(settings, "STORAGES", {}).get("staticfiles", {}).get("BACKEND", "")
+        if not staticfiles_backend:
+            self._add(rows, "WARN", "Static files storage is empty.", "Use ManifestStaticFilesStorage or WhiteNoise compressed manifest storage.")
         else:
             self._add(rows, "PASS", "Static files storage is configured.")
         if not media_root:

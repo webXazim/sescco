@@ -39,6 +39,7 @@ SOURCES = (
     "vendor_company_logos_219.css",
     "project_category_tabs_220.css",
     "project_client_logos_221.css",
+    "footer_brand_contact_225.css",
 )
 
 

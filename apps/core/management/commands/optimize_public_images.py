@@ -9,6 +9,7 @@ from PIL import Image, ImageOps, UnidentifiedImageError
 # High-traffic public imagery only. Certificates and downloadable originals are
 # intentionally excluded because small text must remain lossless.
 IMAGE_FIELDS = (
+    ("core", "CompanyProfile", "logo", (512, 512)),
     ("pages", "HomeHero", "background_image", (1920, 1200)),
     ("pages", "HomeHeroSphereCard", "image", (720, 960)),
     ("pages", "HomeAboutBlock", "image", (1280, 960)),
