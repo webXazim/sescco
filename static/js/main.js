@@ -22,7 +22,6 @@ document.querySelectorAll("img").forEach((image) => {
     const scrollingElement = document.scrollingElement || document.documentElement;
     if (!scrollingElement || reducedMotion.matches) return;
     const scrollAcceleration = 1.65;
-    const touchpadAcceleration = 5;
 
     let animationFrame = 0;
     let animatedPosition = window.scrollY;
@@ -80,15 +79,10 @@ document.querySelectorAll("img").forEach((image) => {
     };
 
     const looksLikeSteppedMouseWheel = (event) => {
-      if (event.deltaMode !== WheelEvent.DOM_DELTA_PIXEL) return true;
-
-      const verticalDelta = Math.abs(event.deltaY);
-      const horizontalDelta = Math.abs(event.deltaX);
-      const commonWheelNotch = verticalDelta % 100 < 0.01 || verticalDelta % 120 < 0.01;
-      return verticalDelta >= 70
-        && commonWheelNotch
-        && horizontalDelta < 2
-        && Number.isInteger(event.deltaY);
+      // Pixel-mode events are ambiguous across browsers and are commonly used
+      // by precision touchpads, even for large integer deltas. Never intercept
+      // them. Line/page-mode events are discrete wheel inputs.
+      return event.deltaMode !== WheelEvent.DOM_DELTA_PIXEL;
     };
 
     window.addEventListener("wheel", (event) => {
@@ -106,22 +100,10 @@ document.querySelectorAll("img").forEach((image) => {
         return;
       }
 
-      // Preserve precision touchpad cadence and OS-generated momentum while
-      // amplifying vertical travel. Horizontal gestures remain fully native.
+      // Precision touchpad events must stay fully native. Preventing their
+      // default action breaks hardware momentum on some Windows/Linux drivers.
       if (!looksLikeSteppedMouseWheel(event)) {
         cancelAnimation();
-        if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-        event.preventDefault();
-        const maximumPosition = Math.max(0, scrollingElement.scrollHeight - window.innerHeight);
-        const maximumTouchpadDistance = Math.min(760, window.innerHeight * 0.92);
-        const acceleratedDelta = Math.max(
-          -maximumTouchpadDistance,
-          Math.min(maximumTouchpadDistance, event.deltaY * touchpadAcceleration)
-        );
-        scrollingElement.scrollTop = Math.max(
-          0,
-          Math.min(maximumPosition, window.scrollY + acceleratedDelta)
-        );
         return;
       }
 
