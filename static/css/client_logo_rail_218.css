@@ -2,6 +2,8 @@
 .home-proof-simple-logo-slider{
   min-height: 0;
   padding: 8px 0 18px;
+  mask-image: none;
+  -webkit-mask-image: none;
 }
 
 .home-proof-simple-logo-track,
@@ -14,13 +16,20 @@
   --client-slide-gap: clamp(50px, 5vw, 76px);
   --client-slide-half-gap: clamp(25px, 2.5vw, 38px);
   animation-name: homeClientSeamlessSlide218;
-  animation-duration: 58s;
+  animation-duration: 50s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-play-state: paused;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  contain: layout paint;
+  contain: layout;
+  will-change: transform;
+}
+
+.home-proof-simple-logo-slider.is-ready .home-proof-simple-logo-track{
+  animation-play-state: running;
 }
 
 /*
@@ -94,7 +103,7 @@ html[dir="rtl"] .home-proof-simple-logo-track{
   .home-proof-simple-logo-track{
     --client-slide-gap: 34px;
     --client-slide-half-gap: 17px;
-    animation-duration: 48s;
+    animation-duration: 42s;
   }
 
   .home-proof-simple-logo-item{

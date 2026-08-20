@@ -37,7 +37,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ meta_title|default:site_settings.default_seo_title|default:company.short_name }}">
   <meta name="twitter:description" content="{{ meta_description|default:site_settings.default_seo_description|default:company.tagline }}">
-  <link rel="stylesheet" href="{% static 'css/site.bundle.css' %}?v=performance-225">
+  <link rel="stylesheet" href="{% static 'css/site.bundle.css' %}?v=rail-smooth-226">
   <style>
     :root {
       --primary: {{ theme.primary_color|default:'#0758d8' }};
@@ -68,7 +68,7 @@
     {% block content %}{% endblock %}
   </main>
   {% include "includes/footer.html" %}
-  <script defer src="{% static 'js/main.js' %}?v=performance-225"></script>
+  <script defer src="{% static 'js/main.js' %}?v=rail-smooth-226"></script>
   <script defer fetchpriority="low" src="{% static 'js/cms_section_order.js' %}?v=section-order-163"></script>
   <script defer fetchpriority="low" src="{% static 'vendor/gsap/gsap.min.js' %}?v=3.15.0"></script>
   <script defer fetchpriority="low" src="{% static 'vendor/gsap/ScrollTrigger.min.js' %}?v=3.15.0"></script>

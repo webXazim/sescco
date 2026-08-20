@@ -972,7 +972,23 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   let lastFrameTime = performance.now();
+  let sphereAnimationFrame = 0;
+  let sphereIsVisible = true;
+
+  function startSphereAnimation() {
+    if (reduceMotion || !sphereIsVisible || document.hidden || sphereAnimationFrame) return;
+    lastFrameTime = performance.now();
+    sphereAnimationFrame = requestAnimationFrame(animate);
+  }
+
+  function stopSphereAnimation() {
+    if (sphereAnimationFrame) cancelAnimationFrame(sphereAnimationFrame);
+    sphereAnimationFrame = 0;
+  }
+
   function animate(now) {
+    sphereAnimationFrame = 0;
+    if (!sphereIsVisible || document.hidden) return;
     // Motion values are authored for 60 Hz. Scaling by elapsed time keeps the
     // sphere at the same speed on 60/120 Hz displays and after occasional
     // dropped frames without allowing a large jump after a hidden tab resumes.
@@ -1012,7 +1028,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const displayY = state.autoRotationY + state.wheelCurrentY;
 
     sphere.style.transform = `rotateX(${displayX}deg) rotateY(${displayY}deg)`;
-    requestAnimationFrame(animate);
+    sphereAnimationFrame = requestAnimationFrame(animate);
   }
 
   wrap.addEventListener('pointerdown', (event) => {
@@ -1132,7 +1148,56 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener('load', () => {
     window.setTimeout(hydrateDeferredCardImages, 250);
   }, { once: true });
-  if (!reduceMotion) requestAnimationFrame(animate);
+
+  if ('IntersectionObserver' in window) {
+    const sphereObserver = new IntersectionObserver((entries) => {
+      sphereIsVisible = entries[0]?.isIntersecting !== false;
+      if (sphereIsVisible) startSphereAnimation();
+      else stopSphereAnimation();
+    }, { rootMargin: '120px 0px', threshold: 0 });
+    sphereObserver.observe(wrap);
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopSphereAnimation();
+    else startSphereAnimation();
+  });
+  startSphereAnimation();
+})();
+
+// Start the trusted-client rail only after its lazy logos are decoded. This
+// prevents image decode work from interrupting an already-moving compositor
+// animation when the rail first approaches the viewport.
+(function () {
+  document.querySelectorAll('.home-proof-simple-logo-slider').forEach((slider) => {
+    const images = [...slider.querySelectorAll('img')];
+    let ready = false;
+    const markReady = () => {
+      if (ready) return;
+      ready = true;
+      requestAnimationFrame(() => slider.classList.add('is-ready'));
+    };
+    const decodes = images.map((image) => {
+      if (image.complete) return typeof image.decode === 'function' ? image.decode().catch(() => {}) : Promise.resolve();
+      return new Promise((resolve) => {
+        image.addEventListener('load', resolve, { once: true });
+        image.addEventListener('error', resolve, { once: true });
+      }).then(() => typeof image.decode === 'function' ? image.decode().catch(() => {}) : undefined);
+    });
+    Promise.allSettled(decodes).then(markReady);
+    const preloadLogos = () => images.forEach((image) => { image.loading = 'eager'; });
+    if ('IntersectionObserver' in window) {
+      const preloadObserver = new IntersectionObserver((entries, observer) => {
+        if (!entries[0]?.isIntersecting) return;
+        preloadLogos();
+        observer.disconnect();
+      }, { rootMargin: '500px 0px', threshold: 0 });
+      preloadObserver.observe(slider);
+    } else {
+      preloadLogos();
+    }
+    if (!images.length) markReady();
+  });
 })();
 
 // Upgrade 166 — stable accordions across the site.

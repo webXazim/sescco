@@ -21,6 +21,7 @@ IMAGE_FIELDS = (
     ("services", "ServiceListPageSettings", "hero_image", (1920, 1200)),
     ("projects", "Project", "cover_image", (1600, 1200)),
     ("projects", "ProjectListPageSettings", "hero_image", (1920, 1200)),
+    ("clients", "Client", "logo", (600, 320), 50_000),
     ("clients", "TrustPageSettings", "hero_image", (1920, 1200)),
     ("documents", "DownloadsPageSettings", "hero_image", (1920, 1200)),
     ("careers", "CareerPageSettings", "hero_image", (1920, 1200)),
@@ -43,7 +44,9 @@ class Command(BaseCommand):
         converted = 0
         saved_bytes = 0
 
-        for app_label, model_name, field_name, max_size in IMAGE_FIELDS:
+        for field_config in IMAGE_FIELDS:
+            app_label, model_name, field_name, max_size, *field_minimum = field_config
+            minimum_for_field = max(50_000, field_minimum[0] if field_minimum else minimum)
             model = apps.get_model(app_label, model_name)
             queryset = model.objects.exclude(**{field_name: ""}).exclude(
                 **{f"{field_name}__isnull": True}
@@ -56,7 +59,7 @@ class Command(BaseCommand):
                     original_size = image_field.size
                 except (FileNotFoundError, OSError, ValueError):
                     continue
-                if original_size < minimum:
+                if original_size < minimum_for_field:
                     continue
 
                 try:
