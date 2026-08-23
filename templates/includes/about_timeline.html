@@ -13,8 +13,6 @@
             <p>{% localized item 'description' %}</p>
           </div>
         {% endif %}
-      {% empty %}
-        <p>{% static_text "Add timeline items from Django admin." %}</p>
       {% endfor %}
     </div>
   </div>

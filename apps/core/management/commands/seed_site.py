@@ -31,8 +31,8 @@ from apps.inquiries.models import InquirySubject, ContactPageSettings
 from apps.seo.models import RobotsSettings, SchemaMarkup
 
 
-SESCCO_PLUS_CODE = 'C3FW+Q7V'
-SESCCO_LOCATION = 'C3FW+Q7V, Dammam, Saudi Arabia'
+SESCCO_ADDRESS = '6619, King Fahd Road, Office - 05, Dammam - 32243 - 3404, KSA'
+SESCCO_LOCATION = SESCCO_ADDRESS
 SESCCO_MAP_URL = 'https://maps.app.goo.gl/QD8iU89NpRodzpeA9'
 SESCCO_MAP_EMBED_URL = 'https://www.google.com/maps?q=26.4244875%2C50.0956719&z=17&output=embed'
 
@@ -538,23 +538,23 @@ class Command(BaseCommand):
 
         career_page_settings = up(CareerPageSettings, {'id':1}, eyebrow='Careers', hero_title='Build Your Career with SESCCO', hero_subtitle='Explore open positions, apply online and join a team committed to safe, reliable engineering execution.', hero_primary_button_text='View Open Jobs', hero_primary_button_url='#open-roles', hero_secondary_button_text='Contact HR', hero_secondary_button_url='/contact/?type=career', meta_title='Careers | SESCCO', meta_description='Explore career opportunities at SESCCO and apply online with your CV and supporting documents.', intro_eyebrow='Open Opportunities', intro_title='Find the right role for your next step', intro_text='We review every application carefully and invite shortlisted candidates for interview through official email.', empty_jobs_title='No open jobs found', empty_jobs_text='Try another search or check again later for new opportunities.', benefits_eyebrow='Why Work With Us', benefits_title='A practical environment for serious professionals', benefits_text='SESCCO career opportunities are built around project readiness, safe execution, technical growth and reliable teamwork.', process_eyebrow='Hiring Process', process_title='Simple hiring process', process_text='Apply, get reviewed, attend the interview and join the project team.', form_help_title='Before submitting', form_help_text='Prepare a clear CV and attach documents that support the role. Make sure your email and phone number are correct.', application_guide_title='Application checklist', application_guide_text='Use PDF, DOC or DOCX files only. Shortlisted applicants will receive interview details by email.', applicant_profile_title='Applicant profile', applicant_profile_text='Add your location, work authorization, experience and useful profile links so HR can review the application faster.', document_upload_title='Application documents', document_upload_text='Upload your CV and any supporting certificates, licenses or project documents as PDF, DOC or DOCX files. Multiple additional documents are supported.', duplicate_application_title='Application already submitted', duplicate_application_text='You have already applied to this post with this email. Please contact HR if you need to update your application.', privacy_notice='Your information will only be used for recruitment review and official communication about this application.', success_eyebrow='Application Submitted', success_title='Thank you for applying.', success_text='Your application has been received. Our HR team will review your CV and documents. Shortlisted applicants will receive an interview invitation by email.', show_filters=True, show_stats=True, show_benefits=True, show_process=True, show_cta=True, cta_title='Didn’t find the exact role?', cta_text='Check this page again soon or contact our HR team for future opportunities.', cta_button_text='Contact HR', cta_button_url='/contact/?type=career', recruitment_email='hr@sescco.com', email_from_name='SESCCO HR Team', email_verification_subject=DEFAULT_EMAIL_VERIFICATION_SUBJECT, email_verification_body=DEFAULT_EMAIL_VERIFICATION_BODY, interview_email_subject=DEFAULT_INTERVIEW_EMAIL_SUBJECT, interview_email_body=DEFAULT_INTERVIEW_EMAIL_BODY, rejection_email_subject=DEFAULT_REJECTION_EMAIL_SUBJECT, rejection_email_body=DEFAULT_REJECTION_EMAIL_BODY)
         attach_seed_file(career_page_settings, 'hero_image', 'static/img/seed/page-heroes/engineering_discussion_in_modern_factory.webp', 'careers-hero.webp')
-        for order, (value, label, desc, icon) in enumerate([('3+', 'Active departments', 'Engineering, HSE & Quality, and Administration opportunities.', '▣'), ('100%', 'Online application', 'Applicants can submit CVs and documents directly from the job page.', '↗'), ('Email', 'Interview invite', 'Shortlisted applicants receive official invitation details by email.', '✉')], 1):
+        CareerStat.objects.exclude(label__in=['Open positions', 'Online application', 'Interview invite']).update(is_active=False)
+        for order, (value, label, desc, icon) in enumerate([('2', 'Open positions', 'Current opportunities for qualified electrical professionals.', '▣'), ('100%', 'Online application', 'Applicants can submit CVs and documents directly from the job page.', '↗'), ('Email', 'Interview invite', 'Shortlisted applicants receive official invitation details by email.', '✉')], 1):
             up(CareerStat, {'label': label}, value=value, description=desc, icon_text=icon, show_on_hero=True, sort_order=order, is_active=True)
-        for order, (title, desc, icon) in enumerate([('Project-ready environment', 'Work with teams focused on practical execution, coordination and dependable delivery.', '🏗'), ('Safety and quality focus', 'Build your career in a workplace that respects safe work practices and quality standards.', '✓'), ('Clear review workflow', 'Applications, documents and interview invitations are managed through a structured admin process.', '📄')], 1):
+        for order, (title, desc, icon) in enumerate([('Project-ready environment', 'Work with teams focused on practical execution, coordination and dependable delivery.', '🏗'), ('Safety and quality focus', 'Build your career in a workplace that respects safe work practices and quality standards.', '✓'), ('Clear review workflow', 'Applications, documents and interview invitations follow a structured and professional recruitment process.', '📄')], 1):
             up(CareerBenefit, {'title': title}, description=desc, icon_text=icon, sort_order=order, is_active=True)
-        for order, (number, title, desc) in enumerate([('01', 'Apply Online', 'Submit your CV and supporting documents through the job page.'), ('02', 'Admin Review', 'HR reviews applicants inside the admin panel and checks documents.'), ('03', 'Interview Invite', 'Shortlisted applicants receive interview date, location and instructions by email.'), ('04', 'Selection', 'Final candidates are selected according to role requirements and project needs.')], 1):
+        CareerProcessStep.objects.exclude(step_number__in=['01', '02', '03', '04']).update(is_active=False)
+        for order, (number, title, desc) in enumerate([('01', 'Apply Online', 'Submit your CV and supporting documents through the job page.'), ('02', 'HR Review', 'Our HR team assesses each application against the role requirements.'), ('03', 'Interview Invite', 'Shortlisted applicants receive interview date, location and instructions by email.'), ('04', 'Selection', 'Final candidates are selected according to role requirements and project needs.')], 1):
             up(CareerProcessStep, {'step_number': number}, title=title, description=desc, sort_order=order, is_active=True)
         career_departments = [
-            ('engineering', 'Engineering', 'Electrical, civil, mechanical and project engineering roles.'),
-            ('hse-quality', 'HSE & Quality', 'Safety, quality and compliance-focused roles.'),
-            ('administration', 'Administration', 'Office, HR, document control and support roles.'),
+            ('engineering', 'Electrical Engineering', 'Electrical engineering, power systems and specialist cable-services roles.'),
         ]
         department_map = {}
         for order, (slug, name, desc) in enumerate(career_departments, 1):
             department_map[slug] = up(CareerDepartment, {'slug': slug}, name=name, description=desc, sort_order=order, is_active=True)
         sample_jobs = [
             {
-                "title": "Electrical Site Engineer",
+                "title": "Electrical Engineer",
                 "code": "SES-ENG-001",
                 "dept": "engineering",
                 "location": "Dammam, Saudi Arabia",
@@ -564,59 +564,41 @@ class Command(BaseCommand):
                 "exp": "3+ years",
                 "salary": "",
                 "show_salary": False,
-                "summary": "Lead site electrical work coordination, drawing review and daily execution support for industrial projects.",
-                "description": "The Electrical Site Engineer supports daily execution, drawing coordination, material follow-up and site reporting for SESCCO project teams.\n\nThe role requires practical site coordination, discipline, safety awareness and clear communication with supervisors, QA/QC and client representatives.",
+                "summary": "Coordinate electrical engineering activities, review technical documents and support safe project execution.",
+                "description": "The Electrical Engineer supports project planning, technical review, site coordination, material follow-up and progress reporting for SESCCO projects.\n\nThe role requires sound electrical engineering knowledge, practical judgment, safety awareness and professional communication with project stakeholders.",
                 "resp": "Coordinate daily site electrical activities.\nReview drawings, material requirements and work fronts.\nCoordinate with supervisors, QA/QC and client representatives.\nPrepare progress updates and support safe work execution.",
-                "req": "Degree or diploma in Electrical Engineering.\nMinimum 3 years of site experience.\nStrong knowledge of drawings, materials and site coordination.\nGood communication and documentation skills.",
-                "qual": "Electrical engineering degree or diploma.\nSaudi project site experience preferred.\nAbility to read drawings and technical documents.",
+                "req": "Bachelor's degree in Electrical Engineering.\nMinimum 3 years of relevant project or site experience.\nStrong knowledge of electrical drawings, materials and site coordination.\nGood communication and technical documentation skills.",
+                "qual": "Recognized electrical engineering qualification.\nSaudi project experience is preferred.\nAbility to interpret drawings, specifications and technical documents.",
                 "skills": "Site coordination.\nDrawing review.\nDaily reporting.\nSafety communication.",
                 "benefits": "Competitive package according to experience.\nProfessional project environment.\nOpportunity to work on industrial and infrastructure projects.",
                 "order": 1,
                 "featured": True,
             },
             {
-                "title": "HSE Officer",
-                "code": "SES-HSE-002",
-                "dept": "hse-quality",
-                "location": "Eastern Province, Saudi Arabia",
+                "title": "MV Cable Splicer",
+                "code": "SES-ELC-002",
+                "dept": "engineering",
+                "location": "Dammam, Saudi Arabia",
                 "emp_type": "full_time",
                 "work_mode": "site",
-                "job_level": "mid",
-                "exp": "2+ years",
+                "job_level": "senior",
+                "exp": "5+ years",
                 "salary": "",
                 "show_salary": False,
-                "summary": "Support site safety implementation, inspections, toolbox talks and safety documentation.",
-                "description": p("The HSE Officer supports safe work practices at project sites through inspections, toolbox talks, reporting and follow-up with the site team.", "This role is suitable for candidates who are organized, practical and committed to maintaining safety standards on active construction or industrial sites."),
-                "resp": "Conduct site safety inspections and observations.\nSupport toolbox talks and safety briefings.\nMaintain safety records and support incident reporting.\nCoordinate with project teams to close safety actions.",
-                "req": "Diploma or relevant safety qualification.\nNEBOSH / OSHA certificate preferred.\nExperience in construction or industrial project sites.\nGood reporting and communication skills.",
-                "qual": "Relevant safety certificate preferred.\nKnowledge of site safety documentation.\nAbility to communicate with workers and supervisors.",
-                "skills": "Inspection reporting.\nToolbox talk support.\nIncident documentation.\nCorrective action follow-up.",
-                "benefits": "Safety-focused working culture.\nProject exposure across Saudi Arabia.\nGrowth opportunity within HSE function.",
+                "summary": "Perform medium-voltage cable jointing, termination and testing in accordance with approved procedures and safety standards.",
+                "description": p("The MV Cable Splicer performs installation, jointing and termination of medium-voltage power cables for industrial and infrastructure projects.", "The role requires proven field competence, strict adherence to manufacturer instructions and safety procedures, and accurate completion of testing and work records."),
+                "resp": "Prepare, splice and terminate MV cables using approved kits and procedures.\nInspect cable condition and verify phase identification before work.\nSupport insulation, continuity and commissioning tests.\nMaintain tools, jointing materials and accurate work records.\nComply with permit-to-work, quality and safety requirements.",
+                "req": "Minimum 5 years of relevant MV cable jointing and termination experience.\nDemonstrated experience with common MV cable types and accessories.\nAbility to read cable schedules, drawings and manufacturer instructions.\nStrong safety awareness and attention to detail.",
+                "qual": "Recognized MV cable splicing or jointing certification.\nManufacturer certification is preferred.\nSaudi industrial or utility project experience is an advantage.",
+                "skills": "MV cable jointing.\nCable termination.\nCable preparation and testing.\nTechnical documentation.\nSafe work practices.",
+                "benefits": "Competitive package according to qualifications and experience.\nProfessional project environment.\nOpportunity to support major industrial and infrastructure projects.",
                 "order": 2,
                 "featured": True,
             },
-            {
-                "title": "Document Controller",
-                "code": "SES-ADM-003",
-                "dept": "administration",
-                "location": "Dammam Office",
-                "emp_type": "full_time",
-                "work_mode": "office",
-                "job_level": "junior",
-                "exp": "1+ years",
-                "salary": "",
-                "show_salary": False,
-                "summary": "Manage project documents, submissions, registers and controlled records for the engineering team.",
-                "description": p("The Document Controller maintains organized project documents, registers, submissions and revision tracking for office and project teams.", "The role requires accuracy, file discipline, Excel knowledge and professional follow-up with internal departments."),
-                "resp": "Maintain incoming and outgoing document registers.\nControl revisions, submissions and approvals.\nCoordinate with project and admin teams.\nKeep digital and physical records organized.",
-                "req": "Experience with document control or project administration.\nStrong Excel and file management skills.\nAttention to detail and professional communication.\nArabic and English communication preferred.",
-                "qual": "Diploma or office administration background preferred.\nDocument control experience is an advantage.\nGood computer and filing skills.",
-                "skills": "Excel registers.\nFile naming and archiving.\nEmail coordination.\nSubmission tracking.",
-                "benefits": "Office-based role.\nStructured document workflow.\nLong-term growth in project administration.",
-                "order": 3,
-                "featured": False,
-            },
         ]
+        retained_job_slugs = {slugify(job['title']) for job in sample_jobs}
+        JobOpening.objects.exclude(slug__in=retained_job_slugs).update(status='closed', is_active=False)
+        CareerDepartment.objects.exclude(slug__in={item[0] for item in career_departments}).update(is_active=False)
         for job in sample_jobs:
             up(
                 JobOpening,
@@ -676,9 +658,9 @@ class Command(BaseCommand):
         up(
             OfficeLocation,
             {'name': 'Main Office'},
-            address=SESCCO_PLUS_CODE,
-            city='Dammam',
-            country='Saudi Arabia',
+            address=SESCCO_ADDRESS,
+            city='',
+            country='',
             phone='',
             email='info@sescco.com',
             map_embed_url=SESCCO_MAP_EMBED_URL,
@@ -792,7 +774,7 @@ class Command(BaseCommand):
             )
             up(GenericPageSettings, {"page": page_obj}, show_breadcrumbs=False, show_cta=True, content_width="standard", sidebar_enabled=False)
             up(PageSection, {"page": page_obj, "section_type": "cta", "title": "Need more information?"}, subtitle="Our team can share the right document or service details for your requirement.", content="<p>Contact SESCCO with your project, document or qualification request and the team will respond with the appropriate information.</p>", button_text="Contact Us", button_url="/contact/", sort_order=1, is_active=True)
-            up(FAQ, {"page": page_obj, "question": "Can this information be updated from admin?"}, answer=p("Yes. This page and its custom CMS sections can be edited from the Django admin panel."), sort_order=1, is_active=True)
+            FAQ.objects.filter(page=page_obj, question__icontains="updated from admin").delete()
 
         source_depth_project_titles = {
             "Dismantling and Transportation of TFC at Haradh",

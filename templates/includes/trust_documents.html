@@ -9,7 +9,7 @@
         <span class="eyebrow">{% static_text "Company Documents" %}</span>
         <h2>{% static_text "Supporting documents, ready when needed." %}</h2>
       </div>
-      <p>{% static_text "Public company files can be downloaded directly. Sensitive official documents can be marked request-only from admin." %}</p>
+      <p>{% static_text "Public company documents are available for direct download. Controlled documents may be requested from our team." %}</p>
     </div>
 
     <div class="trust-document-grid">
@@ -47,7 +47,7 @@
             {% if doc.access_level == 'public' and not doc.requires_request and doc.file %}
               <a class="btn btn-primary" href="{% url 'download_file' doc.slug %}">{% static_text "Download document" %} ↓</a>
             {% elif doc.access_level == 'public' and not doc.requires_request and not doc.file %}
-              <span class="trust-document-note">{% static_text "File will appear here after admin upload." %}</span>
+              <span class="trust-document-note">{% static_text "Please contact our team to request this document." %}</span>
             {% else %}
               <a class="btn btn-outline" href="{% url 'document_request' %}?document={{ doc_title|urlencode }}">{% static_text "Request access" %}</a>
             {% endif %}

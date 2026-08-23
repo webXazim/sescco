@@ -120,12 +120,6 @@
             <h3>{{ company.short_name }}</h3>
             <p>{{ company.address }}</p>
           {% endif %}
-          {% if request.user.is_staff %}
-          <div class="contact-map-actions-note">
-            <strong>{% static_text "Admin note" %}</strong>
-            <small>{% static_text "The map and directions link are controlled from Contact Page Settings in admin." %}</small>
-          </div>
-          {% endif %}
           {% if contact_map_url %}<a class="btn btn-primary" href="{{ contact_map_url }}" target="_blank" rel="noopener">{% localized_plain contact_settings 'map_button_text' %}</a>{% endif %}
         </aside>
       </div>

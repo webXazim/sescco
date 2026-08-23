@@ -1820,6 +1820,25 @@ for _lang in ("ar", "zh-hans"):
     VISIBLE_CMS_FALLBACK_TRANSLATIONS.setdefault(_lang, {}).update(STATIC_TRANSLATIONS.get(_lang, {}))
 
 
+# Production-facing wording for public career, project and document states.
+STATIC_TRANSLATIONS.setdefault("ar", {}).update({
+    "Your application and supporting documents have been received securely.": "تم استلام طلبك ومستنداتك الداعمة بأمان.",
+    "Our HR team will assess your qualifications against the role requirements.": "سيقيّم فريق الموارد البشرية مؤهلاتك وفقاً لمتطلبات الوظيفة.",
+    "Public company documents are available for direct download. Controlled documents may be requested from our team.": "تتاح مستندات الشركة العامة للتنزيل المباشر، ويمكن طلب المستندات المقيدة من فريقنا.",
+    "Please contact our team to request this document.": "يرجى التواصل مع فريقنا لطلب هذا المستند.",
+    "Contact our team for additional project information.": "تواصل مع فريقنا للحصول على معلومات إضافية عن المشروع.",
+})
+STATIC_TRANSLATIONS.setdefault("zh-hans", {}).update({
+    "Your application and supporting documents have been received securely.": "您的申请和支持文件已安全收到。",
+    "Our HR team will assess your qualifications against the role requirements.": "我们的人力资源团队将根据职位要求评估您的资历。",
+    "Public company documents are available for direct download. Controlled documents may be requested from our team.": "公开公司文件可直接下载；受控文件可向我们的团队申请。",
+    "Please contact our team to request this document.": "请联系我们的团队申请此文件。",
+    "Contact our team for additional project information.": "如需更多项目信息，请联系我们的团队。",
+})
+for _lang in ("ar", "zh-hans"):
+    VISIBLE_CMS_FALLBACK_TRANSLATIONS.setdefault(_lang, {}).update(STATIC_TRANSLATIONS.get(_lang, {}))
+
+
 STATIC_TRANSLATIONS.setdefault("ar", {}).update({
     "Abahsain Consolidating Co.": "أبهسين كونسوليديتنغ كو.",
     "Al Rajhi Bank": "الراجحي بنك",

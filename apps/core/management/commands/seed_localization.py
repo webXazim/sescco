@@ -305,7 +305,7 @@ class Command(BaseCommand):
         if cps:
             many(cps,'ar',{'eyebrow':'اتصل بنا','hero_title':'تواصل مع SESCCO بثقة.','hero_subtitle':'أرسل متطلباتك أو اعرض موقعنا أو تواصل مع الفريق المناسب من صفحة اتصال واضحة ومنظمة.','intro_title':'ابدأ استفسار مشروعك بوضوح.','intro_text':'استخدم النموذج لمشاركة متطلبات مشروعك. تم فصل طرق التواصل والخريطة ومعلومات المكتب حتى لا يرى الزائر محتوى مكرراً.','map_eyebrow':'موقعنا','map_title':'اعثر على SESCCO في خرائط Google.','map_subtitle':'استخدم عرض الخريطة الكبير لتحديد موقع المكتب وفتح الاتجاهات مباشرة في خرائط Google.','map_button_text':'فتح في خرائط Google'})
             many(cps,'zh-hans',{'eyebrow':'联系我们','hero_title':'放心联系 SESCCO。','hero_subtitle':'通过清晰的联系页面提交需求、查看位置或联系合适团队。','intro_title':'清晰提交您的项目咨询。','intro_text':'使用表单分享您的项目需求。联系方式、地图和办公室信息分开展示，避免访客看到重复内容。','map_eyebrow':'找到我们','map_title':'在 Google 地图中查找 SESCCO。','map_subtitle':'使用大型地图查看办公室位置，并直接在 Google 地图中打开路线。','map_button_text':'在 Google 地图中打开'})
-        for office in OfficeLocation.objects.all(): many(office,'ar',{'name':'المكتب الرئيسي','address':'الدمام، المنطقة الشرقية، المملكة العربية السعودية','city':'الدمام','country':'المملكة العربية السعودية'}); many(office,'zh-hans',{'name':'总部办公室','address':'沙特阿拉伯东部省达曼','city':'达曼','country':'沙特阿拉伯'})
+        for office in OfficeLocation.objects.all(): many(office,'ar',{'name':'المكتب الرئيسي','address':'6619، طريق الملك فهد، مكتب 05، الدمام 32243-3404، المملكة العربية السعودية','city':'','country':''}); many(office,'zh-hans',{'name':'总部办公室','address':'沙特阿拉伯达曼 32243-3404，法赫德国王路 6619 号，05 室','city':'','country':''})
         for hour in BusinessHour.objects.all():
             if hour.day_label == 'Friday':
                 many(hour,'ar',{'day_label':'الجمعة','hours':'مغلق'}); many(hour,'zh-hans',{'day_label':'周五','hours':'休息'})
@@ -328,14 +328,14 @@ class Command(BaseCommand):
             many(cpset,'ar',{'eyebrow':'الوظائف','hero_title':'ابنِ مسارك المهني مع SESCCO','hero_subtitle':'استكشف الوظائف المتاحة، وقدّم عبر الإنترنت وانضم إلى فريق يلتزم بالتنفيذ الهندسي الآمن والموثوق.','hero_primary_button_text':'عرض الوظائف المتاحة','hero_secondary_button_text':'تواصل مع الموارد البشرية','meta_title':'الوظائف | SESCCO','meta_description':'استكشف فرص العمل في SESCCO وقدّم طلبك عبر الإنترنت مع السيرة الذاتية والمستندات الداعمة.','intro_eyebrow':'الفرص المتاحة','intro_title':'اعثر على الدور المناسب لخطوتك التالية','intro_text':'نراجع كل طلب بعناية وندعو المرشحين المختارين للمقابلة عبر البريد الإلكتروني الرسمي.','empty_jobs_title':'لا توجد وظائف مطابقة','empty_jobs_text':'جرّب بحثاً آخر أو راجع الصفحة لاحقاً لمعرفة الفرص الجديدة.','benefits_eyebrow':'لماذا تعمل معنا','benefits_title':'بيئة عملية للمهنيين الجادين','benefits_text':'تركز فرص SESCCO على الجاهزية للمشاريع والتنفيذ الآمن والنمو الفني والعمل الجماعي الموثوق.','process_eyebrow':'عملية التوظيف','process_title':'عملية توظيف بسيطة','process_text':'قدّم طلبك، تتم مراجعته، احضر المقابلة ثم انضم إلى فريق المشروع.','form_help_title':'قبل الإرسال','form_help_text':'جهّز سيرة ذاتية واضحة وأرفق المستندات التي تدعم الوظيفة. تأكد من صحة بريدك ورقم هاتفك.','application_guide_title':'قائمة التقديم','application_guide_text':'يفضل استخدام ملفات PDF أو DOCX. سيتلقى المرشحون المختارون تفاصيل المقابلة عبر البريد الإلكتروني.','applicant_profile_title':'ملف المتقدم','applicant_profile_text':'أضف موقعك وتصريح العمل والخبرة وروابط الملف الشخصي حتى يتمكن فريق الموارد البشرية من مراجعة الطلب بسرعة.','document_upload_title':'مستندات التقديم','document_upload_text':'ارفع السيرة الذاتية وأي شهادات أو تراخيص أو مستندات داعمة. يدعم النظام رفع عدة مستندات إضافية.','duplicate_application_title':'تم إرسال طلب سابقاً','duplicate_application_text':'لقد قدمت بالفعل على هذه الوظيفة باستخدام هذا البريد الإلكتروني. يرجى التواصل مع الموارد البشرية إذا كنت تحتاج إلى تحديث طلبك.','privacy_notice':'سيتم استخدام بياناتك فقط لمراجعة التوظيف والتواصل الرسمي بخصوص هذا الطلب.','success_eyebrow':'تم إرسال الطلب','success_title':'شكراً لتقديمك.','success_text':'تم استلام طلبك. سيقوم فريق الموارد البشرية بمراجعة سيرتك الذاتية ومستنداتك، وسيتم إرسال دعوة مقابلة للمرشحين المختارين عبر البريد الإلكتروني.','cta_title':'لم تجد الوظيفة المناسبة؟','cta_text':'راجع هذه الصفحة قريباً أو تواصل مع فريق الموارد البشرية للفرص المستقبلية.','cta_button_text':'تواصل مع الموارد البشرية','email_from_name':'فريق الموارد البشرية في SESCCO','email_verification_subject':'تحقق من بريدك الإلكتروني لطلب التوظيف','email_verification_body':'عزيزي المتقدم،\n\nاستخدم رمز التحقق التالي لإكمال طلب التوظيف لدى SESCCO:\n\n{{ code }}\n\nالوظيفة: {{ job.title }}\nينتهي هذا الرمز خلال {{ expiry_minutes }} دقيقة.\n\nإذا لم تطلب هذا الرمز، يمكنك تجاهل هذه الرسالة.\n\nمع التحية،\nفريق الموارد البشرية في SESCCO','interview_email_subject':'دعوة مقابلة — {{ job.title }}','interview_email_body':'عزيزي/عزيزتي {{ application.full_name }},\n\nشكراً لتقديمك على وظيفة {{ job.title }} في SESCCO.\n\nتم اختيارك لحضور مقابلة.\n\nرقم الطلب: {{ application.application_reference }}\n\nتفاصيل المقابلة:\nالوظيفة: {{ job.title }}\nالتاريخ والوقت: {{ application.interview_date|date:"l, F d, Y - h:i A" }}\nالنوع: {{ application.get_interview_mode_display }}\nالموقع / الرابط: {{ application.interview_location }}\n{% if application.interview_notes %}\nملاحظات إضافية:\n{{ application.interview_notes }}\n{% endif %}\nيرجى تجهيز السيرة الذاتية والهوية والشهادات ذات الصلة.\n\nمع التحية،\nفريق الموارد البشرية في SESCCO','rejection_email_subject':'تحديث بخصوص طلبك — {{ job.title }}','rejection_email_body':'عزيزي/عزيزتي {{ application.full_name }},\n\nشكراً لتقديمك على وظيفة {{ job.title }} في SESCCO.\n\nبعد مراجعة طلبك بعناية، لا يمكننا المتابعة بملفك لهذه الوظيفة في الوقت الحالي.\n\nرقم الطلب: {{ application.application_reference }}\n\n{% if rejection_reason %}ملاحظة من الموارد البشرية:\n{{ rejection_reason }}\n{% endif %}\nنقدر اهتمامك بـ SESCCO ونتمنى لك التوفيق.\n\nمع التحية،\nفريق الموارد البشرية في SESCCO'})
             many(cpset,'zh-hans',{'eyebrow':'招聘','hero_title':'与 SESCCO 一起发展职业生涯','hero_subtitle':'探索开放职位，在线申请，并加入致力于安全可靠工程执行的团队。','hero_primary_button_text':'查看开放职位','hero_secondary_button_text':'联系人力资源','meta_title':'招聘 | SESCCO','meta_description':'探索 SESCCO 职业机会，并在线提交简历和支持文件。','intro_eyebrow':'开放机会','intro_title':'找到适合您下一步的职位','intro_text':'我们认真审核每份申请，并通过官方电子邮件邀请入围候选人参加面试。','empty_jobs_title':'没有找到开放职位','empty_jobs_text':'请尝试其他搜索，或稍后查看新的机会。','benefits_eyebrow':'为什么加入我们','benefits_title':'适合专业人士的务实环境','benefits_text':'SESCCO 的职业机会围绕项目准备、安全执行、技术成长和可靠团队合作。','process_eyebrow':'招聘流程','process_title':'简单的招聘流程','process_text':'申请、审核、参加面试并加入项目团队。','form_help_title':'提交前','form_help_text':'请准备清晰的简历，并附上支持该职位的文件。确保电子邮件和电话号码正确。','application_guide_title':'申请清单','application_guide_text':'建议使用 PDF 或 DOCX 文件。入围申请人将通过电子邮件收到面试详情。','applicant_profile_title':'申请人资料','applicant_profile_text':'请添加您的所在地、工作许可、经验和个人资料链接，以便人力资源更快审核。','document_upload_title':'申请文件','document_upload_text':'上传简历以及相关证书、执照或项目支持文件。系统支持多个附加文件。','duplicate_application_title':'申请已提交','duplicate_application_text':'您已使用此电子邮件申请过该职位。如需更新申请，请联系人力资源。','privacy_notice':'您的信息仅用于招聘审核和有关此申请的正式沟通。','success_eyebrow':'申请已提交','success_title':'感谢您的申请。','success_text':'您的申请已收到。人力资源团队将审核您的简历和文件，入围者将通过电子邮件收到面试邀请。','cta_title':'没有找到合适职位？','cta_text':'请稍后再次查看本页面，或联系人力资源团队了解未来机会。','cta_button_text':'联系人力资源','email_from_name':'SESCCO 人力资源团队','email_verification_subject':'验证您的 SESCCO 职位申请邮箱','email_verification_body':'尊敬的申请人：\n\n请使用以下验证码继续您的 SESCCO 职位申请：\n\n{{ code }}\n\n职位：{{ job.title }}\n此验证码将在 {{ expiry_minutes }} 分钟后过期。\n\n如果您未请求此验证码，请忽略此邮件。\n\n此致，\nSESCCO 人力资源团队','interview_email_subject':'面试邀请 — {{ job.title }}','interview_email_body':'尊敬的 {{ application.full_name }}：\n\n感谢您申请 SESCCO 的 {{ job.title }} 职位。\n\n您已入围面试。\n\n申请编号：{{ application.application_reference }}\n\n面试详情：\n职位：{{ job.title }}\n日期和时间：{{ application.interview_date|date:"l, F d, Y - h:i A" }}\n方式：{{ application.get_interview_mode_display }}\n地点 / 会议链接：{{ application.interview_location }}\n{% if application.interview_notes %}\n补充说明：\n{{ application.interview_notes }}\n{% endif %}\n请准备好简历、身份证明和相关证书。\n\n此致，\nSESCCO 人力资源团队','rejection_email_subject':'申请进展更新 — {{ job.title }}','rejection_email_body':'尊敬的 {{ application.full_name }}：\n\n感谢您申请 SESCCO 的 {{ job.title }} 职位。\n\n经过认真审核，我们目前无法继续推进您此职位的申请。\n\n申请编号：{{ application.application_reference }}\n\n{% if rejection_reason %}人力资源备注：\n{{ rejection_reason }}\n{% endif %}\n感谢您对 SESCCO 的关注，欢迎未来申请合适机会。\n\n此致，\nSESCCO 人力资源团队'})
         for stat in CareerStat.objects.all():
-            stat_ar={'Active departments':('الأقسام المتاحة','الهندسة والسلامة والجودة والإدارة.'),'Online application':('تقديم إلكتروني','يمكن للمتقدمين إرسال السير الذاتية والمستندات من صفحة الوظيفة.'),'Interview invite':('دعوة المقابلة','يتلقى المرشحون المختارون تفاصيل الدعوة الرسمية عبر البريد الإلكتروني.')}.get(stat.label)
-            stat_zh={'Active departments':('开放部门','工程、安全质量和行政机会。'),'Online application':('在线申请','申请人可直接从职位页面提交简历和文件。'),'Interview invite':('面试邀请','入围申请人将通过电子邮件收到正式邀请详情。')}.get(stat.label)
+            stat_ar={'Open positions':('الوظائف المتاحة','فرص حالية للمختصين المؤهلين في مجال الكهرباء.'),'Online application':('تقديم إلكتروني','يمكن للمتقدمين إرسال السير الذاتية والمستندات من صفحة الوظيفة.'),'Interview invite':('دعوة المقابلة','يتلقى المرشحون المختارون تفاصيل الدعوة الرسمية عبر البريد الإلكتروني.')}.get(stat.label)
+            stat_zh={'Open positions':('开放职位','面向合格电气专业人员的当前机会。'),'Online application':('在线申请','申请人可直接从职位页面提交简历和文件。'),'Interview invite':('面试邀请','入围申请人将通过电子邮件收到正式邀请详情。')}.get(stat.label)
             if stat_ar: many(stat,'ar',{'label':stat_ar[0],'description':stat_ar[1]})
             if stat_zh: many(stat,'zh-hans',{'label':stat_zh[0],'description':stat_zh[1]})
         benefit_map = {
             'Project-ready environment': ({'title':'بيئة جاهزة للمشاريع','description':'اعمل مع فرق تركز على التنفيذ العملي والتنسيق والتسليم الموثوق.'}, {'title':'项目就绪环境','description':'与专注于实际执行、协调和可靠交付的团队合作。'}),
             'Safety and quality focus': ({'title':'تركيز على السلامة والجودة','description':'ابنِ مسارك المهني في مكان عمل يحترم ممارسات السلامة ومعايير الجودة.'}, {'title':'重视安全与质量','description':'在尊重安全工作实践和质量标准的环境中发展职业生涯。'}),
-            'Clear review workflow': ({'title':'آلية مراجعة واضحة','description':'تتم إدارة الطلبات والمستندات ودعوات المقابلة من خلال عملية إدارية منظمة.'}, {'title':'清晰的审核流程','description':'申请、文件和面试邀请通过结构化后台流程管理。'}),
+            'Clear review workflow': ({'title':'آلية مراجعة واضحة','description':'تتبع الطلبات والمستندات ودعوات المقابلة عملية توظيف منظمة ومهنية.'}, {'title':'清晰的审核流程','description':'申请、文件和面试邀请均遵循规范专业的招聘流程。'}),
         }
         for benefit in CareerBenefit.objects.all():
             values = benefit_map.get(benefit.title)
@@ -343,7 +343,7 @@ class Command(BaseCommand):
                 ar_map, zh_map = values; many(benefit,'ar',ar_map); many(benefit,'zh-hans',zh_map)
         process_map = {
             'Apply Online': ({'title':'التقديم عبر الإنترنت','description':'أرسل سيرتك الذاتية والمستندات الداعمة من صفحة الوظيفة.'}, {'title':'在线申请','description':'通过职位页面提交简历和支持文件。'}),
-            'Admin Review': ({'title':'مراجعة الإدارة','description':'يراجع فريق الموارد البشرية الطلبات والمستندات من لوحة الإدارة.'}, {'title':'后台审核','description':'人力资源团队在后台审核申请人和文件。'}),
+            'HR Review': ({'title':'مراجعة الموارد البشرية','description':'يقيّم فريق الموارد البشرية كل طلب وفقاً لمتطلبات الوظيفة.'}, {'title':'人力资源审核','description':'人力资源团队将根据职位要求评估每份申请。'}),
             'Interview Invite': ({'title':'دعوة المقابلة','description':'يتلقى المرشحون المختارون تاريخ ومكان وتعليمات المقابلة عبر البريد الإلكتروني.'}, {'title':'面试邀请','description':'入围申请人将通过电子邮件收到面试日期、地点和说明。'}),
             'Selection': ({'title':'الاختيار','description':'يتم اختيار المرشحين النهائيين حسب متطلبات الوظيفة واحتياجات المشروع.'}, {'title':'录用选择','description':'最终候选人根据职位要求和项目需要选择。'}),
         }
@@ -352,11 +352,11 @@ class Command(BaseCommand):
             if values:
                 ar_map, zh_map = values; many(step,'ar',ar_map); many(step,'zh-hans',zh_map)
         for dept in CareerDepartment.objects.all():
-            dept_ar={'Engineering':'الهندسة','HSE & Quality':'السلامة والجودة','Administration':'الإدارة'}.get(dept.name, dept.name)
-            dept_zh={'Engineering':'工程','HSE & Quality':'安全与质量','Administration':'行政'}.get(dept.name, dept.name)
+            dept_ar={'Electrical Engineering':'الهندسة الكهربائية','Engineering':'الهندسة','HSE & Quality':'السلامة والجودة','Administration':'الإدارة'}.get(dept.name, dept.name)
+            dept_zh={'Electrical Engineering':'电气工程','Engineering':'工程','HSE & Quality':'安全与质量','Administration':'行政'}.get(dept.name, dept.name)
             many(dept,'ar',{'name':dept_ar,'description':'قسم للفرص الوظيفية في SESCCO.'}); many(dept,'zh-hans',{'name':dept_zh,'description':'SESCCO 职业机会部门。'})
         job_ar_map = {
-            "Electrical Site Engineer": {
+            "Electrical Engineer": {
                 "title": "مهندس كهرباء موقع",
                 "summary": "تنسيق أعمال الكهرباء في الموقع ومراجعة الرسومات ودعم التنفيذ اليومي للمشاريع الصناعية.",
                 "job_description": "يدعم مهندس الكهرباء الميداني التنفيذ اليومي وتنسيق الرسومات ومتابعة المواد وإعداد تقارير الموقع لفرق مشاريع SESCCO.\n\nتتطلب الوظيفة تنسيقاً عملياً في الموقع وانضباطاً ووعياً بالسلامة وتواصلاً واضحاً مع المشرفين وفريق الجودة وممثلي العميل.",
@@ -367,6 +367,18 @@ class Command(BaseCommand):
                 "benefits": "حزمة تنافسية حسب الخبرة.\nبيئة مشاريع احترافية.\nفرصة للعمل في مشاريع صناعية وبنية تحتية.",
                 "location": "الدمام، المملكة العربية السعودية",
                 "experience_level": "3 سنوات فأكثر",
+            },
+            "MV Cable Splicer": {
+                "title": "فني وصل كابلات جهد متوسط",
+                "summary": "تنفيذ وصل وإنهاء واختبار كابلات الجهد المتوسط وفق الإجراءات المعتمدة ومعايير السلامة.",
+                "job_description": "ينفذ فني كابلات الجهد المتوسط أعمال التركيب والوصل والإنهاء لكابلات الطاقة في المشاريع الصناعية ومشاريع البنية التحتية.\n\nتتطلب الوظيفة خبرة ميدانية مثبتة والتزاماً صارماً بتعليمات الشركة المصنعة وإجراءات السلامة.",
+                "responsibilities": "تجهيز ووصل وإنهاء كابلات الجهد المتوسط.\nفحص حالة الكابل والتحقق من تعريف الأطوار.\nدعم اختبارات العزل والاستمرارية والتشغيل.\nالالتزام بمتطلبات السلامة والجودة.",
+                "requirements": "خبرة لا تقل عن 5 سنوات في وصل وإنهاء كابلات الجهد المتوسط.\nخبرة عملية بأنواع الكابلات وملحقاتها الشائعة.\nالقدرة على قراءة الرسومات وتعليمات المصنع.",
+                "qualifications": "شهادة معتمدة في وصل كابلات الجهد المتوسط.\nيفضل الحصول على شهادة من الشركة المصنعة.",
+                "skills": "وصل كابلات الجهد المتوسط.\nإنهاء الكابلات.\nتجهيز واختبار الكابلات.\nممارسات العمل الآمن.",
+                "benefits": "حزمة تنافسية حسب المؤهلات والخبرة.\nبيئة مشاريع مهنية.",
+                "location": "الدمام، المملكة العربية السعودية",
+                "experience_level": "5 سنوات فأكثر",
             },
             "HSE Officer": {
                 "title": "مسؤول السلامة والصحة المهنية",
@@ -394,7 +406,7 @@ class Command(BaseCommand):
             },
         }
         job_zh_map = {
-            "Electrical Site Engineer": {
+            "Electrical Engineer": {
                 "title": "现场电气工程师",
                 "summary": "负责工业项目现场电气工作协调、图纸审核和日常执行支持。",
                 "job_description": "现场电气工程师为 SESCCO 项目团队提供日常执行、图纸协调、材料跟进和现场报告支持。\n\n该岗位需要实际现场协调能力、纪律意识、安全意识，并能与主管、QA/QC 和客户代表清晰沟通。",
@@ -405,6 +417,18 @@ class Command(BaseCommand):
                 "benefits": "根据经验提供有竞争力的待遇。\n专业项目环境。\n有机会参与工业和基础设施项目。",
                 "location": "沙特阿拉伯达曼",
                 "experience_level": "3 年以上",
+            },
+            "MV Cable Splicer": {
+                "title": "中压电缆接续工",
+                "summary": "按照批准的程序和安全标准完成中压电缆接续、终端和测试。",
+                "job_description": "中压电缆接续工负责工业和基础设施项目中中压电力电缆的安装、接续和终端制作。\n\n该岗位要求具备经过验证的现场能力，严格遵守制造商指导和安全程序。",
+                "responsibilities": "按照批准的工艺准备、接续和终端处理中压电缆。\n检查电缆状况并核对相位标识。\n支持绝缘、导通和调试测试。\n遵守作业许可、质量和安全要求。",
+                "requirements": "至少 5 年中压电缆接续和终端相关经验。\n熟悉常见中压电缆类型和附件。\n能够阅读电缆表、图纸和制造商说明。",
+                "qualifications": "持有认可的中压电缆接续资质。\n有制造商认证者优先。",
+                "skills": "中压电缆接续。\n电缆终端制作。\n电缆准备与测试。\n安全作业实践。",
+                "benefits": "根据资质和经验提供有竞争力的待遇。\n专业的项目环境。",
+                "location": "沙特阿拉伯达曼",
+                "experience_level": "5 年以上",
             },
             "HSE Officer": {
                 "title": "HSE 安全员",
@@ -437,7 +461,7 @@ class Command(BaseCommand):
             ar_base = {
                 'title': ar.get('title', f"فرصة وظيفية: {job.title}"),
                 'summary': ar.get('summary', 'فرصة وظيفية لدى SESCCO للمرشحين المؤهلين.'),
-                'job_description': ar.get('job_description', 'هذه وظيفة منشورة من خلال نظام الوظائف القابل للإدارة في SESCCO ويمكن تحديث تفاصيلها من لوحة التحكم.'),
+                'job_description': ar.get('job_description', 'فرصة مهنية للمرشحين المؤهلين للمساهمة في مشاريع SESCCO وفق معايير السلامة والجودة.'),
                 'responsibilities': ar.get('responsibilities', 'تنفيذ مسؤوليات الوظيفة حسب متطلبات المشروع.\nالتنسيق مع فريق العمل والإدارة.\nالالتزام بمعايير السلامة والجودة.'),
                 'requirements': ar.get('requirements', 'خبرة مناسبة حسب متطلبات الوظيفة.\nمهارات تواصل وتوثيق جيدة.\nالالتزام بمتطلبات الموقع والمشروع.'),
                 'qualifications': ar.get('qualifications', 'مؤهل مناسب لطبيعة الوظيفة.\nخبرة عملية ذات صلة ميزة إضافية.'),
@@ -454,7 +478,7 @@ class Command(BaseCommand):
             zh_base = {
                 'title': zh.get('title', f"职位机会：{job.title}"),
                 'summary': zh.get('summary', 'SESCCO 面向合格候选人的职位机会。'),
-                'job_description': zh.get('job_description', '这是通过 SESCCO 招聘 CMS 发布的职位，管理员可在后台更新职位详情。'),
+                'job_description': zh.get('job_description', '这是面向合格候选人的专业机会，参与 SESCCO 项目并遵守安全和质量标准。'),
                 'responsibilities': zh.get('responsibilities', '根据项目要求履行岗位职责。\n与团队和管理层协调。\n遵守安全和质量标准。'),
                 'requirements': zh.get('requirements', '符合岗位要求的相关经验。\n具备良好的沟通和文件记录能力。\n遵守现场和项目要求。'),
                 'qualifications': zh.get('qualifications', '与岗位性质相符的资格。\n相关实际经验者优先。'),
